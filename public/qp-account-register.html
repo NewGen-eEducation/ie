@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NewGen eEducation - TGBIE Q.P. Registers Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    @page landscape-page { size: A4 landscape; margin: 6mm; }
+    @page portrait-page { size: A4 portrait; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body { font-family: Arial, Helvetica, sans-serif; margin: 15px; background-color: #eef2f5; color: #000; }
+    .no-print { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.1); margin-bottom: 25px; }
+    .manual-input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; background: #f1f8e9; padding: 15px; border-radius: 6px; border: 1px solid #c8e6c9; margin-bottom: 18px; }
+    .input-group { display: flex; flex-direction: column; text-align: left; }
+    .input-group label { font-size: 11.5px; font-weight: 700; color: #2e7d32; margin-bottom: 4px; }
+    .input-group input, .input-group select { padding: 6px 8px; font-size: 12px; border: 1px solid #a5d6a7; border-radius: 4px; outline: 0; background: #fff; }
+    .input-group input:focus, .input-group select:focus { border-color: #2e7d32; box-shadow: 0 0 3px rgba(46,125,50,.3); }
+    .upload-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; }
+    .upload-card { border: 2px dashed #90caf9; background: #f8fbfe; padding: 12px; border-radius: 6px; text-align: center; }
+    .upload-card h4 { margin: 0 0 8px 0; color: #1565c0; font-size: 13.5px; }
+    .upload-card input[type=file] { width: 100%; font-size: 11px; }
+    .status-msg { margin-top: 6px; font-size: 11px; font-weight: 700; color: #2e7d32; }
+    .controls-section { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+    .button-group { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
+    .group-label { font-size: 12px; font-weight: 700; color: #333; margin-right: 4px; }
+    .btn { border: none; padding: 9px 18px; font-size: 12.5px; font-weight: 700; border-radius: 4px; cursor: pointer; transition: background .2s; }
+    .btn-full { background-color: #0d47a1; color: #fff; }
+    .btn-full-comb { background-color: #4a148c; color: #fff; }
+    .btn-part { background-color: #e65100; color: #fff; }
+    .btn-part-comb { background-color: #b71c1c; color: #fff; }
+    .btn-print { background-color: #2e7d32; color: #fff; padding: 10px 24px; font-size: 13px; }
+    .btn:hover { opacity: .9; }
+    .sheet-container { background: #fff; padding: 12px; margin-bottom: 25px; border-radius: 4px; box-shadow: 0 0 10px rgba(0,0,0,.08); page-break-after: always; }
+    .sheet-container.full-mode { page: landscape-page; }
+    .sheet-container.part-mode { page: portrait-page; }
+    .sheet-container:last-child { page-break-after: auto; }
+    .header { margin-bottom: 8px; }
+    .top-branding-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0d47a1; padding-bottom: 4px; margin-bottom: 6px; font-size: 11px; }
+    .brand-name { font-size: 13px; font-weight: 700; color: #0d47a1; letter-spacing: .5px; text-transform: uppercase; }
+    .header-datetime { font-size: 10px; color: #333; font-weight: 600; }
+    .header-titles { text-align: center; }
+    .header-titles h2 { margin: 0; font-size: 14.5px; text-transform: uppercase; font-weight: 700; }
+    .header-titles h3 { margin: 2px 0; font-size: 12.5px; font-weight: 700; }
+    .header-titles h4 { margin: 2px 0 5px 0; font-size: 12px; text-decoration: underline; }
+    .center-details { width: 100%; display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 10px; font-weight: 700; }
+    table { width: 100%; border-collapse: collapse !important; text-align: center; table-layout: fixed; border: 1.5px solid #000 !important; background-color: #fff; }
+    .full-mode table { font-size: 8.5px; }
+    .part-mode table { font-size: 10px; }
+    td, th { border: 1px solid #000 !important; padding: 4px 1px; vertical-align: middle; word-wrap: break-word; overflow-wrap: break-word; color: #000; }
+    th { background-color: #f2f2f2 !important; font-weight: 700; -webkit-print-color-adjust: exact; print-color-adjust: exact; white-space: normal; hyphens: none; }
+    .col-sl { width: 2.5%; }
+    .col-date { width: 5.5%; }
+    .col-sub { width: 16%; }
+    .col-set { width: 2.8%; }
+    .col-denom { width: 2.3%; }
+    .col-pkts { width: 3.2%; }
+    .col-qps { width: 3.8%; }
+    .col-iss-breakdown { width: 5.8%; }
+    .col-left { width: 4.2%; }
+    .col-abs { width: 3.2%; }
+    .col-bal { width: 4.8%; }
+    .col-sign { width: 8.8%; min-width: 80px; }
+    .col-rem { width: 5.5%; }
+    .col-p-sl { width: 6%; }
+    .col-p-date { width: 12%; }
+    .col-p-sub { width: 34%; }
+    .col-p-set { width: 8%; }
+    .col-p-denom { width: 7%; }
+    .col-p-pkts { width: 10%; }
+    .col-p-qps { width: 12%; }
+    .col-num { font-size: 8px; color: #222; font-weight: 700; background-color: #eaeaea !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .formula-tag { font-size: 7.2px; color: #c2185b; display: block; font-weight: 400; line-height: 1.1; }
+    .left-text { text-align: left; padding-left: 4px; }
+    .sig-cell { height: 28px; }
+    .day-total-row td { background-color: #fff9c4 !important; font-weight: 700; border-top: 2px solid #000 !important; border-bottom: 2px solid #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .grand-total-row td { background-color: #e0f2fe !important; font-weight: 700; border-top: 2px solid #000 !important; border-bottom: 3px double #000 !important; font-size: 9.5px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .footer { margin-top: 18px; display: flex; justify-content: space-between; font-size: 10.5px; font-weight: 700; }
+    .instructions { margin-top: 8px; font-size: 8.5px; border: 1px dashed #555; padding: 4px 6px; background-color: #fafafa; }
+    .instructions ol { margin: 2px 0 0 12px; padding: 0; }
+    @media print {
+      body { background-color: transparent; margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .no-print { display: none !important; }
+      .sheet-container { box-shadow: none; padding: 0; margin: 0; }
+      table { border: 1.5px solid #000 !important; }
+      td, th { border: 1px solid #000 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="no-print">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #0d47a1;padding-bottom:6px;margin-bottom:12px">
+      <h3 style="margin:0;color:#0d47a1">NewGen eEducation &mdash; TGBIE Q.P. Account Registers Generator</h3>
+      <span id="live-clock" style="font-size:12px;font-weight:700;color:#444"></span>
+    </div>
+    <p style="font-size:12px;color:#555;margin-bottom:15px">
+      Upload Question Paper Packeting PDFs (1st Gen, 2nd Gen, 1st Voc, 2nd Voc). Generate either the <strong>Full Q.P. Account Register (Cols 1 to 16)</strong> or the <strong>Q.P. Stock &amp; Withdrawal Register (Cols 1 to 7)</strong>.
+    </p>
+    <div class="manual-input-grid">
+      <div class="input-group">
+        <label for="man-exam-type">Exam Type</label>
+        <select id="man-exam-type">
+          <option value="IPE">IPE (Annual)</option>
+          <option value="IPASE">IPASE (Advanced Supplementary)</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="man-exam-month-year">Exam Month &amp; Year</label>
+        <input id="man-exam-month-year" placeholder="e.g., MARCH 2026 / MAY 2026">
+      </div>
+      <div class="input-group">
+        <label for="man-centre-code">Centre Code</label>
+        <input id="man-centre-code" placeholder="e.g., 44***">
+      </div>
+      <div class="input-group">
+        <label for="man-college-name">College Name</label>
+        <input id="man-college-name" placeholder="e.g., Govt. Junior College,______">
+      </div>
+      <div class="input-group">
+        <label for="man-dist-name">District Name &amp; Code</label>
+        <input id="man-dist-name" placeholder="e.g., Bhadradri Kothagudem Dist.">
+      </div>
+    </div>
+    <div class="upload-grid">
+      <div class="upload-card">
+        <h4>1st Year General</h4>
+        <input type="file" id="file-1gen" accept="application/pdf">
+        <div id="status-1gen" class="status-msg"></div>
+      </div>
+      <div class="upload-card">
+        <h4>2nd Year General</h4>
+        <input type="file" id="file-2gen" accept="application/pdf">
+        <div id="status-2gen" class="status-msg"></div>
+      </div>
+      <div class="upload-card">
+        <h4>1st Year Vocational</h4>
+        <input type="file" id="file-1voc" accept="application/pdf">
+        <div id="status-1voc" class="status-msg"></div>
+      </div>
+      <div class="upload-card">
+        <h4>2nd Year Vocational</h4>
+        <input type="file" id="file-2voc" accept="application/pdf">
+        <div id="status-2voc" class="status-msg"></div>
+      </div>
+    </div>
+    <div class="controls-section">
+      <div class="button-group">
+        <span class="group-label">Full Register (Cols 1-16):</span>
+        <button class="btn btn-full" onclick='generateRegisters("full",!1)'>Stream-wise Register</button>
+        <button class="btn btn-full-comb" onclick='generateRegisters("full",!0)'>Combined Date-Ordered</button>
+      </div>
+      <div class="button-group">
+        <span class="group-label">Stock &amp; Withdrawal (Cols 1-7):</span>
+        <button class="btn btn-part" onclick='generateRegisters("part",!1)'>Stream-wise (Col 1-7)</button>
+        <button class="btn btn-part-comb" onclick='generateRegisters("part",!0)'>Combined Date-Ordered (Col 1-7)</button>
+        <button class="btn btn-print" onclick="window.print()">Print Generated Register</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="output-container"></div>
+
+  <script>
+    function updateClock() {
+      const t = (new Date).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "medium" }),
+            I = document.getElementById("live-clock");
+      if (I) I.innerText = t;
+    }
+    function getFormattedTimestamp() {
+      const t = new Date;
+      return `${t.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })} | ${t.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: !0 })}`;
+    }
+    document.addEventListener("contextmenu", t => t.preventDefault());
+    document.addEventListener("keydown", function(t) {
+      return "F12" === t.key || 123 === t.keyCode ? (t.preventDefault(), !1) : (!t.ctrlKey && !t.metaKey || "u" !== t.key && "U" !== t.key && 85 !== t.keyCode) && (!t.ctrlKey && !t.metaKey || !t.shiftKey || "i" !== t.key && "I" !== t.key && 73 !== t.keyCode) && (!t.ctrlKey && !t.metaKey || !t.shiftKey || "j" !== t.key && "J" !== t.key && 74 !== t.keyCode) && (!t.ctrlKey && !t.metaKey || !t.shiftKey || "c" !== t.key && "C" !== t.key && 67 !== t.keyCode) && (!t.ctrlKey && !t.metaKey || "s" !== t.key && "S" !== t.key && 83 !== t.keyCode) ? void 0 : (t.preventDefault(), !1);
+    });
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    setInterval(updateClock, 1e3);
+    updateClock();
+
+    const FULL_SUBJECT_LOOKUP = {
+      "0101":"ENGLISH PAPER-I","0301":"ENGLISH PAPER-I (OLD)","0102":"TELUGU PAPER-I","0103":"URDU PAPER-I","0104":"HINDI PAPER-I","0105":"TAMIL PAPER-I","0106":"MARATHI PAPER-I","0107":"KANNADA PAPER-I","0108":"ORIYA PAPER-I","0109":"SANSKRIT PAPER-I","0110":"PERSIAN PAPER-I","0111":"ARABIC PAPER-I","0112":"FRENCH PAPER-I","0139":"M.L. TELUGU PAPER-I","0140":"M.L. URDU PAPER-I","0141":"M.L. HINDI PAPER-I","0142":"M.L. TAMIL PAPER-I","0143":"M.L. MARATHI PAPER-I","0144":"M.L. KANNADA PAPER-I","0145":"M.L. ORIYA PAPER-I","0146":"M.L. ENGLISH PAPER-I","0147":"C.L. SANSKRIT PAPER-I","0148":"C.L. PERSIAN PAPER-I","0149":"C.L. ARABIC PAPER-I","0119":"PHYSICS-I (E/M)","0120":"PHYSICS-I (T/M)","0121":"PHYSICS-I (U/M)","0122":"PHYSICS-I (H/M)","0123":"CHEMISTRY-I (E/M)","0124":"CHEMISTRY-I (T/M)","0125":"CHEMISTRY-I (U/M)","0126":"CHEMISTRY-I (H/M)","0127":"BOTANY-I (E/M)","0128":"BOTANY-I (T/M)","0129":"BOTANY-I (U/M)","0130":"BOTANY-I (H/M)","0131":"ZOOLOGY-I (E/M)","0132":"ZOOLOGY-I (T/M)","0133":"ZOOLOGY-I (U/M)","0134":"ZOOLOGY-I (H/M)","0166":"MATHS-IA (E/M)","0167":"MATHS-IA (T/M)","0168":"MATHS-IA (U/M)","0169":"MATHS-IA (H/M)","0193":"MATHS-IB (E/M)","0194":"MATHS-IB (T/M)","0195":"MATHS-IB (U/M)","0196":"MATHS-IB (H/M)","0137":"GEOLOGY-I (E/M)","0138":"GEOLOGY-I (T/M)","0135":"HOME SCIENCE-I (E/M)","0136":"HOME SCIENCE-I (T/M)","0178":"FINE ARTS & MUSIC-I (E/M)","0179":"FINE ARTS & MUSIC-I (T/M)","0150":"ECONOMICS-I (E/M)","0151":"ECONOMICS-I (T/M)","0152":"ECONOMICS-I (U/M)","0153":"ECONOMICS-I (H/M)","0158":"COMMERCE-I (E/M)","0159":"COMMERCE-I (T/M)","0160":"COMMERCE-I (U/M)","0161":"COMMERCE-I (H/M)","0162":"HISTORY-I (E/M)","0163":"HISTORY-I (T/M)","0164":"HISTORY-I (U/M)","0165":"HISTORY-I (H/M)","0170":"CIVICS-I (E/M)","0171":"CIVICS-I (T/M)","0172":"CIVICS-I (U/M)","0173":"CIVICS-I (H/M)","0189":"PUB. ADMIN-I (E/M)","0190":"PUB. ADMIN-I (T/M)","0191":"PUB. ADMIN-I (U/M)","0154":"LOGIC-I (E/M)","0155":"LOGIC-I (T/M)","0156":"LOGIC-I (U/M)","0174":"GEOGRAPHY-I (E/M)","0175":"GEOGRAPHY-I (T/M)","0176":"GEOGRAPHY-I (U/M)","0185":"SOCIOLOGY-I (E/M)","0186":"SOCIOLOGY-I (T/M)","0187":"SOCIOLOGY-I (U/M)","0181":"PSYCHOLOGY-I (E/M)","0182":"PSYCHOLOGY-I (T/M)","0197":"BRIDGE COURSE MATHS-I (E/M)","0198":"BRIDGE COURSE MATHS-I (T/M)","0199":"BRIDGE COURSE MATHS-I (U/M)","0201":"ENGLISH PAPER-II","0401":"ENGLISH PAPER-II (OLD)","0202":"TELUGU PAPER-II","0203":"URDU PAPER-II","0204":"HINDI PAPER-II","0205":"TAMIL PAPER-II","0206":"MARATHI PAPER-II","0207":"KANNADA PAPER-II","0208":"ORIYA PAPER-II","0209":"SANSKRIT PAPER-II","0210":"PERSIAN PAPER-II","0211":"ARABIC PAPER-II","0212":"FRENCH PAPER-II","0239":"M.L. TELUGU PAPER-II","0240":"M.L. URDU PAPER-II","0241":"M.L. HINDI PAPER-II","0242":"M.L. TAMIL PAPER-II","0243":"M.L. MARATHI PAPER-II","0244":"M.L. KANNADA PAPER-II","0245":"M.L. ORIYA PAPER-II","0246":"M.L. ENGLISH PAPER-II","0247":"C.L. SANSKRIT PAPER-II","0248":"C.L. PERSIAN PAPER-II","0249":"C.L. ARABIC PAPER-II","0219":"PHYSICS-II (E/M)","0220":"PHYSICS-II (T/M)","0221":"PHYSICS-II (U/M)","0222":"PHYSICS-II (H/M)","0223":"CHEMISTRY-II (E/M)","0224":"CHEMISTRY-II (T/M)","0225":"CHEMISTRY-II (U/M)","0226":"CHEMISTRY-II (H/M)","0227":"BOTANY-II (E/M)","0228":"BOTANY-II (T/M)","0229":"BOTANY-II (U/M)","0230":"BOTANY-II (H/M)","0231":"ZOOLOGY-II (E/M)","0232":"ZOOLOGY-II (T/M)","0233":"ZOOLOGY-II (U/M)","0234":"ZOOLOGY-II (H/M)","0266":"MATHS-IIA (E/M)","0267":"MATHS-IIA (T/M)","0268":"MATHS-IIA (U/M)","0269":"MATHS-IIA (H/M)","0293":"MATHS-IIB (E/M)","0294":"MATHS-IIB (T/M)","0295":"MATHS-IIB (U/M)","0296":"MATHS-IIB (H/M)","0237":"GEOLOGY-II (E/M)","0238":"GEOLOGY-II (T/M)","0235":"HOME SCIENCE-II (E/M)","0236":"HOME SCIENCE-II (T/M)","0278":"FINE ARTS & MUSIC-II (E/M)","0279":"FINE ARTS & MUSIC-II (T/M)","0250":"ECONOMICS-II (E/M)","0251":"ECONOMICS-II (T/M)","0252":"ECONOMICS-II (U/M)","0253":"ECONOMICS-II (H/M)","0258":"COMMERCE-II (E/M)","0259":"COMMERCE-II (T/M)","0260":"COMMERCE-II (U/M)","0261":"COMMERCE-II (H/M)","0262":"HISTORY-II (E/M)","0263":"HISTORY-II (T/M)","0264":"HISTORY-II (U/M)","0265":"HISTORY-II (H/M)","0270":"CIVICS-II (E/M)","0271":"CIVICS-II (T/M)","0272":"CIVICS-II (U/M)","0273":"CIVICS-II (H/M)","0289":"PUB. ADMIN-II (E/M)","0290":"PUB. ADMIN-II (T/M)","0291":"PUB. ADMIN-II (U/M)","0254":"LOGIC-II (E/M)","0255":"LOGIC-II (T/M)","0256":"LOGIC-II (U/M)","0274":"GEOGRAPHY-II (E/M)","0275":"GEOGRAPHY-II (T/M)","0276":"GEOGRAPHY-II (U/M)","0285":"SOCIOLOGY-II (E/M)","0286":"SOCIOLOGY-II (T/M)","0287":"SOCIOLOGY-II (U/M)","0281":"PSYCHOLOGY-II (E/M)","0282":"PSYCHOLOGY-II (T/M)","0297":"BRIDGE COURSE MATHS-II (E/M)","0298":"BRIDGE COURSE MATHS-II (T/M)","0299":"BRIDGE COURSE MATHS-II (U/M)","08001":"VOC. ENGLISH PAPER-I","06001":"VOC. ENGLISH-I (OLD)","08002":"GFC-I (GENERAL FOUNDATION COURSE)","08004":"VOC. BRIDGE COURSE MATHS-I","08005":"VOC. BRIDGE COURSE PHY. SCI-I","08006":"VOC. BRIDGE COURSE BIO. SCI-I","08103":"PRINCIPLES OF AGRI CROP PROD","08104":"SOIL & WATER MGT","08105":"FARM MGT & AGRI EXTENSION","08110":"RUMINANT ANIMAL PROD & MGT","08113":"FEEDS & FEEDING OF LIVESTOCK","08112":"NON-RUMINANT ANIMAL PROD","08118":"BIOLOGY OF FISHES & LIMNOLOGY","08119":"PRINCIPLES OF FISHERIES & AQUA","08120":"SEED PRODUCTION TECH","08125":"MORICULTURE","08126":"MULBERRY FARM MGT","08127":"SILKWORM SEED TECH","08163":"BUS. ORG. & MANAGEMENT","06163":"BUS. ORG. (OLD)","08164":"ACCOUNTANCY & COMPUTERS-I","06164":"ACCOUNTANCY & COMPUTERS-I (OLD)","08165":"TAXATION-I","06165":"TAXATION-I (OLD)","08173":"ENGLISH SHORTHAND","06173":"SHORTHAND & DATA ENTRY (OLD)","08179":"PRINCIPLES OF INSURANCE","06179":"PRINCIPLES OF INSURANCE (OLD)","08182":"RETAIL MARKETING","06182":"RETAIL MARKETING (OLD)","08213":"WORKSHOP TECHNOLOGY","08214":"BASIC MECH & ELECTRICAL ENGG","08215":"AUTO POWER PLANT","08220":"CONST MATERIALS & PRACTICE","08221":"SURVEYING THEORY","08222":"ENGINEERING MECHANICS","08227":"COMP. FUNDAMENTALS & MS-OFFICE","06227":"COMP. FUND. & MS-OFFICE (OLD)","08228":"INTERACTIVE WEB DESIGN","06228":"PROGRAMMING IN 'C' (OLD)","08229":"PROBLEM SOLVING USING 'C'","06229":"ACCOUNTANCY & TALLY (OLD)","08233":"CIRCUIT THEORY & ELECTRONICS","06233":"CIRCUIT THEORY & ELECTRONICS (OLD)","08234":"ELECTRONIC DEVICES & CIRCUITS","06234":"ELECTRONIC DEVICES & CIRCUITS (OLD)","08235":"DIGITAL ELECTRONICS & COMPUTERS","06235":"DIGITAL ELECTRONICS & COMPUTERS (OLD)","08239":"BASIC ELECTRICAL ENGG","08240":"ELECTRICAL MATERIALS & WIRING","08241":"ELECTRICAL INSTRUMENTS & POWER","08245":"BASIC WORKSHOP TECHNOLOGY","06245":"BASIC WORKSHOP TECH (OLD)","08246":"MECH TECH & ELEC TECH","06246":"MECH TECH & ELEC TECH (OLD)","08247":"INDUSTRIAL ROBOTICS","06247":"REFRIGERATION (OLD)","08292":"PRINCIPLES OF GARMENT MAKING","08293":"TEXTILE SCIENCE","08294":"GARMENT CONSTRUCTION","08313":"INTRO TO CHILD DEVELOPMENT","08314":"ORG & MGT OF CRECHES","08315":"HEALTH & NUTRITION","08357":"FUNDAMENTALS OF TOURISM & TRAVEL","08465":"HOSPITALITY SERVICE","08466":"FRONT OFFICE OPERATIONS & COMP APPL","08320":"GRAPHIC DESIGN-I","06320":"FUNDAMENTALS OF CGA (OLD)","08321":"WEB TECHNOLOGIES","08457":"HUMAN ANATOMY & PHYSIOLOGY","06457":"HUMAN ANATOMY & PHYSIOLOGY (OLD)","08458":"PHARMACEUTICAL TECHNOLOGY-I","06458":"PHARMACEUTICAL TECHNOLOGY-I (OLD)","08459":"PHARM CHEMISTRY & QUALITY MGT","06459":"PHARM CHEMISTRY & QUALITY MGT (OLD)","08408":"BIOCHEMISTRY-I","08409":"MICROBIOLOGY & PATHOLOGY","08410":"ANATOMY & PHYSIOLOGY","08419":"ANATOMY & PHYSIOLOGY","08429":"ANATOMY & PHYSIOLOGY (PT)","08430":"PSYCHOLOGY & ABNORMAL PSYCH","08431":"BIOMECHANICS & EXERCISE THERAPY","08450":"COMMUNITY HEALTH NURSING","08451":"HEALTH PROMOTION","08452":"PRIMARY HEALTH NURSING","09001":"VOC. ENGLISH PAPER-II","07001":"VOC. ENGLISH-II (OLD)","09002":"GFC-II (GENERAL FOUNDATION COURSE)","09004":"VOC. BRIDGE COURSE MATHS-II","09005":"VOC. BRIDGE COURSE PHY. SCI-II","09006":"VOC. BRIDGE COURSE BIO. SCI-II","09103":"MGT OF FIELD & COMMERCIAL CROPS","09104":"MGT OF HORTICULTURE CROPS","09105":"SEED PRODUCTION & PROCESSING","09110":"LIVESTOCK HEALTH MANAGEMENT","09112":"MILK PROCESSING & MILK PRODUCTS","09113":"MILK QUALITY & ENTREPRENEURSHIP","09118":"FISH FARM & POND MANAGEMENT","09119":"AQUACULTURE","09120":"RESERVOIR FISHERIES & POST HARVEST","09127":"SERICULTURE EXT & SILKWORM PATH","09125":"SILKWORM REARING TECHNOLOGY","09126":"POST COCOON TECHNOLOGY","09163":"COMPANY LAW AND AUDITING","07163":"AUDITING (OLD)","09164":"ACCOUNTANCY-II","07164":"ACCOUNTANCY-II (OLD)","09165":"TAXATION-II","07165":"TAXATION-II (OLD)","09175":"ENGLISH SHORTHAND (80 WPM)","07175":"SHORTHAND SPEED DRILLS (OLD)","09176":"OFFICE MGT & SECRETARIAL DUTIES","07176":"OFFICE MGT & SEC DUTIES (OLD)","09170":"MARKETING FOR BANKING & INS","07170":"RETAIL MARKETING (OLD)","09185":"PRINCIPLES OF GENERAL INSURANCE","07185":"PRINCIPLES OF GENERAL INS (OLD)","09188":"RETAIL MANAGEMENT","07188":"RETAIL MANAGEMENT (OLD)","09189":"ELEMENTS OF SALESMANSHIP","07189":"ELEMENTS OF SALESMANSHIP (OLD)","09213":"AUTO TRANSMISSION & ELECTRICAL","09214":"AUTO CHASSIS & BODY ENGG","09215":"AUTO SERVICING & MAINTENANCE","09223":"WATER SUPPLY & SANITARY ENGG","09221":"ESTIMATING & COSTING","09222":"HIGHWAY ENGG & CONST MGT","09227":"JAVA PROGRAMMING","09228":"RELATIONAL DBMS","09229":"COMPUTER NETWORKS","09234":"COMMUNICATION ENGINEERING","09235":"MODERN COMMUNICATION SYSTEMS","09236":"MEASURING INSTRUMENTS & CONSUMER ELEC","09241":"ELECTRICAL MACHINES & POWER SYS","09242":"DOMESTIC APPLIANCES & RE-WINDING","09243":"ELECTRICAL ESTIMATION & UTILIZATION","09248":"ENERGY SOURCES & LIGHT MOTOR VEH","07248":"ENERGY SOURCES (OLD)","07249":"LIGHT MOTOR VEHICLES (OLD)","09251":"REFRIGERATION & AIR CONDITIONING","07250":"AIR CONDITIONING (OLD)","09252":"ARDUINO PROGRAMMING","09292":"APPAREL MANUFACTURE","09293":"FABRIC EMBELLISHMENT","09294":"APPAREL & FASHION DESIGNING","09313":"EARLY CHILDHOOD CARE & EDUCATION","09314":"ORG & MGT OF PRE-SCHOOL","09315":"PARENT EDN, NUTRITION & HEALTH","09357":"TOURISM PROFILE IN TELANGANA","09465":"TRAVEL AGENCY & TOUR OPERATIONS","09466":"ACCOMMODATION OPERATIONS","09350":"GRAPHIC DESIGN-II","07350":"GRAPHIC DESIGN (OLD)","09351":"INTRO TO 3D ANIMATION","07351":"3-D ANIMATION (OLD)","09352":"DIGITAL MEDIA","07352":"INTERNET TECHNOLOGIES (OLD)","09457":"PHARMACOLOGY & PHARM REGULATIONS","07457":"PHARMACOLOGY & PHARM REG (OLD)","09458":"PHARMACEUTICAL TECHNOLOGY-II","07458":"PHARMACEUTICAL TECHNOLOGY-II (OLD)","09459":"PHARMACEUTICAL ENGINEERING","07459":"PHARMACEUTICAL ENGINEERING (OLD)","09408":"BIOCHEMISTRY-II","09409":"MICROBIOLOGY","09410":"PATHOLOGY","09429":"MEDICAL & SURGICAL CONDITION","09430":"ORTHOPEDICS & NEUROLOGY","09431":"ELECTROTHERAPY","09450":"MIDWIFERY","09451":"CHILD HEALTH NURSING","09452":"HEALTH CENTER MANAGEMENT"
+    };
+
+    function parseDate(t) {
+      if (!t) return new Date(0);
+      const I = t.split(/[\/\-\.]/);
+      return 3 === I.length ? new Date(I[2], I[1] - 1, I[0]) : new Date(0);
+    }
+
+    async function extractStructuredLinesFromPdf(t) {
+      const I = await t.arrayBuffer(),
+            n = await pdfjsLib.getDocument({ data: I }).promise,
+            e = [];
+      for (let t = 1; t <= n.numPages; t++) {
+        const I = await n.getPage(t),
+              E = await I.getTextContent(),
+              s = [];
+        E.items.forEach(t => {
+          const I = t.str.trim();
+          if (!I) return;
+          const n = t.transform[4],
+                e = t.transform[5];
+          let E = s.find(t => Math.abs(t.y - e) <= 3.5);
+          E ? E.items.push({ x: n, text: I }) : s.push({ y: e, items: [{ x: n, text: I }] });
+        });
+        s.sort((t, I) => I.y - t.y);
+        const d = s.map(t => {
+          t.items.sort((t, I) => t.x - I.x);
+          return t.items.map(t => t.text).join(" ");
+        });
+        e.push(...d);
+      }
+      return e;
+    }
+
+    function parseLinesToRegisterData(lines, streamTitle) {
+      const fullText = lines.join(" \n ");
+      let meta = { distCode: "", centreCode: "", year: "", exam: "", title: streamTitle };
+
+      const dMatch = fullText.match(/Dist\.?\s*Code\s*[:\s]*(\d+)/i);
+      if (dMatch) meta.distCode = dMatch[1];
+      const cMatch = fullText.match(/Centre\s*Code\s*[:\s]*(\d+)/i);
+      if (cMatch) meta.centreCode = cMatch[1];
+      const yMatch = fullText.match(/Year\s*[:\s]*(\d+)/i) || fullText.match(/Year\s+(\d+)/i);
+      if (yMatch) meta.year = yMatch[1];
+      const eMatch = fullText.match(/Exam\s*[:\s]*([A-Z0-9\s]+?)(?:Exam Date|$|\n)/i);
+      if (eMatch) meta.exam = eMatch[1].trim();
+
+      const manualCentre = (document.getElementById("man-centre-code").value || "").trim();
+      const manualDist = (document.getElementById("man-dist-name").value || "").trim();
+
+      const rows = [];
+      let currentDate = "";
+      const isVocationalStream = /Vocational/i.test(streamTitle);
+
+      for (let i = 0; i < lines.length; i++) {
+        const rawLine = lines[i].trim();
+
+        // 1. Filter out all header, meta and column title lines
+        if (/Dist\.?\s*Code|Centre\s*Code|College|TELANGANA|INTERMEDIATE|COURSE\s+CODE|PACKETS\s+DENOMINATION|QP\.?SL\.?NO|HALL\s*TICKET|PACKETING|SIGNATURE/i.test(rawLine)) {
+          continue;
+        }
+
+        const dateMatch = rawLine.match(/(\d{2}[\/\-\.]\d{2}[\/\-\.]\d{4})/);
+        if (dateMatch) {
+          currentDate = dateMatch[1];
+        }
+
+        const tokens = rawLine.split(/\s+/).filter(t => t.length > 0);
+        if (tokens.length < 3) continue;
+
+        // Locate subject and paper codes
+        let subjectIndex = -1;
+        for (let j = 0; j < tokens.length; j++) {
+          if (FULL_SUBJECT_LOOKUP[tokens[j]]) {
+            subjectIndex = j;
+            break;
+          }
+        }
+
+        let paperCode = "";
+        let subjectNum = "";
+        let postTokens = [];
+
+        if (subjectIndex !== -1) {
+          paperCode = tokens[subjectIndex];
+          subjectNum = subjectIndex > 0 ? tokens[subjectIndex - 1] : "";
+          postTokens = tokens.slice(subjectIndex + 1);
+        } else {
+          // Fallback: locate a 4 to 5 digit paper code (not matching years like 2024..2029)
+          const codeIdx = tokens.findIndex((tok, idx) => idx > 0 && /^\d{4,5}$/.test(tok) && !/^(202[0-9])$/.test(tok));
+          if (codeIdx !== -1) {
+            paperCode = tokens[codeIdx];
+            subjectNum = tokens[codeIdx - 1];
+            postTokens = tokens.slice(codeIdx + 1);
+          }
+        }
+
+        // 2. Strict Filter: Completely block artifacts created by centre code and dist code pairings
+        if (!paperCode) continue;
+        if (paperCode === meta.centreCode || paperCode === manualCentre) continue;
+        if (subjectNum === meta.distCode || (manualDist && manualDist.includes(subjectNum))) continue;
+        if (subjectNum === "44" && paperCode === "44015") continue; // targeted defense against artifact row
+
+        const numbers = postTokens.map(t => parseInt(t, 10)).filter(n => !isNaN(n));
+        if (numbers.length === 0) continue;
+
+        let totalPapers = 0;
+        let p40 = 0, p30 = 0, p20 = 0, p10 = 0;
+        let totalPkts = 0;
+
+        if (isVocationalStream) {
+          // Vocational format: [TOTAL PAPERS, PACKET DENOMINATION (30), TOTAL PACKETS]
+          totalPapers = numbers[0];
+          if (numbers.length >= 3) {
+            const denom = numbers[1];
+            const pkts = numbers[2];
+            totalPkts = pkts;
+            if (denom === 30) p30 = pkts;
+            else if (denom === 40) p40 = pkts;
+            else if (denom === 20) p20 = pkts;
+            else if (denom === 10) p10 = pkts;
+            else p30 = pkts;
+          } else if (numbers.length === 2) {
+            p30 = numbers[1];
+            totalPkts = numbers[1];
+          } else {
+            p30 = Math.ceil(totalPapers / 30);
+            totalPkts = p30;
+          }
+        } else {
+          // General format: [TOTAL PAPERS, [DENOMINATION COUNTS], TOTAL PACKETS]
+          totalPapers = numbers[0];
+          const denomCounts = numbers.slice(1);
+          if (denomCounts.length >= 2) {
+            totalPkts = denomCounts[denomCounts.length - 1];
+            const denoms = denomCounts.slice(0, -1);
+            if (denoms.length === 4) {
+              p40 = denoms[0]; p30 = denoms[1]; p20 = denoms[2]; p10 = denoms[3];
+            } else if (denoms.length === 3) {
+              p40 = denoms[0]; p20 = denoms[1]; p10 = denoms[2];
+            } else if (denoms.length === 2) {
+              p40 = denoms[0]; p20 = denoms[1];
+            } else if (denoms.length === 1) {
+              p40 = denoms[0];
+            }
+          } else if (denomCounts.length === 1) {
+            p40 = denomCounts[0];
+            totalPkts = denomCounts[0];
+          } else {
+            p40 = Math.ceil(totalPapers / 40);
+            totalPkts = p40;
+          }
+        }
+
+        const subjectTitle = FULL_SUBJECT_LOOKUP[paperCode] || `Subject (${subjectNum || paperCode})`;
+        rows.push({
+          date: currentDate || "___/___/2026",
+          streamTag: streamTitle,
+          subjectStr: `${subjectTitle} [${subjectNum || "--"} / ${paperCode}]`,
+          p40: p40,
+          p30: p30,
+          p20: p20,
+          p10: p10,
+          totalPkts: totalPkts,
+          totalPapers: totalPapers
+        });
+      }
+
+      return { meta: meta, rows: rows };
+    }
+
+    function formatDenomIssuedFormula(p40, p30, p20, p10, totalIssued) {
+      let parts = [];
+      if (p40 > 0) parts.push(`${p40}*40`);
+      if (p30 > 0) parts.push(`${p30}*30`);
+      if (p20 > 0) parts.push(`${p20}*20`);
+      if (p10 > 0) parts.push(`${p10}*10`);
+      if (parts.length === 0) return totalIssued > 0 ? `<strong>${totalIssued}</strong>` : "-";
+      return `<span style="font-size: 7.8px; white-space: nowrap;">${parts.join("+")} = <strong>${totalIssued}</strong></span>`;
+    }
+
+    function renderRegisterHtml(data, mode) {
+      const isFull = "full" === mode;
+      const exType = document.getElementById("man-exam-type").value.trim();
+      const exMonth = document.getElementById("man-exam-month-year").value.trim();
+      const cCode = document.getElementById("man-centre-code").value.trim();
+      const cName = document.getElementById("man-college-name").value.trim();
+      const dName = document.getElementById("man-dist-name").value.trim();
+
+      const displayExam = (exType || exMonth) ? `${exType} ${exMonth}`.trim() : (data.meta.exam || "INTERMEDIATE PUBLIC EXAMINATIONS");
+      const displayCentre = cCode || data.meta.centreCode || "______";
+      const displayCollege = cName ? ` | ${cName}` : "";
+      const displayDist = dName || data.meta.distCode || "______";
+      const timeStamp = getFormattedTimestamp();
+
+      let tableBodyHtml = "";
+      let slNo = 1;
+      let GT_p40 = 0, GT_p30 = 0, GT_p20 = 0, GT_p10 = 0, GT_pkts = 0, GT_qps = 0;
+      let GT_op40 = 0, GT_op30 = 0, GT_op20 = 0, GT_op10 = 0, GT_opPkts = 0, GT_issQps = 0, GT_left = 0;
+
+      if (data.rows.length === 0) {
+        for (let i = 1; i <= 6; i++) {
+          tableBodyHtml += isFull ? `
+            <tr>
+              <td>${i}</td><td></td><td></td><td></td>
+              <td></td><td></td><td></td><td></td><td></td><td></td>
+              <td></td><td></td><td></td><td></td><td></td><td></td>
+              <td></td><td></td><td></td>
+              <td class="sig-cell"></td><td class="sig-cell"></td><td></td>
+            </tr>` : `
+            <tr>
+              <td>${i}</td><td></td><td></td><td></td>
+              <td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>`;
+        }
+      } else {
+        const groupedByDate = {};
+        data.rows.forEach(r => {
+          if (!groupedByDate[r.date]) groupedByDate[r.date] = [];
+          groupedByDate[r.date].push(r);
+        });
+
+        Object.keys(groupedByDate).forEach(dt => {
+          const rowsInDay = groupedByDate[dt];
+          let day_p40 = 0, day_p30 = 0, day_p20 = 0, day_p10 = 0, day_pkts = 0, day_qps = 0;
+          let day_op40 = 0, day_op30 = 0, day_op20 = 0, day_op10 = 0, day_opPkts = 0, day_issQps = 0, day_left = 0;
+
+          rowsInDay.forEach(r => {
+            const p40 = r.p40 || 0;
+            const p30 = r.p30 || 0;
+            const p20 = r.p20 || 0;
+            const p10 = r.p10 || 0;
+            const pkts = r.totalPkts || 0;
+            const withdrawnQps = r.totalPapers || 0;
+
+            const op40 = p40, op30 = p30, op20 = p20, op10 = p10;
+            const opPkts = pkts;
+            const issQps = (op40 * 40) + (op30 * 30) + (op20 * 20) + (op10 * 10);
+            const leftVal = withdrawnQps - issQps;
+            const formulaStr = formatDenomIssuedFormula(op40, op30, op20, op10, issQps);
+
+            day_p40 += p40; day_p30 += p30; day_p20 += p20; day_p10 += p10;
+            day_pkts += pkts; day_qps += withdrawnQps;
+            day_op40 += op40; day_op30 += op30; day_op20 += op20; day_op10 += op10;
+            day_opPkts += opPkts; day_issQps += issQps; day_left += leftVal;
+
+            GT_p40 += p40; GT_p30 += p30; GT_p20 += p20; GT_p10 += p10;
+            GT_pkts += pkts; GT_qps += withdrawnQps;
+            GT_op40 += op40; GT_op30 += op30; GT_op20 += op20; GT_op10 += op10;
+            GT_opPkts += opPkts; GT_issQps += issQps; GT_left += leftVal;
+
+            tableBodyHtml += isFull ? `
+              <tr>
+                <td>${slNo++}</td>
+                <td>${r.date}</td>
+                <td class="left-text">${r.subjectStr}</td>
+                <td></td>
+                <td>${p40 || "-"}</td>
+                <td>${p30 || "-"}</td>
+                <td>${p20 || "-"}</td>
+                <td>${p10 || "-"}</td>
+                <td><strong>${pkts}</strong></td>
+                <td><strong>${withdrawnQps}</strong></td>
+                <td>${op40 || "-"}</td>
+                <td>${op30 || "-"}</td>
+                <td>${op20 || "-"}</td>
+                <td>${op10 || "-"}</td>
+                <td><strong>${opPkts}</strong></td>
+                <td>${formulaStr}</td>
+                <td><strong>${leftVal}</strong></td>
+                <td></td><td></td>
+                <td class="sig-cell"></td>
+                <td class="sig-cell"></td>
+                <td></td>
+              </tr>` : `
+              <tr>
+                <td>${slNo++}</td>
+                <td>${r.date}</td>
+                <td class="left-text">${r.subjectStr}</td>
+                <td></td>
+                <td>${p40 || "-"}</td>
+                <td>${p30 || "-"}</td>
+                <td>${p20 || "-"}</td>
+                <td>${p10 || "-"}</td>
+                <td><strong>${pkts}</strong></td>
+                <td><strong>${withdrawnQps}</strong></td>
+              </tr>`;
+          });
+
+          tableBodyHtml += isFull ? `
+            <tr class="day-total-row">
+              <td colspan="4" style="text-align: right; padding-right: 6px;">DAY TOTAL (${dt}):</td>
+              <td>${day_p40}</td>
+              <td>${day_p30}</td>
+              <td>${day_p20}</td>
+              <td>${day_p10}</td>
+              <td>${day_pkts}</td>
+              <td>${day_qps}</td>
+              <td>${day_op40}</td>
+              <td>${day_op30}</td>
+              <td>${day_op20}</td>
+              <td>${day_op10}</td>
+              <td>${day_opPkts}</td>
+              <td><strong>${day_issQps}</strong></td>
+              <td><strong>${day_left}</strong></td>
+              <td></td><td></td>
+              <td></td><td></td><td></td>
+            </tr>` : `
+            <tr class="day-total-row">
+              <td colspan="4" style="text-align: right; padding-right: 6px;">DAY TOTAL (${dt}):</td>
+              <td>${day_p40}</td>
+              <td>${day_p30}</td>
+              <td>${day_p20}</td>
+              <td>${day_p10}</td>
+              <td>${day_pkts}</td>
+              <td>${day_qps}</td>
+            </tr>`;
+        });
+
+        tableBodyHtml += isFull ? `
+          <tr class="grand-total-row">
+            <td colspan="4" style="text-align: right; padding-right: 6px;">GRAND TOTAL:</td>
+            <td>${GT_p40}</td>
+            <td>${GT_p30}</td>
+            <td>${GT_p20}</td>
+            <td>${GT_p10}</td>
+            <td>${GT_pkts}</td>
+            <td>${GT_qps}</td>
+            <td>${GT_op40}</td>
+            <td>${GT_op30}</td>
+            <td>${GT_op20}</td>
+            <td>${GT_op10}</td>
+            <td>${GT_opPkts}</td>
+            <td><strong>${GT_issQps}</strong></td>
+            <td><strong>${GT_left}</strong></td>
+            <td></td><td></td>
+            <td></td><td></td><td></td>
+          </tr>` : `
+          <tr class="grand-total-row">
+            <td colspan="4" style="text-align: right; padding-right: 6px;">GRAND TOTAL:</td>
+            <td>${GT_p40}</td>
+            <td>${GT_p30}</td>
+            <td>${GT_p20}</td>
+            <td>${GT_p10}</td>
+            <td>${GT_pkts}</td>
+            <td>${GT_qps}</td>
+          </tr>`;
+      }
+
+      const tableHeadHtml = isFull ? `
+        <colgroup>
+          <col class="col-sl">
+          <col class="col-date">
+          <col class="col-sub">
+          <col class="col-set">
+          <col class="col-denom"><col class="col-denom"><col class="col-denom"><col class="col-denom">
+          <col class="col-pkts">
+          <col class="col-qps">
+          <col class="col-denom"><col class="col-denom"><col class="col-denom"><col class="col-denom">
+          <col class="col-pkts">
+          <col class="col-iss-breakdown">
+          <col class="col-left">
+          <col class="col-abs">
+          <col class="col-bal">
+          <col class="col-sign">
+          <col class="col-sign">
+          <col class="col-rem">
+        </colgroup>
+        <thead>
+          <tr>
+            <th rowspan="2">Sl.<br>No.</th>
+            <th rowspan="2">Date</th>
+            <th rowspan="2">Subject &amp; Paper Code</th>
+            <th rowspan="2">Set<br>No.</th>
+            <th colspan="4">Packets Withdrawn Denomination-wise</th>
+            <th rowspan="2">Total<br>Pkts<br><span class="formula-tag">Sum 5(a..d)</span></th>
+            <th rowspan="2">Total Q.Ps<br>Withdrawn<br><span class="formula-tag">Col (7)</span></th>
+            <th colspan="4">Total Packets Opened Denomination-wise</th>
+            <th rowspan="2">Total Pkts<br>Opened<br><span class="formula-tag">Sum 8(a..d)</span></th>
+            <th rowspan="2">Total QPs<br>Issued<br><span class="formula-tag">Denom Breakdown</span></th>
+            <th rowspan="2">Left at<br>9:00 AM<br><span class="formula-tag">Col(7) - Col(10)</span></th>
+            <th rowspan="2">Abs.<br>Returned<br><span class="formula-tag">Col (12)</span></th>
+            <th rowspan="2">Balance QPs<br>after 9:30 AM<br><span class="formula-tag">Col(11) + Col(12)</span></th>
+            <th rowspan="2">Signature of<br>Deptl. Officer (D.O.)</th>
+            <th rowspan="2">Signature of<br>Chief Supdt. (C.S.)</th>
+            <th rowspan="2">Remarks</th>
+          </tr>
+          <tr>
+            <th>40</th><th>30</th><th>20</th><th>10</th>
+            <th>40</th><th>30</th><th>20</th><th>10</th>
+          </tr>
+          <tr>
+            <th class="col-num">(1)</th>
+            <th class="col-num">(2)</th>
+            <th class="col-num">(3)</th>
+            <th class="col-num">(4)</th>
+            <th colspan="4" class="col-num">(5)</th>
+            <th class="col-num">(6)</th>
+            <th class="col-num">(7)</th>
+            <th colspan="4" class="col-num">(8)</th>
+            <th class="col-num">(9)</th>
+            <th class="col-num">(10)</th>
+            <th class="col-num">(11)</th>
+            <th class="col-num">(12)</th>
+            <th class="col-num">(13)</th>
+            <th class="col-num">(14)</th>
+            <th class="col-num">(15)</th>
+            <th class="col-num">(16)</th>
+          </tr>
+        </thead>` : `
+        <colgroup>
+          <col class="col-p-sl">
+          <col class="col-p-date">
+          <col class="col-p-sub">
+          <col class="col-p-set">
+          <col class="col-p-denom"><col class="col-p-denom"><col class="col-p-denom"><col class="col-p-denom">
+          <col class="col-p-pkts">
+          <col class="col-p-qps">
+        </colgroup>
+        <thead>
+          <tr>
+            <th rowspan="2">Sl.<br>No.</th>
+            <th rowspan="2">Date</th>
+            <th rowspan="2">Subject &amp; Paper Code</th>
+            <th rowspan="2">Set<br>No.</th>
+            <th colspan="4">Packets Withdrawn Denomination-wise</th>
+            <th rowspan="2">Total<br>Packets<br><span class="formula-tag">Sum 5(a..d)</span></th>
+            <th rowspan="2">Total Q.Ps<br>Withdrawn<br><span class="formula-tag">Col (7)</span></th>
+          </tr>
+          <tr>
+            <th>40</th><th>30</th><th>20</th><th>10</th>
+          </tr>
+          <tr>
+            <th class="col-num">(1)</th>
+            <th class="col-num">(2)</th>
+            <th class="col-num">(3)</th>
+            <th class="col-num">(4)</th>
+            <th colspan="4" class="col-num">(5)</th>
+            <th class="col-num">(6)</th>
+            <th class="col-num">(7)</th>
+          </tr>
+        </thead>`;
+
+      const regTitle = isFull ?
+        `QUESTION PAPER ACCOUNT REGISTER (C.S. &amp; D.O.) - ${data.meta.title.toUpperCase()}` :
+        `QUESTION PAPER STOCK &amp; WITHDRAWAL REGISTER (COL 1 TO 7) - ${data.meta.title.toUpperCase()}`;
+
+      const footerHtml = isFull ? `
+        <div class="footer">
+          <div>Signature of the Departmental Officer (D.O.)</div>
+          <div>Signature of the Chief Superintendent (C.S.)</div>
+        </div>` : `
+        <div class="footer">
+          <div>Signature of Custodian / Station House Officer</div>
+          <div>Signature of the Departmental Officer (D.O.)</div>
+          <div>Signature of the Chief Superintendent (C.S.)</div>
+        </div>`;
+
+      return `
+        <div class="sheet-container ${isFull ? "full-mode" : "part-mode"}">
+          <div class="header">
+            <div class="top-branding-bar">
+              <div class="brand-name">&#9670; NewGen eEducation</div>
+              <div class="header-datetime"><strong>Generated on:</strong> ${timeStamp}</div>
+            </div>
+            <div class="header-titles">
+              <h2>Telangana Board of Intermediate Education, Hyderabad</h2>
+              <h3>${displayExam}</h3>
+              <h4>${regTitle}</h4>
+            </div>
+          </div>
+
+          <div class="center-details">
+            <div><strong>Dist:</strong> ${displayDist}</div>
+            <div><strong>Centre:</strong> ${displayCentre}${displayCollege}</div>
+            <div><strong>Stream:</strong> ${data.meta.title}</div>
+            <div><strong>Session:</strong> Forenoon (9:00 AM - 12:00 PM)</div>
+          </div>
+
+          <table>
+            ${tableHeadHtml}
+            <tbody>
+              ${tableBodyHtml}
+            </tbody>
+          </table>
+
+          <div class="instructions">
+            <strong>Instructions:</strong>
+            <ol>
+              <li>Verify whether correct Question Paper Set, Subject, and Year for the day is drawn from the storage point. Packets must be opened at <strong>8:45 AM</strong> under CCTV surveillance.</li>
+              <li><strong>Column Arithmetic:</strong> Total QPs left with CS/DO at 9:00 AM = <code>Col (11) = Col (7) - Col (10)</code>. Total Balance QPs with CS/DO after 9:30 AM = <code>Col (13) = Col (11) + Col (12)</code>.</li>
+              <li>Unused Q.Ps and Absentees Question Papers must be accounted for and returned to the Chief Superintendent by <strong>9:30 AM</strong>.</li>
+            </ol>
+          </div>
+
+          ${footerHtml}
+        </div>`;
+    }
+
+    async function generateRegisters(mode, isCombined) {
+      const fileInputs = [
+        { id: "file-1gen", statusId: "status-1gen", title: "1st Year General" },
+        { id: "file-2gen", statusId: "status-2gen", title: "2nd Year General" },
+        { id: "file-1voc", statusId: "status-1voc", title: "1st Year Vocational" },
+        { id: "file-2voc", statusId: "status-2voc", title: "2nd Year Vocational" }
+      ];
+
+      const outContainer = document.getElementById("output-container");
+      outContainer.innerHTML = "";
+      let parsedDatasets = [];
+
+      for (const item of fileInputs) {
+        const fileElem = document.getElementById(item.id);
+        const statusElem = document.getElementById(item.statusId);
+        if (fileElem && fileElem.files && fileElem.files[0]) {
+          statusElem.innerText = "Extracting...";
+          try {
+            const lines = await extractStructuredLinesFromPdf(fileElem.files[0]);
+            const parsed = parseLinesToRegisterData(lines, item.title);
+            if (!document.getElementById("man-centre-code").value && parsed.meta.centreCode) {
+              document.getElementById("man-centre-code").value = parsed.meta.centreCode;
+            }
+            if (!document.getElementById("man-dist-name").value && parsed.meta.distCode) {
+              document.getElementById("man-dist-name").value = parsed.meta.distCode;
+            }
+            statusElem.innerText = `Extracted ${parsed.rows.length} rows.`;
+            parsedDatasets.push(parsed);
+          } catch (err) {
+            statusElem.innerText = "Extraction failed.";
+            console.error(err);
+          }
+        } else {
+          statusElem.innerText = "";
+        }
+      }
+
+      if (parsedDatasets.length === 0) {
+        alert("Please select at least one PDF file to generate the register.");
+        return;
+      }
+
+      if (isCombined) {
+        let combinedRows = [];
+        let distCode = "", centreCode = "", exam = "";
+        parsedDatasets.forEach(ds => {
+          if (!distCode && ds.meta.distCode) distCode = ds.meta.distCode;
+          if (!centreCode && ds.meta.centreCode) centreCode = ds.meta.centreCode;
+          if (!exam && ds.meta.exam) exam = ds.meta.exam;
+          combinedRows.push(...ds.rows);
+        });
+
+        combinedRows.sort((a, b) => parseDate(a.date) - parseDate(b.date));
+
+        const combinedData = {
+          meta: {
+            distCode: distCode,
+            centreCode: centreCode,
+            exam: exam || "IPE MARCH 2026",
+            title: "Combined All Streams (General & Vocational)"
+          },
+          rows: combinedRows
+        };
+        outContainer.innerHTML = renderRegisterHtml(combinedData, mode);
+      } else {
+        parsedDatasets.forEach(ds => {
+          outContainer.innerHTML += renderRegisterHtml(ds, mode);
+        });
+      }
+    }
+  </script>
+</body>
+</html>

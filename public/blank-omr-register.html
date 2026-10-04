@@ -1,0 +1,87 @@
+<!doctype html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><title>TGBIE - Blank OMR Bar-coded Sheets Account Register</title><style>@page{size:A4 landscape;margin:8mm}*{box-sizing:border-box}body{font-family:Arial,Helvetica,sans-serif;margin:15px;background-color:#eef2f5;color:#000}.no-print{background:#fff;padding:20px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1);margin-bottom:25px}.manual-input-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;background:#f1f8e9;padding:15px;border-radius:6px;border:1px solid #c8e6c9;margin-bottom:18px}.input-group{display:flex;flex-direction:column;text-align:left}.input-group label{font-size:11.5px;font-weight:700;color:#2e7d32;margin-bottom:4px}.input-group input,.input-group select{padding:6px 8px;font-size:12px;border:1px solid #a5d6a7;border-radius:4px;outline:0;background:#fff}.input-group input:focus,.input-group select:focus{border-color:#2e7d32;box-shadow:0 0 3px rgba(46,125,50,.3)}.controls-section{margin-top:15px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}.btn{border:none;padding:10px 18px;font-size:13px;font-weight:700;border-radius:4px;cursor:pointer;transition:opacity .2s;color:#fff}.btn:hover{opacity:.9}.btn-gen{background-color:#0277bd}.btn-voc{background-color:#e65100}.btn-both{background-color:#4a148c}.btn-print{background-color:#2e7d32}.sheet-container{background:#fff;padding:15px;margin-bottom:25px;border-radius:4px;box-shadow:0 0 10px rgba(0,0,0,.08);page-break-after:always}.sheet-container:last-child{page-break-after:auto}.top-branding-bar{display:flex;justify-content:flex-end;align-items:center;border-bottom:1px solid #999;padding-bottom:4px;margin-bottom:8px;font-size:10px}.header-datetime{font-size:10px;color:#333;font-weight:600}.header-titles{text-align:center;margin-bottom:12px}.header-titles h2{margin:0;font-size:15px;text-transform:uppercase;font-weight:700}.header-titles h3{margin:2px 0;font-size:13px;font-weight:700}.header-titles h4{margin:2px 0;font-size:12px;text-decoration:underline}.details-grid{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:5px 15px;margin-bottom:10px;font-size:11px;font-weight:700}table{width:100%;border-collapse:collapse!important;text-align:center;border:1.5px solid #000!important;background-color:#fff;margin-bottom:15px}td,th{border:1px solid #000!important;padding:5px 3px;vertical-align:middle;font-size:10px;color:#000}th{background-color:#f2f2f2!important;font-weight:700;-webkit-print-color-adjust:exact;print-color-adjust:exact}.col-num{font-size:9px;font-weight:700;background-color:#eaeaea!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.data-row td{height:28px}.instructions{margin-top:10px;font-size:9.5px;border:1px dashed #555;padding:6px 10px;background-color:#fafafa;line-height:1.45}.instructions ol{margin:3px 0 0 16px;padding:0}.footer-signatures{margin-top:30px;display:flex;justify-content:space-between;align-items:flex-end;font-size:11px;font-weight:700}.footer-signatures div{text-align:center;flex:1}@media print{body{background-color:transparent;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}.no-print{display:none!important}.sheet-container{box-shadow:none;padding:0;margin:0}table{border:1.5px solid #000!important}td,th{border:1px solid #000!important}}</style></head><body><div class=no-print><div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #0d47a1;padding-bottom:6px;margin-bottom:12px"><h3 style=margin:0;color:#0d47a1>NewGen eEducation : TGBIE &mdash; Blank OMR Bar-coded Sheets Account Register Generator</h3><span id=live-clock style=font-size:12px;font-weight:700;color:#444></span></div><p style=font-size:12px;color:#555;margin-bottom:15px>Enter Centre details below and generate the official <strong>Blank OMR Bar-coded Sheets Account Register</strong> for General and Vocational streams.</p><div class=manual-input-grid><div class=input-group><label for=man-exam-type>Exam Type</label><select id=man-exam-type><option value=IPE>IPE (Annual)</option><option value=IPASE>IPASE (Advanced Supplementary)</option></select></div><div class=input-group><label for=man-exam-month-year>Exam Month &amp; Year</label><input id=man-exam-month-year placeholder="e.g., MARCH 2026"></div><div class=input-group><label for=man-centre-code>Centre Code</label><input id=man-centre-code placeholder="e.g., 44***"></div><div class=input-group><label for=man-college-name>Centre Name / College</label><input id=man-college-name placeholder="e.g., Govt. Junior College, ____"></div><div class=input-group><label for=man-dist-name>District</label><input id=man-dist-name placeholder="e.g., Bhadradri Kothagudem (44)"></div><div class=input-group><label for=man-cs-name>Name of Chief Supdt.</label><input id=man-cs-name placeholder="Enter CS Name"></div><div class=input-group><label for=man-do-name>Name of Deptl. Officer</label><input id=man-do-name placeholder="Enter DO Name"></div></div><div class=controls-section><button class="btn btn-gen" onclick='generateRegisters("general")'>Generate General Register</button><button class="btn btn-voc" onclick='generateRegisters("vocational")'>Generate Vocational Register</button><button class="btn btn-both" onclick='generateRegisters("both")'>Generate Both Streams</button><button class="btn btn-print" onclick=window.print()>Print Register</button></div></div><div id=output-container></div><script>function updateClock(){const e=(new Date).toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"medium"}),t=document.getElementById("live-clock");t&&(t.innerText=e)}function getFormattedTimestamp(){const e=new Date;return`${e.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"})} | ${e.toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:!0})}`}function getMetaInputs(){const e=document.getElementById("man-exam-type").value.trim(),t=document.getElementById("man-exam-month-year").value.trim(),n=document.getElementById("man-centre-code").value.trim(),o=document.getElementById("man-college-name").value.trim(),d=document.getElementById("man-dist-name").value.trim(),a=document.getElementById("man-cs-name").value.trim(),r=document.getElementById("man-do-name").value.trim();return{exam:`${e} ${t}`.trim(),centreCode:n||"______",collegeName:o||"________________________________________________",dist:d||"________________",csName:a||"________________________",doName:r||"________________________",timestamp:getFormattedTimestamp()}}function renderRegisterHtml(e,t){let n="";for(let e=1;e<=15;e++)n+=`
+            <tr class="data-row">
+                <td>${e}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>`;return`
+        <div class="sheet-container">
+            <div class="top-branding-bar">
+                <div class="header-datetime"><strong>Generated on:</strong> ${t.timestamp}</div>
+            </div>
+            <div class="header-titles">
+                <h2>Telangana Board of Intermediate Education, Hyderabad</h2>
+                <h3>${t.exam.toUpperCase()}</h3>
+                <h4>BLANK OMR BAR-CODED SHEETS ACCOUNT REGISTER &mdash; ${e.toUpperCase()} COURSES</h4>
+            </div>
+
+            <div class="details-grid">
+                <div><strong>Centre Code:</strong> ${t.centreCode}</div>
+                <div style="grid-column: span 2;"><strong>Name of the Centre:</strong> ${t.collegeName}</div>
+                <div><strong>District:</strong> ${t.dist}</div>
+                <div><strong>Name of CS:</strong> ${t.csName}</div>
+                <div><strong>Name of DO:</strong> ${t.doName}</div>
+            </div>
+
+            <table>
+                <colgroup>
+                    <col style="width: 4%;">
+                    <col style="width: 9%;">
+                    <col style="width: 14%;">
+                    <col style="width: 16%;">
+                    <col style="width: 10%;">
+                    <col style="width: 15%;">
+                    <col style="width: 12%;">
+                    <col style="width: 10%;">
+                    <col style="width: 10%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th>Sl.<br>No.</th>
+                        <th>Date of<br>Examination</th>
+                        <th>Registered No.<br><span style="font-size:8px; font-weight:normal;">(Ten digits)</span></th>
+                        <th>Subject / Paper</th>
+                        <th>Subject / Paper Code as per NR</th>
+                        <th>Blank Bar Code Sheet Serial Number Issued</th>
+                        <th>Reason for Issue<br><span style="font-size:7.5px; font-weight:normal;">(Damaged / Not Printed / Added)</span></th>
+                        <th>Signature of the Candidate</th>
+                        <th>Signature of the Invigilator</th>
+                    </tr>
+                    <tr>
+                        <th class="col-num">(1)</th>
+                        <th class="col-num">(2)</th>
+                        <th class="col-num">(3)</th>
+                        <th class="col-num">(4)</th>
+                        <th class="col-num">(5)</th>
+                        <th class="col-num">(6)</th>
+                        <th class="col-num">(7)</th>
+                        <th class="col-num">(8)</th>
+                        <th class="col-num">(9)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${n}
+                </tbody>
+            </table>
+
+            <div class="instructions">
+                <strong>Important Instructions for Chief Superintendent &amp; Departmental Officer:</strong>
+                <ol>
+                    <li>Blank OMR Bar-coded Sheets must be issued <strong>ONLY</strong> when: (a) Bar-coded sheet not generated due to discrepancy in offering paper codes, (b) Mismatch of paper codes, (c) Damaged Barcode sheet, or (d) Manually added candidates permitted by the Board.</li>
+                    <li><strong>DO NOT USE</strong> Blank Bar Code Sheet for change in <strong>MEDIUM</strong>.</li>
+                    <li>Under any circumstances, Blank OMR Bar-coded sheets of previous examinations <strong>MUST NOT</strong> be used.</li>
+                    <li>All used Blank OMR entries must also be recorded and submitted through the <strong>TGBIE m-Services Mobile App</strong> after 12:00 Noon under CCTV surveillance.</li>
+                </ol>
+            </div>
+
+            <div class="footer-signatures">
+                <div>Signature of the Departmental Officer (D.O.)</div>
+                <div>Signature of the Additional Chief Superintendent</div>
+                <div>Signature of the Chief Superintendent (C.S.)</div>
+            </div>
+        </div>`}function generateRegisters(e){const t=getMetaInputs(),n=document.getElementById("output-container");n.innerHTML="","general"===e?n.innerHTML=renderRegisterHtml("General",t):"vocational"===e?n.innerHTML=renderRegisterHtml("Vocational",t):"both"===e&&(n.innerHTML=renderRegisterHtml("General",t)+renderRegisterHtml("Vocational",t))}setInterval(updateClock,1e3),updateClock(),window.addEventListener("DOMContentLoaded",(()=>{generateRegisters("both")}))</script></body></html>

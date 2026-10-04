@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NewGen eEducation - TGBIE Q.P. Registers Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <style>
+    @page landscape-page { size: A4 landscape; margin: 6mm; }
+    @page portrait-page { size: A4 portrait; margin: 8mm; }
+    * { box-sizing: border-box; }
+    body { font-family: Arial, Helvetica, sans-serif; margin: 15px; background-color: #eef2f5; color: #000; }
+    .no-print { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.1); margin-bottom: 25px; }
+    .manual-input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; background: #f1f8e9; padding: 15px; border-radius: 6px; border: 1px solid #c8e6c9; margin-bottom: 18px; }
+    .input-group { display: flex; flex-direction: column; text-align: left; }
+    .input-group label { font-size: 11.5px; font-weight: 700; color: #2e7d32; margin-bottom: 4px; }
+    .input-group input, .input-group select { padding: 6px 8px; font-size: 12px; border: 1px solid #a5d6a7; border-radius: 4px; outline: 0; background: #fff; }
+    .input-group input:focus, .input-group select:focus { border-color: #2e7d32; box-shadow: 0 0 3px rgba(46,125,50,.3); }
+    .upload-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; }
+    .upload-card { border: 2px dashed #90caf9; background: #f8fbfe; padding: 12px; border-radius: 6px; text-align: center; }
+    .upload-card h4 { margin: 0 0 8px 0; color: #1565c0; font-size: 13.5px; }
+    .upload-card input[type=file] { width: 100%; font-size: 11px; }
+    .status-msg { margin-top: 6px; font-size: 11px; font-weight: 700; color: #2e7d32; }
+    .controls-section { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+    .button-group { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; }
+    .group-label { font-size: 12px; font-weight: 700; color: #333; margin-right: 4px; }
+    .btn { border: none; padding: 9px 18px; font-size: 12.5px; font-weight: 700; border-radius: 4px; cursor: pointer; transition: background .2s; }
+    .btn-full { background-color: #0d47a1; color: #fff; }
+    .btn-full-comb { background-color: #4a148c; color: #fff; }
+    .btn-part { background-color: #e65100; color: #fff; }
+    .btn-part-comb { background-color: #b71c1c; color: #fff; }
+    .btn-sample { background-color: #546e7a; color: #fff; font-size: 11.5px; padding: 7px 14px; }
+    .btn-print { background-color: #2e7d32; color: #fff; padding: 10px 24px; font-size: 13px; }
+    .btn:hover { opacity: .9; }
+    .sheet-container { background: #fff; padding: 12px; margin-bottom: 25px; border-radius: 4px; box-shadow: 0 0 10px rgba(0,0,0,.08); page-break-after: always; }
+    .sheet-container.full-mode { page: landscape-page; }
+    .sheet-container.part-mode { page: portrait-page; }
+    .sheet-container:last-child { page-break-after: auto; }
+    .header { margin-bottom: 8px; }
+    .top-branding-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0d47a1; padding-bottom: 4px; margin-bottom: 6px; font-size: 11px; }
+    .brand-name { font-size: 13px; font-weight: 700; color: #0d47a1; letter-spacing: .5px; text-transform: uppercase; }
+    .header-datetime { font-size: 10px; color: #333; font-weight: 600; }
+    .header-titles { text-align: center; }
+    .header-titles h2 { margin: 0; font-size: 14.5px; text-transform: uppercase; font-weight: 700; }
+    .header-titles h3 { margin: 2px 0; font-size: 12.5px; font-weight: 700; }
+    .header-titles h4 { margin: 2px 0 5px 0; font-size: 12px; text-decoration: underline; }
+    .center-details { width: 100%; display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 10px; font-weight: 700; }
+    table { width: 100%; border-collapse: collapse !important; text-align: center; table-layout: fixed; border: 1.5px solid #000 !important; background-color: #fff; }
+    .full-mode table { font-size: 8.5px; }
+    .part-mode table { font-size: 10px; }
+    td, th { border: 1px solid #000 !important; padding: 4px 1px; vertical-align: middle; word-wrap: break-word; overflow-wrap: break-word; color: #000; }
+    th { background-color: #f2f2f2 !important; font-weight: 700; -webkit-print-color-adjust: exact; print-color-adjust: exact; white-space: normal; hyphens: none; }
+    .col-sl { width: 2.5%; }
+    .col-date { width: 5.5%; }
+    .col-sub { width: 16%; }
+    .col-set { width: 2.8%; }
+    .col-denom { width: 2.3%; }
+    .col-pkts { width: 3.2%; }
+    .col-qps { width: 3.8%; }
+    .col-iss-breakdown { width: 5.8%; }
+    .col-left { width: 4.2%; }
+    .col-abs { width: 3.2%; }
+    .col-bal { width: 4.8%; }
+    .col-sign { width: 8.8%; min-width: 80px; }
+    .col-rem { width: 5.5%; }
+    .col-p-sl { width: 6%; }
+    .col-p-date { width: 12%; }
+    .col-p-sub { width: 34%; }
+    .col-p-set { width: 8%; }
+    .col-p-denom { width: 7%; }
+    .col-p-pkts { width: 10%; }
+    .col-p-qps { width: 12%; }
+    .col-num { font-size: 8px; color: #222; font-weight: 700; background-color: #eaeaea !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .formula-tag { font-size: 7.2px; color: #c2185b; display: block; font-weight: 400; line-height: 1.1; }
+    .left-text { text-align: left; padding-left: 4px; }
+    .sig-cell { height: 28px; }
+    .day-total-row td { background-color: #fff9c4 !important; font-weight: 700; border-top: 2px solid #000 !important; border-bottom: 2px solid #000 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .grand-total-row td { background-color: #e0f2fe !important; font-weight: 700; border-top: 2px solid #000 !important; border-bottom: 3px double #000 !important; font-size: 9.5px; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .footer { margin-top: 18px; display: flex; justify-content: space-between; font-size: 10.5px; font-weight: 700; }
+    .instructions { margin-top: 8px; font-size: 8.5px; border: 1px dashed #555; padding: 4px 6px; background-color: #fafafa; }
+    .instructions ol { margin: 2px 0 0 12px; padding: 0; }
+    @media print {
+      body { background-color: transparent; margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .no-print { display: none !important; }
+      .sheet-container { box-shadow: none; padding: 0; margin: 0; }
+      table { border: 1.5px solid #000 !important; }
+      td, th { border: 1px solid #000 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="no-print">
+    <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #0d47a1;padding-bottom:6px;margin-bottom:12px">
+      <h3 style="margin:0;color:#0d47a1">NewGen eEducation &mdash; TGBIE Q.P. Account Registers Generator</h3>
+      <span id="live-clock" style="font-size:12px;font-weight:700;color:#444"></span>
+    </div>
+    <p style="font-size:12px;color:#555;margin-bottom:15px">
+      Upload Question Paper Packeting PDFs (1st Gen, 2nd Gen, 1st Voc, 2nd Voc). Generate either the <strong>Full Q.P. Account Register (Cols 1 to 16)</strong> or the <strong>Q.P. Stock &amp; Withdrawal Register (Cols 1 to 7)</strong>.
+    </p>
+    <div class="manual-input-grid">
+      <div class="input-group">
+        <label for="man-exam-type">Exam Type</label>
+        <select id="man-exam-type">
+          <option value="IPE">IPE (Annual)</option>
+          <option value="IPASE">IPASE (Advanced Supplementary)</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label for="man-exam-month-year">Exam Month &amp; Year</label>
+        <input id="man-exam-month-year" value="MARCH 2026" placeholder="e.g., MARCH 2026 / MAY 2026">
+      </div>
+      <div class="input-group">
+        <label for="man-centre-code">Centre Code</label>
+        <input id="man-centre-code" value="44015" placeholder="e.g., 44***">
+      </div>
+      <div class="input-group">
+        <label for="man-college-name">College Name</label>
+        <input id="man-college-name" value="Govt. Junior College, Kothagudem" placeholder="e.g., Govt. Junior College,______">
+      </div>
+      <div class="input-group">
+        <label for="man-dist-name">District Name &amp; Code</label>
+        <input id="man-dist-name" value="Bhadradri Kothagudem Dist. (44)" placeholder="e.g., Bhadradri Kothagudem Dist.">
+      </div>
+    </div>
+    <div class="upload-grid">
+      <div class="upload-card">
+        <h4>1st Year General</h4>
+        <input type="file" id="file-1gen" accept="application/pdf">
+        <div id="status-1gen" class="status-msg"></div>
+      </div>
+      <div class="upload-card">
+        <h4>2nd Year General</h4>
+        <input type="file" id="file-2gen" accept="application/pdf">
+        <div id="status-2gen" class="status-msg"></div>
+      </div>
+      <div class="upload-card">
+        <h4>1st Year Vocational</h4>
+        <input type="file" id="file-1voc" accept="application/pdf">
+        <div id="status-1voc" class="status-msg"></div>
+      </div>
+      <div class="upload-card">
+        <h4>2nd Year Vocational</h4>
+        <input type="file" id="file-2voc" accept="application/pdf">
+        <div id="status-2voc" class="status-msg"></div>
+      </div>
+    </div>
+    <div class="controls-section">
+      <div class="button-group">
+        <button class="btn btn-sample" onclick="loadSampleData()">Load Sample Q.P. Packets</button>
+      </div>
+      <div class="button-group">
+        <span class="group-label">Full Register (Cols 1-16):</span>
+        <button class="btn btn-full" onclick='generateRegisters("full",false)'>Stream-wise Register</button>
+        <button class="btn btn-full-comb" onclick='generateRegisters("full",true)'>Combined Date-Ordered</button>
+      </div>
+      <div class="button-group">
+        <span class="group-label">Stock &amp; Withdrawal (Cols 1-7):</span>
+        <button class="btn btn-part" onclick='generateRegisters("part",false)'>Stream-wise (Col 1-7)</button>
+        <button class="btn btn-part-comb" onclick='generateRegisters("part",true)'>Combined Date-Ordered (Col 1-7)</button>
+        <button class="btn btn-print" onclick="window.print()">Print Generated Register</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="output-container"></div>
+
+  <script>
+    function updateClock() {
+      const t = (new Date).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "medium" }),
+            I = document.getElementById("live-clock");
+      if (I) I.innerText = t;
+    }
+    function getFormattedTimestamp() {
+      const t = new Date;
+      return `${t.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })} | ${t.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: !0 })}`;
+    }
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    setInterval(updateClock, 1e3);
+    updateClock();
+
+    const FULL_SUBJECT_LOOKUP = {
+      "0101":"ENGLISH PAPER-I","0301":"ENGLISH PAPER-I (OLD)","0102":"TELUGU PAPER-I","0103":"URDU PAPER-I","0104":"HINDI PAPER-I","0105":"TAMIL PAPER-I","0106":"MARATHI PAPER-I","0107":"KANNADA PAPER-I","0108":"ORIYA PAPER-I","0109":"SANSKRIT PAPER-I","0110":"PERSIAN PAPER-I","0111":"ARABIC PAPER-I","0112":"FRENCH PAPER-I","0139":"M.L. TELUGU PAPER-I","0140":"M.L. URDU PAPER-I","0141":"M.L. HINDI PAPER-I","0142":"M.L. TAMIL PAPER-I","0143":"M.L. MARATHI PAPER-I","0144":"M.L. KANNADA PAPER-I","0145":"M.L. ORIYA PAPER-I","0146":"M.L. ENGLISH PAPER-I","0147":"C.L. SANSKRIT PAPER-I","0148":"C.L. PERSIAN PAPER-I","0149":"C.L. ARABIC PAPER-I","0119":"PHYSICS-I (E/M)","0120":"PHYSICS-I (T/M)","0121":"PHYSICS-I (U/M)","0122":"PHYSICS-I (H/M)","0123":"CHEMISTRY-I (E/M)","0124":"CHEMISTRY-I (T/M)","0125":"CHEMISTRY-I (U/M)","0126":"CHEMISTRY-I (H/M)","0127":"BOTANY-I (E/M)","0128":"BOTANY-I (T/M)","0129":"BOTANY-I (U/M)","0130":"BOTANY-I (H/M)","0131":"ZOOLOGY-I (E/M)","0132":"ZOOLOGY-I (T/M)","0133":"ZOOLOGY-I (U/M)","0134":"ZOOLOGY-I (H/M)","0166":"MATHS-IA (E/M)","0167":"MATHS-IA (T/M)","0168":"MATHS-IA (U/M)","0169":"MATHS-IA (H/M)","0193":"MATHS-IB (E/M)","0194":"MATHS-IB (T/M)","0195":"MATHS-IB (U/M)","0196":"MATHS-IB (H/M)","0137":"GEOLOGY-I (E/M)","0138":"GEOLOGY-I (T/M)","0135":"HOME SCIENCE-I (E/M)","0136":"HOME SCIENCE-I (T/M)","0178":"FINE ARTS & MUSIC-I (E/M)","0179":"FINE ARTS & MUSIC-I (T/M)","0150":"ECONOMICS-I (E/M)","0151":"ECONOMICS-I (T/M)","0152":"ECONOMICS-I (U/M)","0153":"ECONOMICS-I (H/M)","0158":"COMMERCE-I (E/M)","0159":"COMMERCE-I (T/M)","0160":"COMMERCE-I (U/M)","0161":"COMMERCE-I (H/M)","0162":"HISTORY-I (E/M)","0163":"HISTORY-I (T/M)","0164":"HISTORY-I (U/M)","0165":"HISTORY-I (H/M)","0170":"CIVICS-I (E/M)","0171":"CIVICS-I (T/M)","0172":"CIVICS-I (U/M)","0173":"CIVICS-I (H/M)","0189":"PUB. ADMIN-I (E/M)","0190":"PUB. ADMIN-I (T/M)","0191":"PUB. ADMIN-I (U/M)","0154":"LOGIC-I (E/M)","0155":"LOGIC-I (T/M)","0156":"LOGIC-I (U/M)","0174":"GEOGRAPHY-I (E/M)","0175":"GEOGRAPHY-I (T/M)","0176":"GEOGRAPHY-I (U/M)","0185":"SOCIOLOGY-I (E/M)","0186":"SOCIOLOGY-I (T/M)","0187":"SOCIOLOGY-I (U/M)","0181":"PSYCHOLOGY-I (E/M)","0182":"PSYCHOLOGY-I (T/M)","0197":"BRIDGE COURSE MATHS-I (E/M)","0198":"BRIDGE COURSE MATHS-I (T/M)","0199":"BRIDGE COURSE MATHS-I (U/M)","0201":"ENGLISH PAPER-II","0401":"ENGLISH PAPER-II (OLD)","0202":"TELUGU PAPER-II","0203":"URDU PAPER-II","0204":"HINDI PAPER-II","0205":"TAMIL PAPER-II","0206":"MARATHI PAPER-II","0207":"KANNADA PAPER-II","0208":"ORIYA PAPER-II","0209":"SANSKRIT PAPER-II","0210":"PERSIAN PAPER-II","0211":"ARABIC PAPER-II","0212":"FRENCH PAPER-II","0239":"M.L. TELUGU PAPER-II","0240":"M.L. URDU PAPER-II","0241":"M.L. HINDI PAPER-II","0242":"M.L. TAMIL PAPER-II","0243":"M.L. MARATHI PAPER-II","0244":"M.L. KANNADA PAPER-II","0245":"M.L. ORIYA PAPER-II","0246":"M.L. ENGLISH PAPER-II","0247":"C.L. SANSKRIT PAPER-II","0248":"C.L. PERSIAN PAPER-II","0249":"C.L. ARABIC PAPER-II","0219":"PHYSICS-II (E/M)","0220":"PHYSICS-II (T/M)","0221":"PHYSICS-II (U/M)","0222":"PHYSICS-II (H/M)","0223":"CHEMISTRY-II (E/M)","0224":"CHEMISTRY-II (T/M)","0225":"CHEMISTRY-II (U/M)","0226":"CHEMISTRY-II (H/M)","0227":"BOTANY-II (E/M)","0228":"BOTANY-II (T/M)","0229":"BOTANY-II (U/M)","0230":"BOTANY-II (H/M)","0231":"ZOOLOGY-II (E/M)","0232":"ZOOLOGY-II (T/M)","0233":"ZOOLOGY-II (U/M)","0234":"ZOOLOGY-II (H/M)","0266":"MATHS-IIA (E/M)","0267":"MATHS-IIA (T/M)","0268":"MATHS-IIA (U/M)","0269":"MATHS-IIA (H/M)","0293":"MATHS-IIB (E/M)","0294":"MATHS-IIB (T/M)","0295":"MATHS-IIB (U/M)","0296":"MATHS-IIB (H/M)","0237":"GEOLOGY-II (E/M)","0238":"GEOLOGY-II (T/M)","0235":"HOME SCIENCE-II (E/M)","0236":"HOME SCIENCE-II (T/M)","0278":"FINE ARTS & MUSIC-II (E/M)","0279":"FINE ARTS & MUSIC-II (T/M)","0250":"ECONOMICS-II (E/M)","0251":"ECONOMICS-II (T/M)","0252":"ECONOMICS-II (U/M)","0253":"ECONOMICS-II (H/M)","0258":"COMMERCE-II (E/M)","0259":"COMMERCE-II (T/M)","0260":"COMMERCE-II (U/M)","0261":"COMMERCE-II (H/M)","0262":"HISTORY-II (E/M)","0263":"HISTORY-II (T/M)","0264":"HISTORY-II (U/M)","0265":"HISTORY-II (H/M)","0270":"CIVICS-II (E/M)","0271":"CIVICS-II (T/M)","0272":"CIVICS-II (U/M)","0273":"CIVICS-II (H/M)","0289":"PUB. ADMIN-II (E/M)","0290":"PUB. ADMIN-II (T/M)","0291":"PUB. ADMIN-II (U/M)","0254":"LOGIC-II (E/M)","0255":"LOGIC-II (T/M)","0256":"LOGIC-II (U/M)","0274":"GEOGRAPHY-II (E/M)","0275":"GEOGRAPHY-II (T/M)","0276":"GEOGRAPHY-II (U/M)","0285":"SOCIOLOGY-II (E/M)","0286":"SOCIOLOGY-II (T/M)","0287":"SOCIOLOGY-II (U/M)","0281":"PSYCHOLOGY-II (E/M)","0282":"PSYCHOLOGY-II (T/M)","0297":"BRIDGE COURSE MATHS-II (E/M)","0298":"BRIDGE COURSE MATHS-II (T/M)","0299":"BRIDGE COURSE MATHS-II (U/M)","08001":"VOC. ENGLISH PAPER-I","06001":"VOC. ENGLISH-I (OLD)","08002":"GFC-I (GENERAL FOUNDATION COURSE)","08004":"VOC. BRIDGE COURSE MATHS-I","08005":"VOC. BRIDGE COURSE PHY. SCI-I","08006":"VOC. BRIDGE COURSE BIO. SCI-I","08103":"PRINCIPLES OF AGRI CROP PROD","08104":"SOIL & WATER MGT","08105":"FARM MGT & AGRI EXTENSION","08110":"RUMINANT ANIMAL PROD & MGT","08113":"FEEDS & FEEDING OF LIVESTOCK","08112":"NON-RUMINANT ANIMAL PROD","08118":"BIOLOGY OF FISHES & LIMNOLOGY","08119":"PRINCIPLES OF FISHERIES & AQUA","08120":"SEED PRODUCTION TECH","08125":"MORICULTURE","08126":"MULBERRY FARM MGT","08127":"SILKWORM SEED TECH","08163":"BUS. ORG. & MANAGEMENT","06163":"BUS. ORG. (OLD)","08164":"ACCOUNTANCY & COMPUTERS-I","06164":"ACCOUNTANCY & COMPUTERS-I (OLD)","08165":"TAXATION-I","06165":"TAXATION-I (OLD)","08173":"ENGLISH SHORTHAND","06173":"SHORTHAND & DATA ENTRY (OLD)","08179":"PRINCIPLES OF INSURANCE","06179":"PRINCIPLES OF INSURANCE (OLD)","08182":"RETAIL MARKETING","06182":"RETAIL MARKETING (OLD)","08213":"WORKSHOP TECHNOLOGY","08214":"BASIC MECH & ELECTRICAL ENGG","08215":"AUTO POWER PLANT","08220":"CONST MATERIALS & PRACTICE","08221":"SURVEYING THEORY","08222":"ENGINEERING MECHANICS","08227":"COMP. FUNDAMENTALS & MS-OFFICE","06227":"COMP. FUND. & MS-OFFICE (OLD)","08228":"INTERACTIVE WEB DESIGN","06228":"PROGRAMMING IN 'C' (OLD)","08229":"PROBLEM SOLVING USING 'C'","06229":"ACCOUNTANCY & TALLY (OLD)","08233":"CIRCUIT THEORY & ELECTRONICS","06233":"CIRCUIT THEORY & ELECTRONICS (OLD)","08234":"ELECTRONIC DEVICES & CIRCUITS","06234":"ELECTRONIC DEVICES & CIRCUITS (OLD)","08235":"DIGITAL ELECTRONICS & COMPUTERS","06235":"DIGITAL ELECTRONICS & COMPUTERS (OLD)","08239":"BASIC ELECTRICAL ENGG","08240":"ELECTRICAL MATERIALS & WIRING","08241":"ELECTRICAL INSTRUMENTS & POWER","08245":"BASIC WORKSHOP TECHNOLOGY","06245":"BASIC WORKSHOP TECH (OLD)","08246":"MECH TECH & ELEC TECH","06246":"MECH TECH & ELEC TECH (OLD)","08247":"INDUSTRIAL ROBOTICS","06247":"REFRIGERATION (OLD)","08292":"PRINCIPLES OF GARMENT MAKING","08293":"TEXTILE SCIENCE","08294":"GARMENT CONSTRUCTION","08313":"INTRO TO CHILD DEVELOPMENT","08314":"ORG & MGT OF CRECHES","08315":"HEALTH & NUTRITION","08357":"FUNDAMENTALS OF TOURISM & TRAVEL","08465":"HOSPITALITY SERVICE","08466":"FRONT OFFICE OPERATIONS & COMP APPL","08320":"GRAPHIC DESIGN-I","06320":"FUNDAMENTALS OF CGA (OLD)","08321":"WEB TECHNOLOGIES","08457":"HUMAN ANATOMY & PHYSIOLOGY","06457":"HUMAN ANATOMY & PHYSIOLOGY (OLD)","08458":"PHARMACEUTICAL TECHNOLOGY-I","06458":"PHARMACEUTICAL TECHNOLOGY-I (OLD)","08459":"PHARM CHEMISTRY & QUALITY MGT","06459":"PHARM CHEMISTRY & QUALITY MGT (OLD)","08408":"BIOCHEMISTRY-I","08409":"MICROBIOLOGY & PATHOLOGY","08410":"ANATOMY & PHYSIOLOGY","08419":"ANATOMY & PHYSIOLOGY","08429":"ANATOMY & PHYSIOLOGY (PT)","08430":"PSYCHOLOGY & ABNORMAL PSYCH","08431":"BIOMECHANICS & EXERCISE THERAPY","08450":"COMMUNITY HEALTH NURSING","08451":"HEALTH PROMOTION","08452":"PRIMARY HEALTH NURSING","09001":"VOC. ENGLISH PAPER-II","07001":"VOC. ENGLISH-II (OLD)","09002":"GFC-II (GENERAL FOUNDATION COURSE)","09004":"VOC. BRIDGE COURSE MATHS-II","09005":"VOC. BRIDGE COURSE PHY. SCI-II","09006":"VOC. BRIDGE COURSE BIO. SCI-II","09103":"MGT OF FIELD & COMMERCIAL CROPS","09104":"MGT OF HORTICULTURE CROPS","09105":"SEED PRODUCTION & PROCESSING","09110":"LIVESTOCK HEALTH MANAGEMENT","09112":"MILK PROCESSING & MILK PRODUCTS",
+      "09113":"POULTRY PRODUCTION & MGT","09118":"FISH PROCESSING TECH","09119":"FRESH WATER AQUACULTURE","09120":"SEED CERTIFICATION & TESTING","09125":"SILKWORM REARING","09126":"POST COCOON TECH","09163":"BANKING & FINANCIAL SERVICES","09164":"ACCOUNTANCY & COMPUTERS-II","09165":"TAXATION-II","09173":"SECRETARIAL PRACTICE & SHORTHAND","09179":"GENERAL INSURANCE","09182":"SALESMANSHIP & MARKETING","09213":"AUTOMOBILE SERVICING & MAINTENANCE","09214":"CHASSIS BODY & TRANSMISSION","09215":"AUTO ELECTRICAL & ELECTRONICS","09220":"CONSTRUCTION TECH & MGT","09221":"ADVANCED SURVEYING","09222":"ESTIMATING & COSTING","09227":"DATABASE MANAGEMENT SYSTEMS","09228":"OBJECT ORIENTED PROGRAMMING","09229":"COMPUTER NETWORKS & INTERNET","09233":"AUDIO & VIDEO SYSTEMS","09234":"COMMUNICATION SYSTEMS","09235":"MICROPROCESSOR & APPLICATIONS","09239":"ELECTRICAL MACHINES","09240":"POWER SYSTEMS & TRANSMISSION","09241":"ELECTRICAL ESTIMATION & CONTRACTING","09245":"MANUFACTURING PROCESSES","09246":"THERMAL ENGINEERING","09247":"CAD & CAM","09292":"APPAREL QUALITY CONTROL","09293":"GARMENT MERCHANDISING","09294":"ADVANCED GARMENT CONSTRUCTION","09313":"PRE-SCHOOL EDUCATION","09314":"COMMUNITY NUTRITION","09315":"FAMILY RESOURCE MANAGEMENT","09357":"TRAVEL AGENCY & TOUR OPERATIONS","09465":"FOOD PRODUCTION & SERVICE","09466":"HOTEL ACCOMMODATION OPERATIONS","09320":"2D & 3D ANIMATION","09321":"DIGITAL AUDIO & VIDEO EDITING","09457":"PATHOLOGY & PHARMACOLOGY","09458":"HOSPITAL & CLINICAL PHARMACY","09459":"DRUG STORE BUSINESS MANAGEMENT","09408":"BIOCHEMISTRY-II","09409":"CLINICAL PATHOLOGY","09410":"HEMATOLOGY & BLOOD BANKING","09419":"DIAGNOSTIC RADIOGRAPHY","09429":"PHYSIOTHERAPY IN ORTHOPEDICS","09430":"PHYSIOTHERAPY IN NEUROLOGY","09431":"REHABILITATION MEDICINE","09450":"MIDWIFERY","09451":"CHILD HEALTH NURSING","09452":"COMMUNITY HEALTH NURSING-II"
+    };
+
+    const parsedData = { "1gen": [], "2gen": [], "1voc": [], "2voc": [] };
+
+    function setupFileInput(id, key, statusId) {
+      const input = document.getElementById(id);
+      if (!input) return;
+      input.addEventListener("change", async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const statusEl = document.getElementById(statusId);
+        statusEl.innerText = "Parsing PDF...";
+        try {
+          const buffer = await file.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+          const rows = [];
+          for (let p = 1; p <= pdf.numPages; p++) {
+            const page = await pdf.getPage(p);
+            const textContent = await page.getTextContent();
+            const text = textContent.items.map(i => i.str).join(" ");
+            parseHeaderInfo(text);
+            extractRowsFromText(text, rows, key);
+          }
+          parsedData[key] = rows;
+          statusEl.innerText = `✓ Loaded ${rows.length} rows`;
+        } catch (err) {
+          console.error(err);
+          statusEl.innerText = "Error parsing PDF";
+        }
+      });
+    }
+
+    setupFileInput("file-1gen", "1gen", "status-1gen");
+    setupFileInput("file-2gen", "2gen", "status-2gen");
+    setupFileInput("file-1voc", "1voc", "status-1voc");
+    setupFileInput("file-2voc", "2voc", "status-2voc");
+
+    function parseHeaderInfo(text) {
+      const cMatch = text.match(/(?:CENTRE\s*(?:CODE)?[:\s\-]*|C\.NO\.?\s*)(\d{4,6})/i);
+      if (cMatch && cMatch[1]) document.getElementById("man-centre-code").value = cMatch[1];
+      const colMatch = text.match(/([A-Z0-9.,\s]{3,}(?:COLLEGE|INSTITUTE|SCHOOL|H\.?S\.?)[A-Z0-9.,\s]*)/i);
+      if (colMatch && colMatch[1]) {
+        const c = colMatch[1].trim().replace(/\s+/g, ' ');
+        if (c.length > 5) document.getElementById("man-college-name").value = c;
+      }
+      const myMatch = text.match(/(MARCH|MAY|JUNE|JULY|AUG|SEPT|OCT|FEB)\s*(202\d)/i);
+      if (myMatch) document.getElementById("man-exam-month-year").value = `${myMatch[1].toUpperCase()} ${myMatch[2]}`;
+    }
+
+    function extractRowsFromText(text, rows, streamKey) {
+      // Regex looking for date, subject code, sets, packets, denomination
+      const pattern = /(\d{2}[-/.]\d{2}[-/.]\d{2,4})\s+([A-Za-z0-9\-/\s]+?)\s+(\d{3,5})\s+([A-D0-9\s]+?)\s+(\d+)\s+(\d+)\s+(\d+)/g;
+      let match;
+      while ((match = pattern.exec(text)) !== null) {
+        const code = match[3];
+        const subName = FULL_SUBJECT_LOOKUP[code] || match[2].trim();
+        rows.push({
+          date: match[1],
+          subject: subName,
+          code: code,
+          set: match[4].trim(),
+          denom: parseInt(match[5], 10) || 20,
+          packets: parseInt(match[6], 10) || 1,
+          qps: parseInt(match[7], 10) || (parseInt(match[5], 10) * parseInt(match[6], 10)),
+          stream: streamKey
+        });
+      }
+    }
+
+    function loadSampleData() {
+      parsedData["1gen"] = [
+        { date: "04-03-2026", subject: "ENGLISH PAPER-I", code: "0101", set: "A", denom: 20, packets: 12, qps: 240, stream: "1gen" },
+        { date: "06-03-2026", subject: "SANSKRIT PAPER-I", code: "0109", set: "A", denom: 20, packets: 8, qps: 160, stream: "1gen" },
+        { date: "06-03-2026", subject: "TELUGU PAPER-I", code: "0102", set: "A", denom: 20, packets: 4, qps: 80, stream: "1gen" },
+        { date: "10-03-2026", subject: "MATHS-IA (E/M)", code: "0166", set: "B", denom: 20, packets: 6, qps: 120, stream: "1gen" },
+        { date: "10-03-2026", subject: "BOTANY-I (E/M)", code: "0127", set: "B", denom: 20, packets: 4, qps: 80, stream: "1gen" },
+        { date: "10-03-2026", subject: "CIVICS-I (E/M)", code: "0170", set: "B", denom: 20, packets: 2, qps: 40, stream: "1gen" },
+      ];
+      parsedData["2gen"] = [
+        { date: "05-03-2026", subject: "ENGLISH PAPER-II", code: "0201", set: "A", denom: 20, packets: 12, qps: 240, stream: "2gen" },
+        { date: "07-03-2026", subject: "SANSKRIT PAPER-II", code: "0209", set: "A", denom: 20, packets: 8, qps: 160, stream: "2gen" },
+        { date: "07-03-2026", subject: "TELUGU PAPER-II", code: "0202", set: "A", denom: 20, packets: 4, qps: 80, stream: "2gen" },
+        { date: "11-03-2026", subject: "MATHS-IIA (E/M)", code: "0266", set: "B", denom: 20, packets: 6, qps: 120, stream: "2gen" },
+        { date: "11-03-2026", subject: "BOTANY-II (E/M)", code: "0227", set: "B", denom: 20, packets: 4, qps: 80, stream: "2gen" },
+        { date: "11-03-2026", subject: "CIVICS-II (E/M)", code: "0270", set: "B", denom: 20, packets: 2, qps: 40, stream: "2gen" },
+      ];
+      parsedData["1voc"] = [
+        { date: "04-03-2026", subject: "VOC. ENGLISH PAPER-I", code: "08001", set: "A", denom: 15, packets: 3, qps: 45, stream: "1voc" },
+        { date: "06-03-2026", subject: "GFC-I (GENERAL FOUNDATION COURSE)", code: "08002", set: "A", denom: 15, packets: 3, qps: 45, stream: "1voc" },
+      ];
+      parsedData["2voc"] = [
+        { date: "05-03-2026", subject: "VOC. ENGLISH PAPER-II", code: "09001", set: "A", denom: 15, packets: 3, qps: 45, stream: "2voc" },
+        { date: "07-03-2026", subject: "GFC-II (GENERAL FOUNDATION COURSE)", code: "09002", set: "A", denom: 15, packets: 3, qps: 45, stream: "2voc" },
+      ];
+
+      document.getElementById("status-1gen").innerText = "✓ Sample 6 rows";
+      document.getElementById("status-2gen").innerText = "✓ Sample 6 rows";
+      document.getElementById("status-1voc").innerText = "✓ Sample 2 rows";
+      document.getElementById("status-2voc").innerText = "✓ Sample 2 rows";
+      alert("Sample Q.P. packeting rows loaded!");
+    }
+
+    function getAllRows(combined) {
+      if (combined) {
+        const all = [
+          ...parsedData["1gen"],
+          ...parsedData["2gen"],
+          ...parsedData["1voc"],
+          ...parsedData["2voc"],
+        ];
+        all.sort((a, b) => {
+          const [d1, m1, y1] = a.date.split(/[-/.]/);
+          const [d2, m2, y2] = b.date.split(/[-/.]/);
+          const dateA = new Date(`${y1}-${m1}-${d1}`).getTime() || 0;
+          const dateB = new Date(`${y2}-${m2}-${d2}`).getTime() || 0;
+          return dateA - dateB;
+        });
+        return [{ title: "COMBINED ALL STREAMS (DATE-ORDERED)", rows: all }];
+      } else {
+        const groups = [];
+        if (parsedData["1gen"].length) groups.push({ title: "FIRST YEAR GENERAL", rows: parsedData["1gen"] });
+        if (parsedData["2gen"].length) groups.push({ title: "SECOND YEAR GENERAL", rows: parsedData["2gen"] });
+        if (parsedData["1voc"].length) groups.push({ title: "FIRST YEAR VOCATIONAL", rows: parsedData["1voc"] });
+        if (parsedData["2voc"].length) groups.push({ title: "SECOND YEAR VOCATIONAL", rows: parsedData["2voc"] });
+        if (groups.length === 0) {
+          loadSampleData();
+          return getAllRows(false);
+        }
+        return groups;
+      }
+    }
+
+    function generateRegisters(mode, combined) {
+      const groups = getAllRows(combined);
+      const out = document.getElementById("output-container");
+      out.innerHTML = "";
+
+      const examType = document.getElementById("man-exam-type").value;
+      const monthYear = document.getElementById("man-exam-month-year").value;
+      const cCode = document.getElementById("man-centre-code").value;
+      const colName = document.getElementById("man-college-name").value;
+      const distName = document.getElementById("man-dist-name").value;
+      const timeStamp = getFormattedTimestamp();
+
+      groups.forEach((grp) => {
+        const sheet = document.createElement("div");
+        sheet.className = `sheet-container ${mode}-mode`;
+
+        let tableHtml = "";
+        if (mode === "full") {
+          tableHtml = buildFullTable(grp.rows);
+        } else {
+          tableHtml = buildPartTable(grp.rows);
+        }
+
+        sheet.innerHTML = `
+          <div class="header">
+            <div class="top-branding-bar">
+              <span class="brand-name">TELANGANA BOARD OF INTERMEDIATE EDUCATION</span>
+              <span class="header-datetime">${timeStamp}</span>
+            </div>
+            <div class="header-titles">
+              <h2>${examType} ${monthYear} &mdash; ${mode === "full" ? "DEPARTMENTAL OFFICER QUESTION PAPER ACCOUNT REGISTER" : "QUESTION PAPER STOCK & WITHDRAWAL REGISTER"}</h2>
+              <h3>${grp.title}</h3>
+              <h4>CENTRE CUSTODY & STATUTORY ACCOUNT STATEMENT</h4>
+            </div>
+            <div class="center-details">
+              <span><strong>CENTRE CODE:</strong> ${cCode}</span>
+              <span><strong>NAME OF THE CENTRE:</strong> ${colName}</span>
+              <span><strong>DISTRICT:</strong> ${distName}</span>
+            </div>
+          </div>
+          ${tableHtml}
+          <div class="footer">
+            <span>Signature of the D.O.</span>
+            <span>Signature of the Chief Supdt.</span>
+          </div>
+          <div class="instructions">
+            <strong>Statutory Instructions for Departmental Officer (D.O.):</strong>
+            <ol>
+              <li>All Question Paper packets must be kept under safe double-lock custody in the designated Police Station / Strong Room.</li>
+              <li>Packets must be taken out only on the day of examination after verifying the seals with the Chief Superintendent.</li>
+              <li>Account for all used, surplus, and unused Question Papers daily in this register with signatures.</li>
+            </ol>
+          </div>
+        `;
+        out.appendChild(sheet);
+      });
+
+      window.scrollTo({ top: out.offsetTop - 20, behavior: "smooth" });
+    }
+
+    function buildFullTable(rows) {
+      let tbody = "";
+      let totalPkts = 0;
+      let totalQps = 0;
+
+      rows.forEach((r, idx) => {
+        totalPkts += r.packets;
+        totalQps += r.qps;
+        tbody += `
+          <tr>
+            <td>${idx + 1}</td>
+            <td>${r.date}</td>
+            <td class="left-text">${r.subject} (${r.code})</td>
+            <td>${r.set}</td>
+            <td>${r.denom}</td>
+            <td>${r.packets}</td>
+            <td><strong>${r.qps}</strong></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="sig-cell"></td>
+            <td class="sig-cell"></td>
+            <td class="sig-cell"></td>
+            <td></td>
+          </tr>
+        `;
+      });
+
+      return `
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2" class="col-sl">Sl.<br>No</th>
+              <th rowspan="2" class="col-date">Date of<br>Exam</th>
+              <th rowspan="2" class="col-sub">Subject &amp; Paper Code</th>
+              <th rowspan="2" class="col-set">Set<br>No.</th>
+              <th rowspan="2" class="col-denom">Denom<br><span class="formula-tag">QPs/Pkt</span></th>
+              <th rowspan="2" class="col-pkts">Pkts<br>Recd</th>
+              <th rowspan="2" class="col-qps">Total<br>QPs<br><span class="formula-tag">(5&times;6)</span></th>
+              <th colspan="4">Account on Date of Exam</th>
+              <th colspan="3">Signatures</th>
+              <th rowspan="2" class="col-rem">Remarks</th>
+            </tr>
+            <tr>
+              <th class="col-iss-breakdown">Issued to CS</th>
+              <th class="col-left">Left in Safe</th>
+              <th class="col-abs">Abs</th>
+              <th class="col-bal">Balance Returned</th>
+              <th class="col-sign">D.O.</th>
+              <th class="col-sign">C.S.</th>
+              <th class="col-sign">Squad</th>
+            </tr>
+            <tr class="col-num">
+              <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td>
+            </tr>
+          </thead>
+          <tbody>${tbody}</tbody>
+          <tfoot>
+            <tr class="grand-total-row">
+              <td colspan="5" style="text-align:right;padding-right:8px;">GRAND TOTAL:</td>
+              <td>${totalPkts}</td>
+              <td>${totalQps}</td>
+              <td colspan="8"></td>
+            </tr>
+          </tfoot>
+        </table>
+      `;
+    }
+
+    function buildPartTable(rows) {
+      let tbody = "";
+      let totalPkts = 0;
+      let totalQps = 0;
+
+      rows.forEach((r, idx) => {
+        totalPkts += r.packets;
+        totalQps += r.qps;
+        tbody += `
+          <tr>
+            <td>${idx + 1}</td>
+            <td>${r.date}</td>
+            <td class="left-text">${r.subject} (${r.code})</td>
+            <td>${r.set}</td>
+            <td>${r.denom}</td>
+            <td>${r.packets}</td>
+            <td><strong>${r.qps}</strong></td>
+          </tr>
+        `;
+      });
+
+      return `
+        <table>
+          <thead>
+            <tr>
+              <th class="col-p-sl">Sl. No.</th>
+              <th class="col-p-date">Date of Exam</th>
+              <th class="col-p-sub">Subject &amp; Paper Code</th>
+              <th class="col-p-set">Set No.</th>
+              <th class="col-p-denom">Denom.</th>
+              <th class="col-p-pkts">No. of Packets</th>
+              <th class="col-p-qps">Total Q.P.s</th>
+            </tr>
+            <tr class="col-num">
+              <td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
+            </tr>
+          </thead>
+          <tbody>${tbody}</tbody>
+          <tfoot>
+            <tr class="grand-total-row">
+              <td colspan="5" style="text-align:right;padding-right:8px;">GRAND TOTAL:</td>
+              <td>${totalPkts}</td>
+              <td>${totalQps}</td>
+            </tr>
+          </tfoot>
+        </table>
+      `;
+    }
+
+    // Auto generate sample register on load
+    window.onload = function() {
+      loadSampleData();
+      generateRegisters("full", false);
+    };
+  </script>
+</body>
+</html>

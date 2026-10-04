@@ -1,0 +1,65 @@
+<!doctype html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Local Conveyance Certificate - TGBIE</title><style>@page{size:A4 portrait;margin:15mm 20mm}*{box-sizing:border-box}body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:20px;background-color:#f5f5f5;color:#000}.no-print{max-width:750px;margin:0 auto 20px auto;background:#fff;padding:15px 20px;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.15)}.input-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;background:#eef7ee;padding:12px;border-radius:6px;border:1px solid #c8e6c9;margin-bottom:12px}.input-group{display:flex;flex-direction:column;text-align:left}.input-group label{font-size:11px;font-weight:700;color:#2e7d32;margin-bottom:3px}.input-group input,.input-group select,.input-group textarea{padding:5px 8px;font-size:12px;border:1px solid #a5d6a7;border-radius:4px;outline:0;background:#fff}.input-group input:focus,.input-group select:focus,.input-group textarea:focus{border-color:#2e7d32}.btn-container{display:flex;gap:10px;justify-content:flex-end}.btn{border:none;padding:8px 18px;font-size:13px;font-weight:700;border-radius:4px;cursor:pointer;color:#fff}.btn-gen{background-color:#0277bd}.btn-print{background-color:#2e7d32}.page-container{width:750px;margin:0 auto;background:#fff;padding:35px 45px 50px 45px;box-shadow:0 0 10px rgba(0,0,0,.1)}.header-title-1{text-align:center;font-size:14.5px;font-weight:700;letter-spacing:.3px;margin-bottom:4px}.header-title-2{text-align:center;font-size:13.5px;font-weight:700;margin-bottom:4px}.header-title-3{text-align:center;font-size:13px;font-weight:700;margin-bottom:6px}.header-title-4{text-align:center;font-size:12.5px;font-weight:700;text-decoration:underline;margin-bottom:25px}.details-table{width:100%;border-collapse:collapse;font-size:12px;line-height:1.8;margin-bottom:40px}.details-table td{padding:3px 0;vertical-align:top}.col-label{width:25%;font-weight:400}.col-colon{width:3%}.col-val{width:72%}.sig-claimant-row{text-align:right;font-size:12px;font-weight:400;margin-bottom:65px;padding-right:15px}.bottom-officers-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:400;padding:0 10px}.bottom-officers-row div{flex:1;text-align:center}.bottom-officers-row div:first-child{text-align:left}.bottom-officers-row div:last-child{text-align:right}@media print{body{background:0 0;padding:0}.no-print{display:none!important}.page-container{width:100%;box-shadow:none;padding:0;margin:0}}</style></head><body><div class=no-print><div style=font-weight:700;font-size:13px;color:#0d47a1;margin-bottom:10px>TGBIE &mdash; Local Conveyance Form (Synced with TSIPE Form Fields)</div><div class=input-grid><div class=input-group><label for=man-exam-session>Exam Session</label><input id=man-exam-session placeholder="IPASE MAY/JUNE - 2026"></div><div class=input-group><label for=man-college-code>College Code</label><input id=man-college-code placeholder=44000></div><div class=input-group style="grid-column:span 2"><label for=man-college>College Name</label><input id=man-college placeholder="GOVERNMENT JUNIOR COLLEGE, ____"></div><div class=input-group><label for=man-name>Emp Name</label><input id=man-name placeholder=SATHISH></div><div class=input-group><label for=man-desig>Designation (Post)</label><input id=man-desig placeholder="Principal / JL "></div><div class=input-group><label for=man-examiner-no>Examiner No</label><input id=man-examiner-no placeholder="Leave blank if none"></div><div class=input-group><label for=man-subject>Subject</label><input id=man-subject placeholder=MATHEMATICS></div><div class=input-group><label for=man-date-from>From Date (FromDate)</label><input id=man-date-from placeholder=dd/mm/yyyy value=01/08/2026></div><div class=input-group><label for=man-date-to>To Date (ToDate)</label><input id=man-date-to placeholder=dd/mm/yyyy value=01/08/2026></div><div class=input-group><label for=man-days-count>No. of Days (MobileNumber)</label><input type=number id=man-days-count placeholder="Enter No.of Days manually" oninput=renderConveyance()></div><div class=input-group><label for=man-rate-select>Applicable Rate Preset</label><select id=man-rate-select onchange=syncRateFromSelect()><option value=188 selected>Other Places — Standard (₹188 / day)</option><option value=235>Other Places — Higher (₹235 / day)</option><option value=250>Hyderabad — Standard (₹250 / day)</option><option value=312.50>Hyderabad — Higher (₹312.50 / day)</option><option value=custom>Custom Rate</option></select></div><div class=input-group><label for=man-rate-input>Applicable Rate (₹)- Enter Manually, If any changes.</label><input type=number step=any id=man-rate-input place=188 oninput=renderConveyance()></div><div class=input-group style="grid-column:span 2"><label for=man-remarks>Remarks</label><input id=man-remarks placeholder="Optional remarks"></div></div><div class=btn-container><button class="btn btn-gen" onclick=renderConveyance()>Update Form</button><button class="btn btn-print" onclick=window.print()>Print Form</button></div></div><div id=output-container></div><script>function syncRateFromSelect(){const e=document.getElementById("man-rate-select").value;"custom"!==e&&(document.getElementById("man-rate-input").value=e),renderConveyance()}function renderConveyance(){const e=document.getElementById("man-exam-session").value.trim()||"IPASE MAY/JUNE - 2026",t=document.getElementById("man-examiner-no").value.trim(),n=document.getElementById("man-subject").value.trim(),l=document.getElementById("man-name").value.trim(),d=document.getElementById("man-college").value.trim(),a=document.getElementById("man-desig").value.trim(),o=document.getElementById("man-date-from").value.trim(),c=document.getElementById("man-date-to").value.trim(),s=parseFloat(document.getElementById("man-days-count").value)||0,r=parseFloat(document.getElementById("man-rate-input").value)||0,m=document.getElementById("man-remarks").value.trim(),i=(s*r).toFixed(2);let v="";o&&c?v=`From ${o} to ${c}`:o&&(v=`${o}`);const y=s>0?`${s} (${s} x ${r})`:"",u=`
+        <div class="page-container">
+            <div class="header-title-1">TELANGANA STATE BOARD OF INTERMEDIATE EDUCATION</div>
+            <div class="header-title-2">${e.toUpperCase()}</div>
+            <div class="header-title-3">PRACTICAL/THEORY/SPOT VALUATION CAMP</div>
+            <div class="header-title-4">LOCAL CONVEYANCE</div>
+
+            <table class="details-table">
+                <tr>
+                    <td class="col-label">Examiner No</td>
+                    <td class="col-colon">:</td>
+                    <td class="col-val">${t}</td>
+                </tr>
+                <tr>
+                    <td class="col-label">Subject</td>
+                    <td class="col-colon">:</td>
+                    <td class="col-val">${n}</td>
+                </tr>
+                <tr>
+                    <td class="col-label">Name</td>
+                    <td class="col-colon">:</td>
+                    <td class="col-val">${l}</td>
+                </tr>
+                <tr>
+                    <td class="col-label">College</td>
+                    <td class="col-colon">:</td>
+                    <td class="col-val">${d}</td>
+                </tr>
+                <tr>
+                    <td class="col-label">Designation</td>
+                    <td class="col-colon">:</td>
+                    <td class="col-val">${a}</td>
+                </tr>
+                <tr>
+                    <td class="col-label">Days attended</td>
+                    <td class="col-colon">:</td>
+                    <td class="col-val">${v}</td>
+                </tr>
+                <tr>
+                    <td class="col-label">No. of days</td>
+                    <td class="col-colon">:</td>
+                    <td class="col-val">${y}</td>
+                </tr>
+                <tr>
+                    <td class="col-label">Amount</td>
+                    <td class="col-colon">:</td>
+                    <td class="col-val">${i}</td>
+                </tr>
+                <tr>
+                    <td class="col-label">Remarks</td>
+                    <td class="col-colon">:</td>
+                    <td class="col-val">${m}</td>
+                </tr>
+            </table>
+
+            <div class="sig-claimant-row">
+                Signature of the Claimant
+            </div>
+
+            <div class="bottom-officers-row">
+                <div>CE/CS</div>
+                <div>ACO</div>
+                <div>CAMP OFFICER</div>
+            </div>
+        </div>`;document.getElementById("output-container").innerHTML=u}window.addEventListener("DOMContentLoaded",(()=>{renderConveyance()}))</script></body></html>

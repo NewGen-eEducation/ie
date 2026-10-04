@@ -1,0 +1,1741 @@
+<!doctype html><html lang=en data-theme=executive><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Examination Seating & Attendance Arrangement</title><script src=https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js></script><style>:root[data-theme=executive]{--primary-color:#0f172a;--accent-color:#2563eb;--bg-color:#f8fafc;--card-bg:#ffffff;--bench-bg:#f1f5f9;--text-color:#0f172a;--border-color:#cbd5e1;--header-bg:#1e293b}:root[data-theme=slate]{--primary-color:#334155;--accent-color:#0284c7;--bg-color:#e2e8f0;--card-bg:#ffffff;--bench-bg:#f8fafc;--text-color:#1e1b4b;--border-color:#94a3b8;--header-bg:#475569}:root[data-theme=emerald]{--primary-color:#064e3b;--accent-color:#059669;--bg-color:#ecfdf5;--card-bg:#ffffff;--bench-bg:#f0fdf4;--text-color:#064e3b;--border-color:#a7f3d0;--header-bg:#047857}:root[data-theme=indigo]{--primary-color:#312e81;--accent-color:#4f46e5;--bg-color:#eef2ff;--card-bg:#ffffff;--bench-bg:#f5f3ff;--text-color:#1e1b4b;--border-color:#c7d2fe;--header-bg:#4338ca}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background-color:var(--bg-color);color:var(--text-color);margin:0;padding:10px;font-size:12px;transition:background-color .3s ease,color .3s ease}.container{width:min(1450px,100%);margin:0 auto;background:rgba(255,255,255,.95);padding:18px;border-radius:14px;box-shadow:0 10px 30px rgba(15,23,42,.08);box-sizing:border-box}.top-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border-color);flex-wrap:wrap;gap:8px}.profile-select,.theme-select{width:auto!important;min-width:110px!important;height:26px;padding:2px 6px!important;font-size:.72rem!important;border-radius:6px;background:var(--bg-color);border:1px solid var(--border-color);color:var(--text-color);cursor:pointer}.header-bar{display:flex;justify-content:center;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}h1{color:var(--primary-color);margin:0;font-size:clamp(1.2rem,2.2vw,1.65rem);text-align:center;letter-spacing:-.5px}.yt-badge{display:inline-flex;align-items:center;gap:6px;background-color:#fff;color:red;border:1px solid red;padding:4px 10px;border-radius:20px;text-decoration:none;font-weight:700;font-size:.72rem;transition:all .2s ease}.yt-badge:hover{background-color:red;color:#fff}.yt-badge svg{width:15px;height:15px;fill:currentColor}.exam-info-panel{display:flex;gap:10px;justify-content:stretch;background:linear-gradient(135deg,var(--bench-bg),#fff);padding:12px;border-radius:10px;border:1px solid var(--border-color);margin-bottom:12px;flex-wrap:wrap}.info-field{flex:1 1 160px;display:flex;flex-direction:column;gap:3px;font-weight:600}.info-field label{font-size:.68rem;text-transform:uppercase;opacity:.8}input,select,textarea{padding:6px 8px;border:1px solid var(--border-color);border-radius:6px;font-size:.78rem;width:100%;box-sizing:border-box;font-family:inherit}input:focus,select:focus,textarea:focus{outline:0;border-color:var(--accent-color);box-shadow:0 0 0 2px rgba(37,99,235,.15)}.form-section{display:flex;flex-direction:column;gap:12px}.tables-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;align-items:start}@media (max-width:950px){.tables-grid{grid-template-columns:1fr}}.table-card{display:flex;flex-direction:column;gap:8px;background:var(--card-bg);border:1px solid var(--border-color);border-radius:10px;padding:12px}.table-card h2{font-size:.82rem;color:var(--text-color);border-bottom:1px solid var(--border-color);padding-bottom:5px;margin:0 0 6px 0;text-transform:uppercase;font-weight:700}.table-responsive{overflow-x:auto;border-radius:6px;border:1px solid var(--border-color);max-height:220px}.ultra-compact-table{font-size:.7rem;width:100%;border-collapse:collapse}.ultra-compact-table th{background-color:var(--bench-bg);color:var(--text-color);padding:5px 6px;text-align:left;border-bottom:1px solid var(--border-color);font-weight:700;font-size:.66rem;text-transform:uppercase}.ultra-compact-table td{padding:5px 6px;border-bottom:1px solid var(--bench-bg);vertical-align:middle}.ultra-compact-table input,.ultra-compact-table select{padding:3px 5px;font-size:.72rem;height:24px}.cols-config-container{display:flex;gap:3px;flex-wrap:wrap;align-items:center}.col-bench-unit{display:flex;align-items:center;gap:2px;background:var(--bench-bg);padding:2px 4px;border-radius:4px;border:1px solid var(--border-color);font-size:.65rem}.col-bench-unit input{width:30px;padding:1px;text-align:center;font-size:.7rem;height:20px}.btn-toolbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:4px}.btn-add{background-color:#059669;color:#fff;border:none;padding:5px 10px;border-radius:5px;font-weight:700;cursor:pointer;font-size:.72rem}.btn-sm-add{background-color:var(--accent-color);color:#fff;border:none;padding:2px 6px;border-radius:3px;font-size:.65rem;cursor:pointer;font-weight:700;height:22px}.btn-remove{background-color:#ef4444;color:#fff;border:none;border-radius:4px;padding:2px 6px;font-weight:700;cursor:pointer;font-size:.68rem}.btn-reset{background-color:#64748b;color:#fff;border:none;padding:5px 10px;border-radius:5px;font-weight:700;cursor:pointer;font-size:.72rem}.btn-upload{background-color:#4f46e5;color:#fff;border:none;padding:5px 10px;border-radius:5px;font-weight:700;cursor:pointer;font-size:.72rem;display:inline-flex;align-items:center;gap:4px}.btn-generate{padding:12px;background:linear-gradient(135deg,var(--primary-color),var(--accent-color));color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:800;cursor:pointer;width:100%}.btn-action,.btn-print,.btn-print-att{background-color:#059669;color:#fff;border:none;padding:6px 11px;border-radius:5px;font-size:.75rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px}.btn-print-att{background-color:var(--accent-color)}.btn-action{background-color:#475569}.status-badge{font-size:.72rem;color:#059669;font-weight:700;margin-left:auto;opacity:0;transition:opacity .3s ease}.info-bar{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;font-size:.75rem}.info-card{background:var(--bench-bg);padding:6px 12px;border-radius:20px;border:1px solid var(--border-color);font-weight:700;color:var(--text-color)}.print-hint-banner{background:#eff6ff;border:1px solid #bfdbfe;border-left:4px solid var(--accent-color);padding:8px 12px;border-radius:6px;font-size:.75rem;color:#1e3a8a;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.density-toggle{display:inline-flex;align-items:center;gap:6px;background:#fff;padding:4px 10px;border-radius:14px;border:1px solid #93c5fd;font-weight:800;cursor:pointer}.summary-table-container{border:1px solid var(--border-color);border-radius:8px;overflow-x:auto;background:#fff;margin-bottom:15px}.summary-table{width:100%;border-collapse:collapse;font-size:.8rem;text-align:center}.summary-table th{background-color:var(--header-bg);color:#fff;padding:6px 4px;font-weight:700;border:1px solid var(--border-color)}.summary-table td{padding:5px 4px;border:1px solid var(--border-color);font-weight:600}.summary-title{font-size:.9rem;font-weight:800;color:var(--primary-color);text-align:center;margin:8px 0;text-transform:uppercase}.seating-strength-notice{background:#fff;border:2px solid #000;border-radius:6px;padding:10px;margin-bottom:20px;page-break-after:always;page-break-inside:avoid;color:#000;width:100%;box-sizing:border-box}.notice-board-header{text-align:center;margin-bottom:8px;border-bottom:2px solid #000;padding-bottom:6px}.notice-board-title{font-size:1rem;font-weight:900;color:#000;text-transform:uppercase;margin:0 0 2px 0}.notice-board-sub{font-size:.78rem;font-weight:800;color:#000}.exact-notice-table{width:100%;border-collapse:collapse;font-size:.88rem;text-align:center}.exact-notice-table td,.exact-notice-table th{border:2px solid #000;padding:6px;vertical-align:middle}.room-block{background:#fff;border:1px solid var(--border-color);border-radius:10px;padding:14px;margin-bottom:20px;page-break-after:always;box-sizing:border-box;width:100%}.room-title{text-align:center;color:var(--primary-color);font-size:1.25rem;font-weight:800;margin:0 0 4px 0}.room-sub-header{text-align:center;font-size:.8rem;font-weight:600;margin-bottom:6px;color:#475569}.blackboard{background:var(--header-bg);color:#f8fafc;text-align:center;padding:6px;margin:0 auto 12px auto;border-radius:4px;font-weight:700;letter-spacing:2px;width:45%;font-size:.78rem;text-transform:uppercase}.classroom-grid{display:flex;gap:12px;justify-content:space-evenly;align-items:flex-start;overflow-x:auto;padding:6px 2px;width:100%}.column{display:flex;flex-direction:column;gap:8px;align-items:center;flex:1 1 0px;min-width:180px}.column-header{font-weight:700;color:var(--primary-color);background-color:var(--bench-bg);padding:6px 12px;border-radius:14px;font-size:.75rem;border:1px solid var(--border-color);text-align:center;width:90%}.bench{background-color:var(--bench-bg);border:1px solid var(--border-color);border-radius:8px;padding:6px;display:flex;flex-direction:column;align-items:center;width:100%}.bench-number{font-size:.7rem;font-weight:700;color:#64748b;margin-bottom:4px}.seats-container{display:flex;gap:8px;width:100%;justify-content:space-between}.seat{color:#000;background:#fff;border:1px solid var(--border-color);padding:6px 4px;border-radius:6px;width:50%;text-align:center;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center}.seat-ht{font-size:.95rem;font-weight:800;color:var(--primary-color)}.seat-meta{font-size:.65rem;font-weight:700;color:#475569;margin-top:2px}.seat.empty{background-color:#e2e8f0;color:#64748b}.attendance-sheet{background:#fff;border:2px solid #000;padding:8px;margin-bottom:15px;page-break-after:always;page-break-inside:avoid;color:#000;display:flex;flex-direction:column;justify-content:space-between;min-height:98vh;box-sizing:border-box}.att-table-header{width:100%;border-collapse:collapse;font-size:.78rem;margin-bottom:-1px}.att-table-header td{border:1px solid #000;padding:4px 6px;font-weight:700}.att-main-title{text-align:center;font-size:.95rem;font-weight:800;text-transform:uppercase}.att-center-title{text-align:center;font-size:.85rem;font-weight:700;text-transform:uppercase}.att-table-wrapper{flex-grow:1;display:flex;flex-direction:column}.att-table-body{width:100%;height:100%;border-collapse:collapse}.att-table-body td,.att-table-body th{border:1px solid #000;padding:2px 4px;text-align:center}.att-table-body th{font-size:.75rem;font-weight:700;background-color:#f8fafc;height:24px}.att-table-body td{font-size:.8rem;vertical-align:middle}.att-table-body td.ht-cell{font-weight:800;font-size:1.1rem;letter-spacing:1px}.footer-credit{text-align:center;margin-top:14px;font-size:.7rem;color:#64748b;font-weight:600}.placard-page{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;page-break-after:always;page-break-inside:avoid;width:100%;box-sizing:border-box}.door-card{border:2px solid #000;border-radius:14px;background:#fff;padding:12px 14px;display:flex;flex-direction:column;box-sizing:border-box;color:#000;box-shadow:0 2px 6px rgba(0,0,0,.03)}.card-exam-head{text-align:center;font-size:.74rem;font-weight:800;letter-spacing:.8px;color:#1e293b;text-transform:uppercase}.card-room-head{text-align:center;font-size:1.45rem;font-weight:900;letter-spacing:-.5px;color:#000;margin:2px 0 0 0;text-transform:uppercase}.card-sub-head{text-align:center;font-size:.78rem;font-weight:700;color:#334155;margin-bottom:8px;border-bottom:1.5px solid #000;padding-bottom:5px}.card-ht-label{text-align:center;font-size:.74rem;font-weight:800;letter-spacing:.8px;color:#1e293b;margin-bottom:3px;text-transform:uppercase}.card-ht-box{border:1.5px dashed #475569;border-radius:10px;background:#f8fafc;padding:8px 6px;text-align:center;margin-bottom:8px}.card-ht-num{font-size:1.45rem;font-weight:900;letter-spacing:1.5px;color:#000;line-height:1.2}.card-ht-to{font-size:.78rem;font-weight:800;color:#64748b;margin:1px 0;letter-spacing:1px}.card-stats-row{display:flex;justify-content:space-around;text-align:center;margin-bottom:6px;border-top:1.5px solid #000;padding-top:6px}.card-stat-label{font-size:.68rem;font-weight:800;text-transform:uppercase;color:#334155;margin-bottom:1px}.card-stat-val{font-size:1.35rem;font-weight:900;color:#000}.card-footer-row{display:flex;justify-content:space-between;align-items:center;font-size:.74rem;font-weight:800;border-top:1.5px solid #000;padding-top:6px;margin-top:2px}.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:9999}.modal-box{background:#fff;color:#0f172a;border-radius:12px;width:min(500px,94%);padding:18px;box-shadow:0 20px 40px rgba(0,0,0,.25);border:1px solid #cbd5e1}.modal-title{font-size:1.05rem;font-weight:900;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.search-result-card{background:#f1f5f9;border:1.5px solid #cbd5e1;border-radius:8px;padding:12px;margin-top:12px;font-size:.85rem;line-height:1.6}@media print{@page{size:A4 portrait;margin:5mm}body{background-color:#fff;padding:0}.btn-action,.btn-print,.btn-print-att,.footer-credit,.form-section,.no-print,.print-actions,.status-badge,.top-toolbar,button{display:none!important}.container{box-shadow:none;width:100%;max-width:100%;padding:0}.seating-strength-notice{border:2px solid #000!important;page-break-after:always!important;page-break-inside:avoid!important;padding:4px!important;height:98vh!important;display:flex!important;flex-direction:column!important;justify-content:space-between!important}.room-block{border:1px solid #000;page-break-after:always;padding:10px}.attendance-sheet{border:2px solid #000!important;page-break-after:always!important;page-break-inside:avoid!important;margin:0!important;padding:6px!important;height:98vh!important}.placard-page{page-break-after:always!important;page-break-inside:avoid!important;margin:0 0 10px 0!important;padding:0!important}.door-card{border:2px solid #000!important}}</style></head><body><div class="container">
+<div class="top-toolbar">
+  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+    <label for="profileSelect" style="font-size:.72rem;font-weight:700">📂 Setup Profile:</label>
+    <select id="profileSelect" class="profile-select" onchange="switchProfile(this.value)">
+      <option value="IPE_1st_Year">IPE 1st Year</option>
+      <option value="IPE_2nd_Year">IPE 2nd Year</option>
+      <option value="Pre_Final">Pre-Finals</option>
+      <option value="Custom_Exam">Custom Profile</option>
+    </select>
+    <button type="button" class="btn-action" style="padding:2px 8px;font-size:.68rem" onclick="saveCurrentProfile()">💾 Save Profile</button>
+    <button type="button" class="btn-action" style="padding:2px 8px;font-size:.68rem" onclick="exportToCSV()">📑 Export CSV / Excel</button>
+  </div>
+  <div style="display:flex;align-items:center;gap:6px">
+    <button type="button" class="btn-action" style="padding:3px 8px;font-size:.7rem;background:var(--accent-color)" onclick="openSearchModal()">🔍 Find HT / Help Desk</button>
+    <label for="themeSelect" style="font-size:.72rem;font-weight:700">🎨 Theme:</label>
+    <select id="themeSelect" class="theme-select" onchange="changeTheme(this.value)">
+      <option value="executive">Executive Dark</option>
+      <option value="slate">Modern Slate</option>
+      <option value="emerald">Emerald Green</option>
+      <option value="indigo">Royal Indigo</option>
+    </select>
+  </div>
+</div>
+
+<div class="header-bar">
+  <h1>Examination Seating & Attendance Generator</h1>
+</div>
+
+<div class="exam-info-panel">
+  <div class="info-field">
+    <label for="examInputText">Exam Type:</label>
+    <input id="examInputText" placeholder="IPE MARCH 2026" oninput="saveToLocalStorage()">
+  </div>
+  <div class="info-field">
+    <label for="centreNameInput">College / Centre Name:</label>
+    <input id="centreNameInput" placeholder="GOVT. JUNIOR COLLEGE,____" oninput="saveToLocalStorage()">
+  </div>
+  <div class="info-field">
+    <label for="districtInput">District Name:</label>
+    <input id="districtInput" placeholder="BHADRADRI KOTHAGUDEM DIST." oninput="saveToLocalStorage()">
+  </div>
+  <div class="info-field">
+    <label for="centreNoInput">Centre Code (C.NO):</label>
+    <input id="centreNoInput" placeholder="44001" style="width:90px" oninput="saveToLocalStorage()">
+  </div>
+  <div class="info-field">
+    <label for="courseTypeSelect">Stream / Course:</label>
+    <select id="courseTypeSelect" onchange="toggleCustomCourseInput(this.value);saveToLocalStorage()">
+      <option value="General & Vocational">General & Vocational</option>
+      <option value="CUSTOM">Custom Stream...</option>
+    </select>
+    <input id="customCourseInput" placeholder="Enter Stream" style="display:none;width:110px" oninput="saveToLocalStorage()">
+  </div>
+  <div class="info-field">
+    <label for="examDate">Date:</label>
+    <input type="date" id="examDate">
+  </div>
+  <div class="info-field">
+    <label for="examSession">Session:</label>
+    <select id="examSession">
+      <option value="FN">FN (Morning)</option>
+      <option value="AN">AN (Afternoon)</option>
+    </select>
+  </div>
+</div>
+
+<div class="form-section">
+  <div class="print-hint-banner">
+    <div>ℹ️ <strong>Room Setup:</strong> Set <strong>Strength Cap</strong> to limit candidate count. Add <strong>Short Note</strong> (e.g. <em>Block 1</em>, <em>Floor 1</em>) for notices & door placards.</div>
+    <div class="density-toggle" onclick="toggleDensityMode()">
+      <span>🪑 Click here for Seating Pattern (Bench(2 students) / single Chair):</span>
+      <span id="densityLabel" style="color:var(--accent-color)">Bench (2-Cap): U-Loop (L⬇️ R⬆️)</span>
+      <input type="hidden" id="densitySetting" value="bench_u">
+    </div>
+  </div>
+
+  <div class="tables-grid">
+    <div class="table-card">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <h2>1. Room Layout Configuration</h2>
+        <span id="saveStatus" class="status-badge">✓ Saved</span>
+      </div>
+      <div class="table-responsive">
+        <table class="input-table ultra-compact-table">
+          <thead>
+            <tr>
+              <th style="width:20%">Room Name</th>
+              <th style="width:14%">Stream</th>
+              <th style="width:13%" title="Max strength allowed in this room">Strength Cap</th>
+              <th style="width:21%">Short Note / Floor</th>
+              <th style="width:26%">Columns (Benches / Chairs)</th>
+              <th style="width:6%;text-align:center">Del</th>
+            </tr>
+          </thead>
+          <tbody id="roomTableBody"></tbody>
+        </table>
+      </div>
+      <div class="btn-toolbar">
+        <button type="button" class="btn-add" onclick="addRoomTableRow()">+ Add Room</button>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <h2>2. Upload: TGBIE Day Seating PDF / Text Data</h2>
+      <div style="font-size:.72rem;color:#64748b;margin-bottom:4px">
+        Format: <strong>Sl.No &nbsp; Hallticket &nbsp; PaperCode &nbsp; Medium</strong> (or simply paste Halltickets)
+      </div>
+
+      <div id="singleStudentBoxContainer" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <label style="font-weight:700;font-size:.75rem">Student List:</label>
+          <label class="btn-upload">📁 Upload PDF <input type="file" id="singlePdfUpload" accept=".pdf" style="display:none" onchange="handlePdfUpload(event,'single')"></label>
+        </div>
+        <textarea id="studentRawData" style="min-height:75px;height:75px" placeholder="1  2544109893  137  E&#10;2  2544109894  137  E"></textarea>
+      </div>
+
+      <div id="dualStudentBoxContainer" style="display:flex;flex-direction:column;gap:8px">
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+            <label style="font-weight:700;font-size:.75rem;color:var(--primary-color)">General Students List:</label>
+            <label class="btn-upload">📁 Upload General PDF <input type="file" id="generalPdfUpload" accept=".pdf" style="display:none" onchange="handlePdfUpload(event,'general')"></label>
+          </div>
+          <textarea id="studentGeneralRawData" style="min-height:65px;height:65px" placeholder="1  2644100101  137  E&#10;2  2644100102  137  E"></textarea>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px">
+            <label style="font-weight:700;font-size:.75rem;color:var(--accent-color)">Vocational Students List:</label>
+            <label class="btn-upload">📁 Upload Vocational PDF <input type="file" id="vocationalPdfUpload" accept=".pdf" style="display:none" onchange="handlePdfUpload(event,'vocational')"></label>
+          </div>
+          <textarea id="studentVocationalRawData" style="min-height:65px;height:65px" placeholder="1  2644200501  61  A&#10;2  2644200502  61  A"></textarea>
+        </div>
+      </div>
+
+      <div class="btn-toolbar" style="display:flex;justify-content:space-between;align-items:center;">
+        <button type="button" class="btn-reset" onclick="resetToDefaults()">↺ Reset Sample Data</button>
+        <button type="button" class="btn-action" style="background:#0284c7;font-size:.72rem;" onclick="loadSampleStudents();showNotification('✓ Loaded sample students successfully!','success')">+ Load Sample Students</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Banner -->
+  <div id="notificationBanner" style="display:none;margin-top:10px;padding:10px 14px;border-radius:8px;font-size:0.8rem;font-weight:700;"></div>
+
+  <button type="button" id="generateMainBtn" class="btn-generate" onclick="generateSeatingAndAttendance()" style="margin-top:10px;cursor:pointer;">
+    Click Here for Generate Seating Plan, Paper Summary & Attendance Sheets
+  </button>
+</div>
+
+<div id="layoutArea" style="display:none;margin-top:16px">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+    <span style="font-weight:800;font-size:.95rem;color:var(--text-color)">Generated Seating & Examination Reports</span>
+    <div class="print-actions" style="display:flex;gap:6px;flex-wrap:wrap">
+      <button type="button" class="btn-print" onclick="printSeatingPlan()">🪑 Seating Plan</button>
+      <button type="button" class="btn-print-att" onclick="printAllAttendanceSheets()">📋 Attendance Sheets</button>
+      <button type="button" class="btn-print" onclick="printPaperSummary()">📊 Paper Summary</button>
+      <button type="button" class="btn-print" onclick="printNoticeBoard('GEN')">📌 Gen Notice</button>
+      <button type="button" class="btn-print" onclick="printNoticeBoard('VOC')">📌 Voc Notice</button>
+      <button type="button" class="btn-print" onclick="printRangeNoticeBoard()">📌 Range Notice</button>
+      <button type="button" class="btn-print" onclick="printPlacards()">🏷️ Door Slips</button>
+    </div>
+  </div>
+  <div id="infoBar" class="info-bar"></div>
+  <div id="paperSummaryOutput"></div>
+  <div id="placardsOutputContainer"></div>
+  <div id="roomsOutputContainer"></div>
+  <div id="attendanceSheetsContainer"></div>
+</div>
+
+<div class="footer-credit">
+  Designed & Developed by Guduru Sathish Kumar | NewGen eEducation
+  <a href="https://www.youtube.com/@Gudurusathishkumar" target="_blank" class="yt-badge" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>NewGen eEducation
+  </a>
+</div>
+</div>
+
+<div id="searchModal" class="modal-overlay" onclick="closeSearchModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-title">
+      <span>🔍 Candidate Spot Help Desk</span>
+      <button type="button" style="border:none;background:0 0;font-size:1.2rem;cursor:pointer;font-weight:900" onclick="closeSearchModal()">✕</button>
+    </div>
+    <input id="htSearchInput" placeholder="Enter full HT No or last 3-4 digits (e.g. 0105)" oninput="searchHallTicket(this.value)" style="font-size:1rem;padding:8px 10px">
+    <div id="searchResultArea">
+      <div style="text-align:center;padding:16px;color:#64748b;font-weight:600">Type candidate number to locate room & bench instantly.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+if (typeof pdfjsLib !== 'undefined') {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+}
+
+let GLOBAL_SEARCH_INDEX = [];
+let GLOBAL_ROOM_DATA = [];
+
+function showNotification(message, type = 'info') {
+  const banner = document.getElementById('notificationBanner');
+  if (!banner) return;
+  banner.style.display = 'block';
+  if (type === 'warning') {
+    banner.style.backgroundColor = '#fffbeb';
+    banner.style.color = '#b45309';
+    banner.style.border = '1.5px solid #fde68a';
+  } else if (type === 'success') {
+    banner.style.backgroundColor = '#ecfdf5';
+    banner.style.color = '#047857';
+    banner.style.border = '1.5px solid #a7f3d0';
+  } else {
+    banner.style.backgroundColor = '#eff6ff';
+    banner.style.color = '#1d4ed8';
+    banner.style.border = '1.5px solid #bfdbfe';
+  }
+  banner.innerHTML = message;
+  setTimeout(() => {
+    banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 50);
+}
+
+function changeTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('examEngine_ipe_theme', theme);
+}
+
+function loadSavedTheme() {
+  const theme = localStorage.getItem('examEngine_ipe_theme') || 'executive';
+  document.documentElement.setAttribute('data-theme', theme);
+  const themeSelect = document.getElementById('themeSelect');
+  if (themeSelect) themeSelect.value = theme;
+}
+
+function toggleDensityMode() {
+  const densityInput = document.getElementById('densitySetting');
+  const label = document.getElementById('densityLabel');
+  if (densityInput.value === 'bench_u') {
+    densityInput.value = 'single_u';
+    label.innerText = 'Single Chair: U-Loop (Odd⬇️ Even⬆️)';
+    label.style.color = '#ef4444';
+  } else {
+    densityInput.value = 'bench_u';
+    label.innerText = 'Bench (2-Cap): U-Loop (L⬇️ R⬆️)';
+    label.style.color = 'var(--accent-color)';
+  }
+}
+
+function toggleCustomCourseInput(value) {
+  const customInput = document.getElementById('customCourseInput');
+  const singleBox = document.getElementById('singleStudentBoxContainer');
+  const dualBox = document.getElementById('dualStudentBoxContainer');
+  if (value === 'CUSTOM') {
+    customInput.style.display = 'inline-block';
+    singleBox.style.display = 'block';
+    dualBox.style.display = 'none';
+  } else {
+    customInput.style.display = 'none';
+    singleBox.style.display = 'none';
+    dualBox.style.display = 'flex';
+  }
+}
+
+function getSelectedCourseType() {
+  const val = document.getElementById('courseTypeSelect').value;
+  return val === 'CUSTOM' ? (document.getElementById('customCourseInput').value.trim() || 'Custom Stream') : val;
+}
+
+function getSampleGeneralStudents() {
+  return Array.from({ length: 28 }, (_, i) => {
+    const sl = i + 1;
+    const ht = '2644100' + String(101 + i);
+    const pc = '137';
+    const med = i < 14 ? 'E' : 'T';
+    return `${sl}  ${ht}  ${pc}  ${med}`;
+  }).join('\n');
+}
+
+function getSampleVocationalStudents() {
+  return Array.from({ length: 14 }, (_, i) => {
+    const sl = i + 1;
+    const ht = '2644200' + String(501 + i);
+    const pc = '61';
+    const med = 'A';
+    return `${sl}  ${ht}  ${pc}  ${med}`;
+  }).join('\n');
+}
+
+function getSampleCustomStudents() {
+  return Array.from({ length: 28 }, (_, i) => {
+    const sl = i + 1;
+    const ht = '2644300' + String(201 + i);
+    const pc = '137';
+    const med = 'E';
+    return `${sl}  ${ht}  ${pc}  ${med}`;
+  }).join('\n');
+}
+
+function loadSampleStudents() {
+  document.getElementById('studentGeneralRawData').value = getSampleGeneralStudents();
+  document.getElementById('studentVocationalRawData').value = getSampleVocationalStudents();
+  document.getElementById('studentRawData').value = getSampleCustomStudents();
+  saveToLocalStorage();
+}
+
+function loadDefaultData() {
+  const tableBody = document.getElementById('roomTableBody');
+  tableBody.innerHTML = '';
+  addRoomTableRow('ROOM NO 1', 'General', [7, 7], false, 28, 'Ground Floor - Room 1');
+  addRoomTableRow('ROOM NO 2', 'Vocational', [7, 7], false, 28, 'First Floor - Room 2');
+
+  document.getElementById('examInputText').value = 'IPE MARCH 2026';
+  document.getElementById('centreNameInput').value = 'GOVT. JUNIOR COLLEGE, ______';
+  document.getElementById('districtInput').value = 'BHADRADRI KOTHAGUDEM DIST.';
+  document.getElementById('centreNoInput').value = '44001';
+  document.getElementById('courseTypeSelect').value = 'General & Vocational';
+  toggleCustomCourseInput('General & Vocational');
+
+  loadSampleStudents();
+  saveToLocalStorage();
+}
+
+function resetToDefaults() {
+  loadDefaultData();
+  showNotification('✓ Reset to sample room layouts and candidate rosters successfully.', 'success');
+}
+
+async function handlePdfUpload(event, type) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  try {
+    showNotification('⏳ Parsing PDF contents, please wait...', 'info');
+    const arrayBuffer = await file.arrayBuffer();
+    const pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    let headerText = '';
+    const extractedList = [];
+
+    for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+      const page = await pdfDoc.getPage(pageNum);
+      const textContent = await page.getTextContent();
+      const colLeft = [];
+      const colRight = [];
+
+      textContent.items.forEach((item) => {
+        const x = item.transform[4];
+        const y = 5 * Math.round(item.transform[5] / 5);
+        if (x < 280) colLeft.push({ x, y, str: item.str });
+        else colRight.push({ x, y, str: item.str });
+      });
+
+      const pageStr = textContent.items.map((i) => i.str).join(' ');
+      if (pageNum === 1) headerText += pageStr;
+
+      parseColumnItems(colLeft, extractedList);
+      parseColumnItems(colRight, extractedList);
+    }
+
+    parseExamHeaderDetails(headerText);
+    extractedList.sort((a, b) => parseInt(a.slNo) - parseInt(b.slNo));
+
+    const formatted = extractedList.map((s) => `${s.slNo}  ${s.ht}  ${s.pc}  ${s.med}`).join('\n');
+
+    if (type === 'single') {
+      document.getElementById('studentRawData').value = formatted;
+    } else if (type === 'general') {
+      document.getElementById('studentGeneralRawData').value = formatted;
+    } else if (type === 'vocational') {
+      document.getElementById('studentVocationalRawData').value = formatted;
+    }
+
+    saveToLocalStorage();
+    showNotification(`✓ PDF parsed successfully! Extracted ${extractedList.length} candidates.`, 'success');
+  } catch (err) {
+    console.error('Error parsing PDF:', err);
+    showNotification('⚠️ Failed to extract text from PDF. You can paste the text manually into the box below.', 'warning');
+  } finally {
+    event.target.value = '';
+  }
+}
+
+function parseColumnItems(items, list) {
+  const lineMap = {};
+  items.forEach((item) => {
+    if (!lineMap[item.y]) lineMap[item.y] = [];
+    lineMap[item.y].push(item);
+  });
+
+  Object.keys(lineMap)
+    .sort((a, b) => Number(b) - Number(a))
+    .forEach((y) => {
+      const lineStr = lineMap[y].sort((a, b) => a.x - b.x).map((i) => i.str).join(' ').trim();
+      const tokens = lineStr.split(/\s+/);
+      if (tokens.length >= 4 && /^\d+$/.test(tokens[0]) && /^\d{5,}$/.test(tokens[1])) {
+        list.push({
+          slNo: tokens[0],
+          ht: tokens[1],
+          pc: tokens[2],
+          med: tokens.slice(3).join(' ').toUpperCase()
+        });
+      } else {
+        const htIdx = tokens.findIndex((t) => /^\d{6,}$/.test(t));
+        if (htIdx !== -1) {
+          const sl = htIdx > 0 && /^\d+$/.test(tokens[htIdx - 1]) ? tokens[htIdx - 1] : (list.length + 1).toString();
+          const ht = tokens[htIdx];
+          const pc = tokens[htIdx + 1] || '137';
+          const med = tokens.slice(htIdx + 2).join(' ') || 'E';
+          list.push({ slNo: sl, ht, pc, med: med.toUpperCase() });
+        }
+      }
+    });
+}
+
+function parseExamHeaderDetails(text) {
+  if (!text) return;
+  const cNoMatch = text.match(/(?:C\.?NO\.?|CENTRE\s*(?:CODE)?[:\s\-]*)\s*(\d{4,6})/i);
+  if (cNoMatch && cNoMatch[1]) {
+    document.getElementById('centreNoInput').value = cNoMatch[1];
+  }
+
+  const nameMatch = text.match(/([A-Z0-9\.\,\s]{3,}(?:COLLEGE|INSTITUTE|SCHOOL|H\.?S\.?)[A-Z0-9\.\,\s]*)/i);
+  if (nameMatch && nameMatch[1]) {
+    const cName = nameMatch[1].trim().replace(/\s+/g, ' ');
+    if (cName.length > 5) document.getElementById('centreNameInput').value = cName;
+  }
+
+  const districts = [
+    'ADILABAD','BHADRADRI KOTHAGUDEM','HYDERABAD','JAGTIAL','JANGOAN','JAYASHANKAR BHUPALPALLY',
+    'JOGULAMBA GADWAL','KAMAREDDY','KARIMNAGAR','KHAMMAM','KOMARAM BHEEM ASIAFABAD','MAHABUBABAD',
+    'MAHABUBNAGAR','MANCHERIAL','MEDAK','MEDCHAL-MALKAJGIRI','MULUGU','NAGARKURNOOL','NALGONDA',
+    'NARAYANPET','NIRMAL','NIZAMABAD','PEDDAPALLI','RAJANNA SIRCILLA','RANGAREDDY','SANGAREDDY',
+    'SIDDIPET','SURVAPET','VIKARABAD','WANAPARTHY','WARANGAL','YADADRI BHUVANAGIRI'
+  ];
+
+  for (const d of districts) {
+    if (text.toUpperCase().includes(d)) {
+      document.getElementById('districtInput').value = d;
+      break;
+    }
+  }
+
+  const dateMatch = text.match(/\b(0?[1-9]|[12]\d|3[01])[\/\-](0?[1-9]|1[0-2])[\/\-](\d{2,4})\b/);
+  if (dateMatch) {
+    const day = dateMatch[1].padStart(2, '0');
+    const month = dateMatch[2].padStart(2, '0');
+    let year = dateMatch[3];
+    if (year.length === 2) year = '20' + year;
+    document.getElementById('examDate').value = `${year}-${month}-${day}`;
+  }
+
+  const upper = text.toUpperCase();
+  if (upper.includes('AFTERNOON') || upper.includes('AN SESSION') || upper.includes(' AN ')) {
+    document.getElementById('examSession').value = 'AN';
+  } else if (upper.includes('MORNING') || upper.includes('FN SESSION') || upper.includes(' FN ')) {
+    document.getElementById('examSession').value = 'FN';
+  }
+}
+
+function saveToLocalStorage() {
+  const profile = document.getElementById('profileSelect').value;
+  const rooms = [];
+
+  document.querySelectorAll('#roomTableBody tr').forEach((row) => {
+    const name = row.querySelector('.rm-name').value;
+    const type = row.querySelector('.rm-type').value;
+    const strength = row.querySelector('.rm-strength').value;
+    const note = row.querySelector('.rm-note') ? row.querySelector('.rm-note').value : '';
+    const cols = [];
+    row.querySelectorAll('.col-benches').forEach((c) => {
+      cols.push(parseInt(c.value) || 0);
+    });
+    rooms.push({ name, type, strength, note, cols });
+  });
+
+  const state = {
+    rooms,
+    studentsSingle: document.getElementById('studentRawData').value,
+    studentsGen: document.getElementById('studentGeneralRawData').value,
+    studentsVoc: document.getElementById('studentVocationalRawData').value,
+    examTitle: document.getElementById('examInputText').value,
+    centreName: document.getElementById('centreNameInput').value,
+    district: document.getElementById('districtInput').value,
+    centreNo: document.getElementById('centreNoInput').value,
+    courseType: document.getElementById('courseTypeSelect').value,
+    customCourse: document.getElementById('customCourseInput').value
+  };
+
+  localStorage.setItem(`examEngine_${profile}`, JSON.stringify(state));
+  showSaveStatus();
+}
+
+function loadFromLocalStorage() {
+  const profile = document.getElementById('profileSelect').value;
+  const raw = localStorage.getItem(`examEngine_${profile}`);
+  if (!raw) return false;
+
+  try {
+    const data = JSON.parse(raw);
+    const tableBody = document.getElementById('roomTableBody');
+    tableBody.innerHTML = '';
+
+    if (data.rooms && data.rooms.length > 0) {
+      data.rooms.forEach((r) => {
+        addRoomTableRow(r.name, r.type || 'Any', r.cols || [7, 7], false, r.strength || '', r.note || '');
+      });
+    } else {
+      addRoomTableRow('ROOM NO 1', 'General', [7, 7], false, 28, 'Ground Floor - Room 1');
+      addRoomTableRow('ROOM NO 2', 'Vocational', [7, 7], false, 28, 'First Floor - Room 2');
+    }
+
+    if (data.studentsSingle !== undefined) document.getElementById('studentRawData').value = data.studentsSingle;
+    if (data.studentsGen !== undefined) document.getElementById('studentGeneralRawData').value = data.studentsGen;
+    if (data.studentsVoc !== undefined) document.getElementById('studentVocationalRawData').value = data.studentsVoc;
+
+    if (data.examTitle !== undefined && data.examTitle !== null) document.getElementById('examInputText').value = data.examTitle;
+    if (data.centreName !== undefined && data.centreName !== null) document.getElementById('centreNameInput').value = data.centreName;
+    if (data.district !== undefined && data.district !== null) document.getElementById('districtInput').value = data.district;
+    if (data.centreNo !== undefined && data.centreNo !== null) document.getElementById('centreNoInput').value = data.centreNo;
+
+    if (data.courseType) {
+      document.getElementById('courseTypeSelect').value = data.courseType;
+      toggleCustomCourseInput(data.courseType);
+    }
+    if (data.customCourse) {
+      document.getElementById('customCourseInput').value = data.customCourse;
+    }
+
+    // If all student boxes are empty, populate default sample data
+    const genVal = document.getElementById('studentGeneralRawData').value.trim();
+    const vocVal = document.getElementById('studentVocationalRawData').value.trim();
+    const singleVal = document.getElementById('studentRawData').value.trim();
+    if (!genVal && !vocVal && !singleVal) {
+      loadSampleStudents();
+    }
+
+    return true;
+  } catch (e) {
+    console.error('Error loading stored profile:', e);
+    return false;
+  }
+}
+
+function switchProfile(profile) {
+  if (!loadFromLocalStorage()) {
+    loadDefaultData();
+  }
+  showSaveStatus();
+}
+
+function saveCurrentProfile() {
+  saveToLocalStorage();
+  showNotification('✓ Profile saved successfully to local storage.', 'success');
+}
+
+function showSaveStatus() {
+  const statusEl = document.getElementById('saveStatus');
+  if (statusEl) {
+    statusEl.style.opacity = '1';
+    setTimeout(() => {
+      statusEl.style.opacity = '0';
+    }, 1200);
+  }
+}
+
+function addRoomTableRow(name = '', type = 'Any', cols = [7, 7], save = true, strength = '', note = '') {
+  const tableBody = document.getElementById('roomTableBody');
+  const index = tableBody.rows.length + 1;
+  const row = document.createElement('tr');
+  const roomName = name || `ROOM NO ${index}`;
+
+  row.innerHTML = `
+    <td>
+      <input type="text" class="rm-name" value="${roomName}" placeholder="e.g. ROOM NO 1" oninput="saveToLocalStorage()">
+    </td>
+    <td>
+      <select class="rm-type" onchange="saveToLocalStorage()">
+        <option value="Any" ${type === 'Any' ? 'selected' : ''}>Any / Mixed</option>
+        <option value="General" ${type === 'General' ? 'selected' : ''}>General</option>
+        <option value="Vocational" ${type === 'Vocational' ? 'selected' : ''}>Vocational</option>
+      </select>
+    </td>
+    <td>
+      <input type="number" class="rm-strength" value="${strength}" placeholder="Auto (Cap)" min="1" title="Max strength allowed in this room (optional)" oninput="saveToLocalStorage()">
+    </td>
+    <td>
+      <input type="text" class="rm-note" value="${note}" placeholder="e.g. Block 1" title="Short note / location" oninput="saveToLocalStorage()">
+    </td>
+    <td>
+      <div class="cols-config-container">
+        <div class="cols-list" style="display:flex;gap:3px;flex-wrap:wrap;"></div>
+        <button type="button" class="btn-sm-add" onclick="addColumnToRoom(this)">+ Col</button>
+      </div>
+    </td>
+    <td style="text-align:center;">
+      <button type="button" class="btn-remove" onclick="removeRowAndSave(this)">✕</button>
+    </td>
+  `;
+
+  tableBody.appendChild(row);
+  const colsList = row.querySelector('.cols-list');
+  cols.forEach((count, i) => {
+    createColumnBadge(colsList, i + 1, count);
+  });
+
+  if (save) saveToLocalStorage();
+}
+
+function createColumnBadge(container, colIdx, count) {
+  const unit = document.createElement('div');
+  unit.className = 'col-bench-unit';
+  unit.innerHTML = `
+    <span>C<span class="col-idx">${colIdx}</span>:</span>
+    <input type="number" class="col-benches" value="${count}" min="1" oninput="saveToLocalStorage()">
+    <span style="cursor:pointer;color:#ef4444;font-weight:bold;margin-left:2px;" onclick="removeColumnFromRoom(this)">✕</span>
+  `;
+  container.appendChild(unit);
+}
+
+function addColumnToRoom(btn) {
+  const colsList = btn.previousElementSibling;
+  createColumnBadge(colsList, colsList.children.length + 1, 7);
+  saveToLocalStorage();
+}
+
+function removeColumnFromRoom(crossBtn) {
+  const colsList = crossBtn.closest('.cols-list');
+  crossBtn.closest('.col-bench-unit').remove();
+  Array.from(colsList.children).forEach((unit, idx) => {
+    unit.querySelector('.col-idx').innerText = idx + 1;
+  });
+  saveToLocalStorage();
+}
+
+function removeRowAndSave(btn) {
+  btn.closest('tr').remove();
+  saveToLocalStorage();
+}
+
+// Highly flexible parser supporting all candidate entry styles
+function parseStudentData(text, defaultStream = 'General') {
+  if (!text || typeof text !== 'string') return [];
+  const lines = text.split('\n');
+  const result = [];
+  let autoSlNo = 1;
+
+  lines.forEach((line) => {
+    let clean = line.trim();
+    if (!clean) return;
+
+    clean = clean.replace(/[\t,]+/g, ' ').replace(/\s+/g, ' ');
+    const tokens = clean.split(' ');
+    if (tokens.length === 0) return;
+
+    let slNo = '';
+    let ht = '';
+    let pc = defaultStream === 'Vocational' ? '61' : '137';
+    let med = defaultStream === 'Vocational' ? 'A' : 'E';
+
+    if (/^\d{1,4}$/.test(tokens[0]) && tokens.length > 1) {
+      slNo = tokens[0];
+      ht = tokens[1];
+      if (tokens.length >= 3) pc = tokens[2];
+      if (tokens.length >= 4) med = tokens.slice(3).join(' ').toUpperCase();
+    } else {
+      const htIdx = tokens.findIndex((t) => /^\d{4,}$/.test(t) || /[0-9]{4,}/.test(t));
+      if (htIdx !== -1) {
+        ht = tokens[htIdx];
+        slNo = String(autoSlNo);
+        if (tokens.length > htIdx + 1) pc = tokens[htIdx + 1];
+        if (tokens.length > htIdx + 2) med = tokens.slice(htIdx + 2).join(' ').toUpperCase();
+      } else {
+        ht = tokens[0];
+        slNo = String(autoSlNo);
+        if (tokens.length >= 2) pc = tokens[1];
+        if (tokens.length >= 3) med = tokens.slice(2).join(' ').toUpperCase();
+      }
+    }
+
+    ht = ht.replace(/[^a-zA-Z0-9]/g, '');
+    if (ht.length >= 3) {
+      if (!slNo) slNo = String(autoSlNo);
+      autoSlNo++;
+      result.push({
+        slNo,
+        ht,
+        sc: pc,
+        pc,
+        med: med.toUpperCase(),
+        stream: defaultStream
+      });
+    }
+  });
+
+  result.sort((a, b) => parseInt(a.slNo) - parseInt(b.slNo));
+  return result;
+}
+
+function formatDateFormatted(val) {
+  if (!val) return '';
+  const d = new Date(val);
+  return `${String(d.getDate()).padStart(2, '0')}-${String(d.getMonth() + 1).padStart(2, '0')}-${d.getFullYear()}`;
+}
+
+function generateSeatingAndAttendance() {
+  saveToLocalStorage();
+  GLOBAL_SEARCH_INDEX = [];
+
+  const isSingleChair = (document.getElementById('densitySetting').value || 'bench_u') === 'single_u';
+  const seatsPerBench = isSingleChair ? 1 : 2;
+  const roomRows = document.querySelectorAll('#roomTableBody tr');
+  const rooms = [];
+  let totalAllowedCapacity = 0;
+
+  roomRows.forEach((row, i) => {
+    const name = row.querySelector('.rm-name').value.trim() || `ROOM NO ${i + 1}`;
+    const type = row.querySelector('.rm-type').value;
+    const strengthVal = parseInt(row.querySelector('.rm-strength').value) || 0;
+    const note = row.querySelector('.rm-note') ? row.querySelector('.rm-note').value.trim() : '';
+    const benchInputs = row.querySelectorAll('.col-benches');
+    const cols = [];
+
+    benchInputs.forEach((b) => {
+      const val = parseInt(b.value) || 0;
+      if (val > 0) cols.push(val);
+    });
+
+    if (cols.length > 0) {
+      const totalBenches = cols.reduce((sum, b) => sum + b, 0);
+      const physicalCapacity = seatsPerBench * totalBenches;
+      const maxStrength = strengthVal > 0 ? Math.min(strengthVal, physicalCapacity) : physicalCapacity;
+      rooms.push({
+        name,
+        type,
+        columns: cols,
+        totalBenches,
+        physicalCapacity,
+        maxStrength,
+        note
+      });
+      totalAllowedCapacity += maxStrength;
+    }
+  });
+
+  if (rooms.length === 0) {
+    showNotification('⚠️ Please add at least one room with columns before generating the seating plan.', 'warning');
+    return;
+  }
+
+  const courseSelection = document.getElementById('courseTypeSelect').value;
+  const selectedCourseType = getSelectedCourseType();
+  let generalStudents = [];
+  let vocationalStudents = [];
+  let singleStudents = [];
+
+  if (courseSelection === 'General & Vocational') {
+    let genText = document.getElementById('studentGeneralRawData').value;
+    let vocText = document.getElementById('studentVocationalRawData').value;
+
+    generalStudents = parseStudentData(genText, 'General');
+    vocationalStudents = parseStudentData(vocText, 'Vocational');
+
+    // If completely empty, auto-populate sample data
+    if (generalStudents.length === 0 && vocationalStudents.length === 0) {
+      loadSampleStudents();
+      generalStudents = parseStudentData(document.getElementById('studentGeneralRawData').value, 'General');
+      vocationalStudents = parseStudentData(document.getElementById('studentVocationalRawData').value, 'Vocational');
+      showNotification('ℹ️ Loaded sample students automatically. Seating plan generated below!', 'info');
+    }
+  } else {
+    let customText = document.getElementById('studentRawData').value;
+    singleStudents = parseStudentData(customText, selectedCourseType);
+    if (singleStudents.length === 0) {
+      document.getElementById('studentRawData').value = getSampleCustomStudents();
+      singleStudents = parseStudentData(document.getElementById('studentRawData').value, selectedCourseType);
+      showNotification('ℹ️ Loaded sample custom students automatically. Seating plan generated below!', 'info');
+    }
+  }
+
+  const totalCandidates = generalStudents.length + vocationalStudents.length + singleStudents.length;
+  if (totalCandidates === 0) {
+    showNotification('⚠️ Please enter or upload student data to generate the plan.', 'warning');
+    return;
+  }
+
+  const examTitle = document.getElementById('examInputText').value.trim() || 'IPE MARCH 2026';
+  const collegeName = document.getElementById('centreNameInput').value.trim() || 'GOVT. JUNIOR COLLEGE,____';
+  const districtName = document.getElementById('districtInput').value.trim();
+  const centreNo = document.getElementById('centreNoInput').value.trim() || '44001';
+  const examDate = formatDateFormatted(document.getElementById('examDate').value) || 'TBD';
+  const session = document.getElementById('examSession').value || 'FN';
+  const fullCentreName = collegeName + (districtName ? `, ${districtName}` : '');
+
+  document.getElementById('infoBar').innerHTML = `
+    <div class="info-card">Exam: ${examTitle}</div>
+    <div class="info-card">Centre: ${fullCentreName} (C.NO: ${centreNo})</div>
+    <div class="info-card">Date: ${examDate} ${session}</div>
+    <div class="info-card">Total Students: ${totalCandidates}</div>
+    <div class="info-card">Total Allowed Strength: ${totalAllowedCapacity} Seats</div>
+    <div class="info-card">Pattern: ${isSingleChair ? 'Single Chair U-Loop' : 'Bench (2 Count) U-Loop'}</div>
+  `;
+
+  const roomsContainer = document.getElementById('roomsOutputContainer');
+  const attendanceContainer = document.getElementById('attendanceSheetsContainer');
+  roomsContainer.innerHTML = '';
+  attendanceContainer.innerHTML = '';
+
+  const genSummaryRows = [];
+  const vocSummaryRows = [];
+  const anySummaryRows = [];
+  const allRoomData = [];
+
+  const genMediums = new Set();
+  const genPaperCodes = new Set();
+  const vocMediums = new Set();
+  const anyMediums = new Set();
+  const anyPaperCodes = new Set();
+
+  let roomNumberIndex = 1;
+
+  rooms.forEach((rm) => {
+    const roomBlock = document.createElement('div');
+    roomBlock.className = 'room-block';
+    const streamCode = rm.type === 'General' ? 'GEN' : rm.type === 'Vocational' ? 'VOC' : 'MIX';
+    const roomLabel = `ROOM ${roomNumberIndex} (${streamCode})`;
+    roomNumberIndex++;
+
+    const typeSuffix = rm.type !== 'Any' ? ` - ${rm.type}` : '';
+    roomBlock.innerHTML = `
+      <div class="room-title">${rm.name}${typeSuffix} <span style="font-size:0.85rem;color:#64748b;">(Cap: ${rm.maxStrength})</span></div>
+      <div class="room-sub-header">${examTitle} | ${fullCentreName} (C.NO: ${centreNo})</div>
+      <div class="room-sub-header">Stream: ${selectedCourseType} | Date: ${examDate} | Session: ${session}</div>
+      ${rm.note ? `<div style="text-align:center;font-size:0.78rem;font-weight:700;color:var(--accent-color);margin-bottom:6px;">📍 Note: ${rm.note}</div>` : ''}
+      <div class="blackboard">BLACKBOARD / FRONT</div>
+    `;
+
+    const grid = document.createElement('div');
+    grid.className = 'classroom-grid';
+
+    const colElements = [];
+    const seatSequence = [];
+    const colBenchMatrix = [];
+
+    rm.columns.forEach((benchCount, cIdx) => {
+      const colNum = cIdx + 1;
+      const colDiv = document.createElement('div');
+      colDiv.className = 'column';
+
+      const colHeader = document.createElement('div');
+      colHeader.className = 'column-header';
+      colHeader.innerText = isSingleChair
+        ? cIdx % 2 === 0 ? `Col ${colNum} (⬇️ Down)` : `Col ${colNum} (⬆️ Up)`
+        : `Col ${colNum} (U-Loop: L⬇️ R⬆️)`;
+      colDiv.appendChild(colHeader);
+
+      const benchItems = [];
+      for (let b = 1; b <= benchCount; b++) {
+        const benchDiv = document.createElement('div');
+        benchDiv.className = 'bench';
+
+        const benchNum = document.createElement('div');
+        benchNum.className = 'bench-number';
+        benchNum.innerText = isSingleChair ? `C${colNum}-Chair ${b}` : `C${colNum}-Bench ${b}`;
+        benchDiv.appendChild(benchNum);
+
+        const seatsContainer = document.createElement('div');
+        seatsContainer.className = 'seats-container';
+
+        const leftSeat = document.createElement('div');
+        leftSeat.className = 'seat';
+        leftSeat.dataset.metaLocation = isSingleChair
+          ? `${rm.name} | C${colNum}-Chair ${b}`
+          : `${rm.name} | C${colNum}-B${b} (Left)`;
+        seatsContainer.appendChild(leftSeat);
+
+        let rightSeat = null;
+        if (isSingleChair) {
+          leftSeat.style.width = '100%';
+        } else {
+          rightSeat = document.createElement('div');
+          rightSeat.className = 'seat';
+          rightSeat.dataset.metaLocation = `${rm.name} | C${colNum}-B${b} (Right)`;
+          seatsContainer.appendChild(rightSeat);
+        }
+
+        benchDiv.appendChild(seatsContainer);
+        colDiv.appendChild(benchDiv);
+        benchItems.push({ bIdx: b, colIdx: colNum, bDiv: benchDiv, leftSeat, rightSeat });
+      }
+
+      colElements.push(colDiv);
+      colBenchMatrix.push(benchItems);
+    });
+
+    if (isSingleChair) {
+      colBenchMatrix.forEach((bList, cIdx) => {
+        if (cIdx % 2 === 0) {
+          for (let i = 0; i < bList.length; i++) seatSequence.push(bList[i].leftSeat);
+        } else {
+          for (let i = bList.length - 1; i >= 0; i--) seatSequence.push(bList[i].leftSeat);
+        }
+      });
+    } else {
+      colBenchMatrix.forEach((bList) => {
+        const lefts = [];
+        const rights = [];
+        bList.forEach((b) => {
+          lefts.push(b.leftSeat);
+          rights.push(b.rightSeat);
+        });
+        rights.reverse();
+        seatSequence.push(...lefts, ...rights);
+      });
+    }
+
+    const genCounts = {};
+    const vocCounts = {};
+    const anyCounts = {};
+    const seatedInRoom = [];
+    let countSeated = 0;
+
+    seatSequence.forEach((seat) => {
+      let st = null;
+      if (countSeated < rm.maxStrength) {
+        if (courseSelection === 'General & Vocational') {
+          if (rm.type === 'General' && generalStudents.length > 0) {
+            st = generalStudents.shift();
+          } else if (rm.type === 'Vocational' && vocationalStudents.length > 0) {
+            st = vocationalStudents.shift();
+          } else if (rm.type === 'Any') {
+            if (generalStudents.length > 0) st = generalStudents.shift();
+            else if (vocationalStudents.length > 0) st = vocationalStudents.shift();
+          } else if (generalStudents.length > 0 && vocationalStudents.length === 0) {
+            st = generalStudents.shift();
+          } else if (vocationalStudents.length > 0 && generalStudents.length === 0) {
+            st = vocationalStudents.shift();
+          }
+        } else {
+          if (singleStudents.length > 0) st = singleStudents.shift();
+        }
+
+        if (st) countSeated++;
+      }
+
+      if (st) {
+        seatedInRoom.push(st);
+        GLOBAL_SEARCH_INDEX.push({
+          ht: st.ht,
+          room: rm.name,
+          note: rm.note || 'Standard',
+          loc: seat.dataset.metaLocation || rm.name,
+          pc: st.pc,
+          med: st.med,
+          stream: st.stream || 'General'
+        });
+
+        seat.innerHTML = `
+          <span class="seat-ht">${st.ht}</span>
+          <span class="seat-meta">(${st.pc} ${st.med})</span>
+        `;
+
+        if (st.stream === 'General') {
+          const key = `${st.sc}_${st.pc}_${st.med}`;
+          genCounts[key] = (genCounts[key] || 0) + 1;
+          genMediums.add(st.med);
+          genPaperCodes.add(JSON.stringify({ sc: st.sc, pc: st.pc }));
+        } else if (st.stream === 'Vocational') {
+          const key = st.med || st.pc;
+          vocCounts[key] = (vocCounts[key] || 0) + 1;
+          vocMediums.add(st.med || st.pc);
+        } else {
+          const key = `${st.sc}_${st.pc}_${st.med}`;
+          anyCounts[key] = (anyCounts[key] || 0) + 1;
+          anyMediums.add(st.med);
+          anyPaperCodes.add(JSON.stringify({ sc: st.sc, pc: st.pc }));
+        }
+      } else {
+        seat.innerHTML = '<span class="seat-ht" style="color:#94a3b8; font-size: 0.85rem;">EMPTY</span><span class="seat-meta">-</span>';
+        seat.classList.add('empty');
+      }
+    });
+
+    colElements.forEach((col) => grid.appendChild(col));
+    roomBlock.appendChild(grid);
+    roomsContainer.appendChild(roomBlock);
+
+    generateAttendanceSheet(rm.name, seatedInRoom, examTitle, fullCentreName, centreNo, examDate, session);
+
+    const displayName = rm.name + (rm.type !== 'Any' ? ` (${rm.type})` : '');
+    const htList = seatedInRoom.map((s) => s.ht);
+
+    allRoomData.push({
+      stream: streamCode,
+      roomLabel,
+      roomName: rm.name,
+      note: rm.note || 'Block 1',
+      halltickets: htList,
+      strength: seatedInRoom.length,
+      benchesAllotted: isSingleChair ? seatedInRoom.length : Math.ceil(seatedInRoom.length / 2),
+      genCounts,
+      vocCounts,
+      anyCounts
+    });
+
+    if (courseSelection === 'General & Vocational') {
+      if (rm.type !== 'Vocational') genSummaryRows.push({ roomName: displayName, counts: genCounts });
+      if (rm.type !== 'General') vocSummaryRows.push({ roomName: displayName, counts: vocCounts });
+    } else {
+      anySummaryRows.push({ roomName: displayName, counts: anyCounts });
+    }
+  });
+
+  GLOBAL_ROOM_DATA = allRoomData;
+
+  const summaryContainer = document.getElementById('paperSummaryOutput');
+  summaryContainer.innerHTML = '';
+
+  const sortPaperCodes = (set) =>
+    Array.from(set)
+      .map((item) => JSON.parse(item))
+      .sort((a, b) => a.sc.localeCompare(b.sc) || a.pc.localeCompare(b.pc));
+
+  let summaryHtml = '';
+  if (courseSelection === 'General & Vocational') {
+    if (genSummaryRows.length > 0) {
+      summaryHtml += buildGeneralSummaryHTML('General Course', genSummaryRows, sortPaperCodes(genPaperCodes), Array.from(genMediums).sort());
+    }
+    if (vocSummaryRows.length > 0) {
+      summaryHtml += buildVocationalSummaryHTML('Vocational Course', vocSummaryRows, Array.from(vocMediums).sort());
+    }
+  } else {
+    summaryHtml += buildGeneralSummaryHTML(selectedCourseType + ' Course', anySummaryRows, sortPaperCodes(anyPaperCodes), Array.from(anyMediums).sort());
+  }
+
+  let noticeBoardHtml = '';
+  const genRooms = allRoomData.filter((r) => r.stream === 'GEN' && r.strength > 0);
+  const vocRooms = allRoomData.filter((r) => r.stream === 'VOC' && r.strength > 0);
+  const mixedRooms = allRoomData.filter((r) => r.stream !== 'GEN' && r.stream !== 'VOC' && r.strength > 0);
+
+  if (genRooms.length > 0) noticeBoardHtml += buildSeatingStrengthNoticeBoardHTML(genRooms, examTitle + ' - GENERAL', fullCentreName, centreNo, examDate, session);
+  if (vocRooms.length > 0) noticeBoardHtml += buildSeatingStrengthNoticeBoardHTML(vocRooms, examTitle + ' - VOCATIONAL', fullCentreName, centreNo, examDate, session);
+  if (mixedRooms.length > 0) noticeBoardHtml += buildSeatingStrengthNoticeBoardHTML(mixedRooms, examTitle + (genRooms.length || vocRooms.length ? ' - MIXED' : ''), fullCentreName, centreNo, examDate, session);
+
+  if (!noticeBoardHtml && allRoomData.length > 0) {
+    noticeBoardHtml = buildSeatingStrengthNoticeBoardHTML(allRoomData, examTitle, fullCentreName, centreNo, examDate, session);
+  }
+
+  const rangeBoardHtml = buildRangeNoticeBoardHTML(allRoomData, examTitle, fullCentreName, centreNo, examDate, session);
+
+  summaryContainer.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:20px;width:100%;">
+      ${summaryHtml}
+      ${rangeBoardHtml}
+      ${noticeBoardHtml}
+    </div>
+  `;
+
+  renderRoomPlacards(allRoomData, examTitle, centreNo, examDate, session);
+
+  const layoutArea = document.getElementById('layoutArea');
+  layoutArea.style.display = 'block';
+  layoutArea.scrollIntoView({ behavior: 'smooth' });
+
+  showNotification(`✓ Successfully generated seating layout for ${totalCandidates} candidates across ${rooms.length} room(s).`, 'success');
+}
+
+function renderRoomPlacards(rooms, exam, centreNo, date, session) {
+  const container = document.getElementById('placardsOutputContainer');
+  container.innerHTML = '';
+  if (rooms.length === 0) return;
+
+  const pageCount = Math.ceil(rooms.length / 4);
+  const wrapper = document.createElement('div');
+  wrapper.id = 'doorCardsPrintSection';
+  wrapper.style.marginTop = '25px';
+  wrapper.style.marginBottom = '25px';
+  wrapper.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;" class="no-print">
+      <span style="font-size:1rem;font-weight:800;color:var(--text-color);">🏷️ ROOM DOOR PLACARDS / NOTICE SLIPS</span>
+      <button type="button" class="btn-print-att" onclick="printPlacards()">🖨 Print Room Door Slips</button>
+    </div>
+  `;
+
+  for (let p = 0; p < pageCount; p++) {
+    const page = document.createElement('div');
+    page.className = 'placard-page';
+    rooms.slice(p * 4, p * 4 + 4).forEach((rm) => {
+      const startHt = rm.halltickets.length > 0 ? rm.halltickets[0] : '—';
+      const endHt = rm.halltickets.length > 0 ? rm.halltickets[rm.halltickets.length - 1] : '—';
+      const note = rm.note || 'Block 1';
+      const card = document.createElement('div');
+      card.className = 'door-card';
+      card.innerHTML = `
+        <div class="card-exam-head">${exam}</div>
+        <h2 class="card-room-head">${rm.roomName}</h2>
+        <div class="card-sub-head">${note} — Center Code: ${centreNo}</div>
+        <div class="card-ht-label">HALL TICKET NUMBERS</div>
+        <div class="card-ht-box">
+          <div class="card-ht-num">${startHt}</div>
+          <div class="card-ht-to">TO</div>
+          <div class="card-ht-num">${endHt}</div>
+        </div>
+        <div class="card-stats-row">
+          <div>
+            <div class="card-stat-label">TOTAL CANDIDATES</div>
+            <div class="card-stat-val">${rm.strength}</div>
+          </div>
+          <div>
+            <div class="card-stat-label">BENCHES ALLOTTED</div>
+            <div class="card-stat-val">${rm.benchesAllotted}</div>
+          </div>
+        </div>
+        <div class="card-footer-row">
+          <div>Date: ${date} (${session})</div>
+          <div>Signature of CS: _________</div>
+        </div>
+      `;
+      page.appendChild(card);
+    });
+    wrapper.appendChild(page);
+  }
+  container.appendChild(wrapper);
+}
+
+// Unblockable direct print utility inside iframe
+function printOutputElement(element, title, extraCss = '') {
+  try {
+    const printFrame = document.createElement('iframe');
+    printFrame.style.position = 'fixed';
+    printFrame.style.right = '0';
+    printFrame.style.bottom = '0';
+    printFrame.style.width = '0';
+    printFrame.style.height = '0';
+    printFrame.style.border = '0';
+    document.body.appendChild(printFrame);
+
+    const doc = printFrame.contentWindow.document;
+    doc.open();
+    doc.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+        <title>${title}</title>
+        <style>
+          @page { size: A4 portrait; margin: 6mm; }
+          * { box-sizing: border-box; }
+          body { font-family: Arial, sans-serif; padding: 0; margin: 0; color: #000; background: #fff; }
+          button, .no-print { display: none !important; }
+          ${extraCss}
+        </style>
+      </head>
+      <body>
+        ${element.outerHTML}
+      </body>
+      </html>
+    `);
+    doc.close();
+
+    setTimeout(() => {
+      printFrame.contentWindow.focus();
+      printFrame.contentWindow.print();
+      setTimeout(() => {
+        if (printFrame.parentNode) document.body.removeChild(printFrame);
+      }, 1000);
+    }, 250);
+  } catch (err) {
+    console.error('Print iframe error:', err);
+    window.print();
+  }
+}
+
+function printSingleElement(element, title) {
+  printOutputElement(element, title, '');
+}
+
+function printPlacards() {
+  const target = document.getElementById('doorCardsPrintSection');
+  if (!target) {
+    showNotification('⚠️ Please generate the seating plan first to view door placards.', 'warning');
+    return;
+  }
+  printOutputElement(target, 'Room Door Placards', `
+    @page { size: A4 portrait; margin: 6mm; }
+    body { background: #fff !important; color: #000 !important; margin: 0; padding: 0; }
+    .placard-page { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 14px !important; margin-bottom: 14px !important; page-break-after: always !important; page-break-inside: avoid !important; box-sizing: border-box !important; }
+    .placard-page:last-child { page-break-after: auto !important; }
+    .door-card { border: 2px solid #000 !important; border-radius: 14px !important; background: #fff !important; padding: 12px 14px !important; display: flex !important; flex-direction: column !important; box-sizing: border-box !important; color: #000 !important; }
+    .card-exam-head { text-align: center !important; font-size: 0.74rem !important; font-weight: 800 !important; letter-spacing: 0.8px !important; color: #000 !important; text-transform: uppercase !important; }
+    .card-room-head { text-align: center !important; font-size: 1.45rem !important; font-weight: 900 !important; margin: 2px 0 0 0 !important; text-transform: uppercase !important; color: #000 !important; }
+    .card-sub-head { text-align: center !important; font-size: 0.78rem !important; font-weight: 800 !important; color: #000 !important; margin-bottom: 8px !important; border-bottom: 1.5px solid #000 !important; padding-bottom: 5px !important; }
+    .card-ht-label { text-align: center !important; font-size: 0.74rem !important; font-weight: 800 !important; color: #000 !important; margin-bottom: 3px !important; text-transform: uppercase !important; }
+    .card-ht-box { border: 1.5px dashed #000 !important; border-radius: 10px !important; background: #f8fafc !important; padding: 8px 6px !important; text-align: center !important; margin-bottom: 8px !important; }
+    .card-ht-num { font-size: 1.45rem !important; font-weight: 900 !important; letter-spacing: 1.5px !important; color: #000 !important; line-height: 1.2 !important; }
+    .card-ht-to { font-size: 0.78rem !important; font-weight: 800 !important; color: #000 !important; margin: 1px 0 !important; letter-spacing: 1px !important; }
+    .card-stats-row { display: flex !important; justify-content: space-around !important; text-align: center !important; margin-bottom: 6px !important; border-top: 1.5px solid #000 !important; padding-top: 6px !important; }
+    .card-stat-label { font-size: 0.68rem !important; font-weight: 800 !important; text-transform: uppercase !important; color: #000 !important; }
+    .card-stat-val { font-size: 1.35rem !important; font-weight: 900 !important; color: #000 !important; }
+    .card-footer-row { display: flex !important; justify-content: space-between !important; align-items: center !important; font-size: 0.74rem !important; font-weight: 800 !important; border-top: 1.5px solid #000 !important; padding-top: 6px !important; margin-top: 2px !important; }
+  `);
+}
+
+function openSearchModal() {
+  document.getElementById('searchModal').style.display = 'flex';
+  const inp = document.getElementById('htSearchInput');
+  if (inp) {
+    inp.value = '';
+    inp.focus();
+  }
+}
+
+function closeSearchModal() {
+  document.getElementById('searchModal').style.display = 'none';
+}
+
+function searchHallTicket(query) {
+  const q = query.trim().toUpperCase();
+  const area = document.getElementById('searchResultArea');
+  if (!q) {
+    area.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b;font-weight:600">Type candidate number to locate room & bench instantly.</div>';
+    return;
+  }
+
+  const results = GLOBAL_SEARCH_INDEX.filter((item) => item.ht.includes(q));
+  if (results.length === 0) {
+    area.innerHTML = `<div style="text-align:center;padding:16px;color:#ef4444;font-weight:700">No candidate found matching "${q}". Check data entry or generate plan.</div>`;
+    return;
+  }
+
+  let html = '';
+  results.slice(0, 10).forEach((item) => {
+    html += `
+      <div class="search-result-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:1.15rem;font-weight:900;color:var(--accent-color);letter-spacing:1px;">${item.ht}</span>
+          <span style="font-weight:800;background:#0f172a;color:#fff;padding:2px 8px;border-radius:12px;font-size:0.72rem;">${item.stream}</span>
+        </div>
+        <div style="font-size:0.95rem;font-weight:900;color:#000;margin-top:4px;">🚪 ${item.room} &nbsp;(${item.note})</div>
+        <div style="font-weight:700;color:#334155;margin-top:2px;">📍 Allotted Seat: <strong>${item.loc}</strong></div>
+        <div style="font-size:0.78rem;font-weight:700;color:#64748b;margin-top:2px;">Paper Code: <strong>${item.pc}</strong> &nbsp;|&nbsp; Medium: <strong>${item.med}</strong></div>
+      </div>
+    `;
+  });
+
+  if (results.length > 10) {
+    html += `<div style="text-align:center;padding:8px;font-size:0.75rem;color:#64748b;">Showing first 10 of ${results.length} matches.</div>`;
+  }
+  area.innerHTML = html;
+}
+
+function exportToCSV() {
+  if (!GLOBAL_ROOM_DATA || GLOBAL_ROOM_DATA.length === 0) {
+    showNotification('⚠️ Please generate the seating plan first to export data.', 'warning');
+    return;
+  }
+
+  let csv = 'data:text/csv;charset=utf-8,';
+  csv += 'SL,Room Name,Stream,Strength,Starting HT,Ending HT,Short Note,Benches Allotted\r\n';
+
+  GLOBAL_ROOM_DATA.forEach((rm, idx) => {
+    const startHt = rm.halltickets[0] || '';
+    const endHt = rm.halltickets[rm.halltickets.length - 1] || '';
+    const row = [idx + 1, `"${rm.roomName}"`, `"${rm.stream}"`, rm.strength, `"${startHt}"`, `"${endHt}"`, `"${rm.note || ''}"`, rm.benchesAllotted];
+    csv += row.join(',') + '\r\n';
+  });
+
+  const encoded = encodeURI(csv);
+  const a = document.createElement('a');
+  a.setAttribute('href', encoded);
+  a.setAttribute('download', `Exam_Room_Allotment_${document.getElementById('centreNoInput').value || '44001'}.csv`);
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function buildRangeNoticeBoardHTML(rooms, exam, centre, cNo, date, session) {
+  let totalCandidates = 0;
+  let rowsHtml = '';
+
+  rooms.forEach((rm, i) => {
+    totalCandidates += rm.strength;
+    const startHt = rm.halltickets.length > 0 ? rm.halltickets[0] : '-';
+    const endHt = rm.halltickets.length > 0 ? rm.halltickets[rm.halltickets.length - 1] : '-';
+
+    rowsHtml += `
+      <tr>
+        <td style="font-weight:bold;padding:7px;text-align:center;">${i + 1}</td>
+        <td style="font-weight:900;font-size:0.95rem;text-align:left;padding:7px 10px;color:#000;">
+          ${rm.roomName} <span style="font-size:0.75rem;font-weight:700;color:#475569;">(${rm.stream})</span>
+        </td>
+        <td style="font-size:1.05rem;font-weight:800;letter-spacing:0.5px;color:#000;text-align:center;padding:7px;">
+          ${startHt}
+        </td>
+        <td style="font-size:1.05rem;font-weight:800;letter-spacing:0.5px;color:#000;text-align:center;padding:7px;">
+          ${endHt}
+        </td>
+        <td style="font-size:1.15rem;font-weight:900;color:#000;text-align:center;padding:7px;">
+          ${rm.strength}
+        </td>
+        <td style="font-size:0.85rem;font-weight:700;text-align:left;padding:7px 10px;color:#1e293b;">
+          ${rm.note || '-'}
+        </td>
+      </tr>
+    `;
+  });
+
+  return `
+    <div class="seating-strength-notice range-summary-notice-board" data-notice="range">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;" class="no-print">
+        <div style="font-weight:bold;font-size:0.9rem;color:#000;">📌 ROOM-WISE RANGE & STRENGTH NOTICE BOARD</div>
+        <button type="button" class="btn-print-att" onclick="printSingleElement(this.closest('.range-summary-notice-board'), 'Room Wise Range & Strength Notice Board')">🖨️ Print Range Notice Board</button>
+      </div>
+      <div class="notice-board-header">
+        <h2 class="notice-board-title">${exam} - ROOM-WISE HT RANGE & STRENGTH</h2>
+        <div class="notice-board-sub">Centre: ${centre} (C.NO: ${cNo}) | Date: ${date} (${session})</div>
+      </div>
+      <div class="summary-table-container">
+        <table class="exact-notice-table" style="table-layout:auto;width:100%;">
+          <thead>
+            <tr style="background:#f1f5f9;">
+              <th style="width:4%;font-size:0.75rem;padding:7px;color:#000;">SL</th>
+              <th style="width:20%;font-size:0.85rem;padding:7px;color:#000;text-align:left;">ROOM NAME</th>
+              <th style="width:22%;font-size:0.85rem;padding:7px;color:#000;">STARTING HT NO</th>
+              <th style="width:22%;font-size:0.85rem;padding:7px;color:#000;">ENDING HT NO</th>
+              <th style="width:10%;font-size:0.85rem;padding:7px;color:#000;">STRENGTH</th>
+              <th style="width:22%;font-size:0.85rem;padding:7px;color:#000;text-align:left;">SHORT NOTE</th>
+            </tr>
+          </thead>
+          <tbody>${rowsHtml}</tbody>
+          <tfoot>
+            <tr style="background-color:#f1f5f9;font-weight:900;color:#000;">
+              <td colspan="4" style="text-align:right;padding-right:16px;font-size:0.95rem;padding:8px 12px;">TOTAL CANDIDATES:</td>
+              <td style="font-size:1.25rem;white-space:nowrap;padding:8px 12px;text-align:center;">${totalCandidates}</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function printRangeNoticeBoard() {
+  const target = document.querySelector('.range-summary-notice-board');
+  if (!target) {
+    showNotification('⚠️ Please generate the seating plan first to print the range notice board.', 'warning');
+    return;
+  }
+  printSingleElement(target, 'Room Wise Range & Strength Notice Board');
+}
+
+function buildSeatingStrengthNoticeBoardHTML(rooms, exam, centre, cNo, date, session) {
+  let totalCandidates = 0;
+  let rowsHtml = '';
+
+  rooms.forEach((rm) => {
+    totalCandidates += rm.strength;
+    const col1 = [];
+    const col2 = [];
+    const col3 = [];
+
+    rm.halltickets.forEach((ht, i) => {
+      if (i % 3 === 0) col1.push(ht);
+      else if (i % 3 === 1) col2.push(ht);
+      else col3.push(ht);
+    });
+
+    const htColumnsHtml = `
+      <div style="display:flex;gap:16px;text-align:left;padding:6px;">
+        <div style="flex:1;font-size:1.15rem;font-weight:800;line-height:1.7;word-break:break-all;letter-spacing:0.4px;color:#000;">${col1.join('<br>')}</div>
+        <div style="flex:1;font-size:1.15rem;font-weight:800;line-height:1.7;word-break:break-all;letter-spacing:0.4px;color:#000;">${col2.join('<br>')}</div>
+        <div style="flex:1;font-size:1.15rem;font-weight:800;line-height:1.7;word-break:break-all;letter-spacing:0.4px;color:#000;">${col3.join('<br>')}</div>
+      </div>
+    `;
+
+    rowsHtml += `
+      <tr>
+        <td style="width:1%;white-space:nowrap;font-weight:900;font-size:0.85rem;text-transform:uppercase;line-height:1.25;padding:8px 6px;text-align:center;color:#000;">
+          ${rm.roomLabel || rm.roomName}<br><span style="font-size:0.68rem;font-weight:700;color:#334155;">(${rm.stream})</span>
+        </td>
+        <td style="width:98%;padding:10px 14px;">${htColumnsHtml}</td>
+        <td style="width:1%;white-space:nowrap;font-weight:900;font-size:1.3rem;text-align:center;padding:8px 10px;color:#000;">${rm.strength}</td>
+      </tr>
+    `;
+  });
+
+  const streamType = rooms.length === 1 ? rooms[0].stream : (rooms.some((r) => r.stream === 'GEN') && !rooms.some((r) => r.stream === 'VOC')) ? 'GEN' : (rooms.some((r) => r.stream === 'VOC') && !rooms.some((r) => r.stream === 'GEN')) ? 'VOC' : 'MIX';
+
+  return `
+    <div class="seating-strength-notice" data-stream="${streamType}">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;" class="no-print">
+        <div style="font-weight:bold;font-size:0.9rem;color:#000;">📋 ROOM WISE SEATING STRENGTH NOTICE BOARD (${streamType})</div>
+        <button type="button" class="btn-print-att" onclick="printSingleElement(this.closest('.seating-strength-notice'), 'Seating Strength Notice Board')">🖨 Print Notice Board PDF</button>
+      </div>
+      <div class="notice-board-header">
+        <h2 class="notice-board-title">${exam}</h2>
+        <div class="notice-board-sub">Centre: ${centre} (C.NO: ${cNo}) | Date: ${date} (${session})</div>
+      </div>
+      <div class="summary-table-container">
+        <table class="exact-notice-table" style="table-layout:auto;width:100%;">
+          <thead>
+            <tr>
+              <th style="width:1%;white-space:nowrap;font-size:0.65rem;padding:6px 6px;color:#000;">ROOM</th>
+              <th style="width:98%;font-size:1.05rem;padding:8px 10px;color:#000;">ALLOTTED HALLTICKET NUMBERS</th>
+              <th style="width:1%;white-space:nowrap;font-size:0.65rem;padding:6px 6px;color:#000;">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody>${rowsHtml}</tbody>
+          <tfoot>
+            <tr style="background-color:#f1f5f9;font-weight:900;color:#000;">
+              <td colspan="2" style="text-align:right;padding-right:20px;font-size:1.05rem;padding:10px 14px;">TOTAL CANDIDATES ALLOTTED:</td>
+              <td style="font-size:1.35rem;white-space:nowrap;padding:10px 14px;text-align:center;">${totalCandidates}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function printSeatingPlan() {
+  const target = document.getElementById('roomsOutputContainer');
+  if (!target || !target.innerHTML.trim()) {
+    showNotification('⚠️ Please generate the seating plan first.', 'warning');
+    return;
+  }
+  printOutputElement(target, 'Seating Plan', `
+    .room-block { background:#fff; border:1px solid #000; padding:10px; margin:0 0 12px 0; page-break-after:always; page-break-inside:avoid; box-sizing:border-box; width:100%; }
+    .room-block:last-child { page-break-after:auto; }
+    .room-title { text-align:center; font-size:1.25rem; font-weight:800; margin:0 0 4px; }
+    .room-sub-header { text-align:center; font-size:.82rem; font-weight:600; margin-bottom:8px; }
+    .blackboard { background:#000 !important; color:#fff !important; text-align:center; padding:6px; margin:0 auto 12px; border-radius:3px; font-weight:700; width:50%; font-size:.82rem; text-transform:uppercase; }
+    .classroom-grid { display:flex; gap:12px; justify-content:space-evenly; align-items:flex-start; width:100%; box-sizing:border-box; }
+    .column { display:flex; flex-direction:column; gap:8px; align-items:center; flex:1 1 0px; }
+    .column-header { font-weight:700; background:#f1f5f9; padding:5px 8px; border-radius:8px; font-size:.72rem; border:1px solid #cbd5e1; text-align:center; width:90%; }
+    .bench { background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:5px; width:100%; box-sizing:border-box; }
+    .bench-number { font-size:.68rem; font-weight:700; color:#475569; margin-bottom:3px; text-align:center; }
+    .seats-container { display:flex; gap:6px; width:100%; justify-content:space-between; }
+    .seat { background:#fff; border:1px solid #94a3b8; padding:5px 3px; border-radius:4px; width:50%; text-align:center; min-height:45px; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+    .seat-ht { font-size:.9rem; font-weight:800; color:#000; }
+    .seat-meta { font-size:.65rem; font-weight:700; color:#334155; }
+    .seat.empty { background:#f1f5f9; color:#94a3b8; }
+  `);
+}
+
+function printPaperSummary() {
+  const target = document.getElementById('paperSummaryOutput');
+  if (!target || !target.innerHTML.trim()) {
+    showNotification('⚠️ Please generate the seating plan first to view paper summaries.', 'warning');
+    return;
+  }
+  printOutputElement(target, 'Paper Summary Statement', '');
+}
+
+function printNoticeBoard(stream) {
+  const notices = Array.from(document.querySelectorAll('#paperSummaryOutput .seating-strength-notice'));
+  if (notices.length === 0) {
+    showNotification('⚠️ Please generate the seating plan first.', 'warning');
+    return;
+  }
+
+  let targetNotice = null;
+  let title = 'Notice Board';
+
+  if (stream === 'GEN') {
+    targetNotice = notices.find((n) => n.dataset.stream === 'GEN' && n.dataset.notice !== 'range');
+    title = 'General Notice Board';
+  } else if (stream === 'VOC') {
+    targetNotice = notices.find((n) => n.dataset.stream === 'VOC' && n.dataset.notice !== 'range');
+    title = 'Vocational Notice Board';
+  }
+
+  if (!targetNotice) {
+    targetNotice = notices.find((n) => n.dataset.notice !== 'range') || notices[0];
+  }
+
+  if (targetNotice) {
+    printSingleElement(targetNotice, title);
+  } else {
+    showNotification('⚠️ Notice board not found for selected stream.', 'warning');
+  }
+}
+
+function generateAttendanceSheet(roomName, students, exam, centre, cNo, date, session) {
+  const container = document.getElementById('attendanceSheetsContainer');
+  const count = students.length;
+  const pageCount = Math.ceil(count / 26) || 1;
+  const group = document.createElement('div');
+  group.className = 'room-attendance-group';
+
+  for (let p = 1; p <= pageCount; p++) {
+    const sheet = document.createElement('div');
+    sheet.className = 'attendance-sheet';
+    const offset = 26 * (p - 1);
+    const slice = students.slice(offset, offset + 26);
+    let rowsHtml = '';
+
+    for (let i = 0; i < 26; i++) {
+      const st = slice[i];
+      rowsHtml += `
+        <tr>
+          <td style="width:8%;font-weight:bold;">${st ? offset + i + 1 : ''}</td>
+          <td style="width:35%;" class="ht-cell">${st ? st.ht : ''}</td>
+          <td style="width:25%;"></td>
+          <td style="width:32%;"></td>
+        </tr>
+      `;
+    }
+
+    const pageSuffix = pageCount > 1 ? ` (Page ${p} of ${pageCount})` : '';
+    sheet.innerHTML = `
+      <div class="no-print" style="text-align:right;margin-bottom:6px;">
+        <button type="button" class="btn-print-att" onclick="printSingleSheet(this)">🖨️ Print Attendance Sheet (${roomName}${pageSuffix})</button>
+      </div>
+      <table class="att-table-header">
+        <tr><td colspan="2" class="att-main-title">${exam}</td></tr>
+        <tr><td colspan="2" class="att-center-title">Name of the Centre: ${centre}</td></tr>
+        <tr><td style="width:60%;">Date of Examination : ${date} ${session}</td><td style="width:40%;">C.NO : ${cNo}</td></tr>
+        <tr><td style="width:60%;">Subject and Paper :</td><td style="width:40%;font-size:0.95rem;font-weight:bold;text-align:center;">${roomName} (Total: ${count})${pageSuffix}</td></tr>
+        <tr><td colspan="2">Name of the Invigilator (s) :</td></tr>
+      </table>
+      <div class="att-table-wrapper">
+        <table class="att-table-body">
+          <thead>
+            <tr>
+              <th style="width:8%;">Sl.No</th>
+              <th style="width:35%;">Regd. No. of Candidates</th>
+              <th style="width:25%;">Sl.No.of the Main Answer Book</th>
+              <th style="width:32%;">Sign.of the Candidates</th>
+            </tr>
+          </thead>
+          <tbody>${rowsHtml}</tbody>
+          <tfoot>
+            <tr><td colspan="2" style="text-align:right;font-weight:bold;height:26px;">PRESENT</td><td></td><td rowspan="3" style="vertical-align:bottom;font-weight:bold;text-align:center;padding-bottom:4px;">Sign.of Invigilator</td></tr>
+            <tr><td colspan="2" style="text-align:right;font-weight:bold;height:26px;">ABSENT</td><td></td></tr>
+            <tr><td colspan="2" style="text-align:right;font-weight:bold;height:26px;">TOTAL</td><td></td></tr>
+          </tfoot>
+        </table>
+      </div>
+    `;
+    group.appendChild(sheet);
+  }
+  container.appendChild(group);
+}
+
+function printSingleSheet(btn) {
+  const sheet = btn.closest('.attendance-sheet');
+  if (sheet) {
+    printOutputElement(sheet, 'Attendance Sheet', `
+      @page { size: A4 portrait; margin: 4mm; }
+      body { background:#fff !important; color:#000 !important; margin:0; padding:0; }
+      .attendance-sheet { border:2px solid #000 !important; height:98vh !important; display:flex !important; flex-direction:column !important; justify-content:space-between !important; page-break-after:always !important; page-break-inside:avoid !important; padding:6px !important; margin:0 !important; }
+    `);
+  }
+}
+
+function printAllAttendanceSheets() {
+  const container = document.getElementById('attendanceSheetsContainer');
+  if (!container || !container.innerHTML.trim()) {
+    showNotification('⚠️ Please generate the seating plan first to view attendance sheets.', 'warning');
+    return;
+  }
+
+  printOutputElement(container, 'All Attendance Sheets', `
+    @page { size: A4 portrait; margin: 4mm; }
+    body { background:#fff !important; color:#000 !important; margin:0; padding:0; }
+    .attendance-sheet { border:2px solid #000 !important; height:98vh !important; display:flex !important; flex-direction:column !important; justify-content:space-between !important; page-break-after:always !important; page-break-inside:avoid !important; padding:6px !important; margin:0 0 10px 0 !important; box-sizing:border-box !important; }
+    .attendance-sheet:last-child { page-break-after:auto !important; }
+  `);
+}
+
+function buildGeneralSummaryHTML(title, roomRows, paperCodes, mediums) {
+  if (paperCodes.length === 0 || mediums.length === 0) {
+    return `
+      <div class="summary-table-container">
+        <div class="summary-title">📊 Room-Wise Question Paper Summary Statement (${title})</div>
+        <p style="text-align:center;padding:10px;color:#64748b;">No students allotted for this stream.</p>
+      </div>
+    `;
+  }
+
+  const colSpanCount = paperCodes.length * mediums.length;
+  let thRow1 = '<tr><th rowspan="2">Room Name</th>';
+  let thRow2 = '<tr>';
+
+  paperCodes.forEach((pc) => {
+    thRow1 += `<th colspan="${mediums.length}">Paper Code: ${pc.pc}</th>`;
+    mediums.forEach((m) => {
+      thRow2 += `<th>Med (${m})</th>`;
+    });
+  });
+
+  thRow1 += '<th rowspan="2">Total</th></tr>';
+  thRow2 += '</tr>';
+
+  let bodyRowsHtml = '';
+  let grandTotal = 0;
+  const colTotals = {};
+
+  function blankRowCols() {
+    let s = '';
+    for (let i = 0; i < colSpanCount; i++) s += '<td></td>';
+    s += '<td></td>';
+    return s;
+  }
+
+  roomRows.forEach((rm) => {
+    let roomTotal = 0;
+    let trHtml = `<tr><td><strong>${rm.roomName}</strong></td>`;
+
+    paperCodes.forEach((pc) => {
+      mediums.forEach((m) => {
+        const key = `${pc.sc}_${pc.pc}_${m}`;
+        const count = rm.counts[key] || 0;
+        roomTotal += count;
+        colTotals[key] = (colTotals[key] || 0) + count;
+        trHtml += `<td>${count > 0 ? count : '-'}</td>`;
+      });
+    });
+
+    grandTotal += roomTotal;
+    trHtml += `<td><strong>${roomTotal}</strong></td></tr>`;
+    bodyRowsHtml += trHtml;
+  });
+
+  let totalPapersRow = '<tr style="background-color:var(--bench-bg);"><td><strong>TOTAL PAPERS</strong></td>';
+  paperCodes.forEach((pc) => {
+    mediums.forEach((m) => {
+      const key = `${pc.sc}_${pc.pc}_${m}`;
+      const c = colTotals[key] || 0;
+      totalPapersRow += `<td><strong>${c}</strong></td>`;
+    });
+  });
+  totalPapersRow += `<td><strong>${grandTotal}</strong></td></tr>`;
+
+  const sessionTime = document.getElementById('examSession').value.includes('FN') ? '8.45 AM' : '1.45 PM';
+
+  const footerHtml = `
+    ${totalPapersRow}
+    <tr><td><strong>${sessionTime}</strong></td>${blankRowCols()}</tr>
+    <tr><td><strong>ABSENT</strong></td>${blankRowCols()}</tr>
+    <tr><td><strong>PRESENT</strong></td>${blankRowCols()}</tr>
+    <tr><td><strong>TOTAL PAPERS</strong></td>${blankRowCols()}</tr>
+  `;
+
+  return `
+    <div class="summary-table-container">
+      <div class="summary-title">📊 Room-Wise Question Paper Summary Statement (${title})</div>
+      <table class="summary-table">
+        <thead>${thRow1}${thRow2}</thead>
+        <tbody>${bodyRowsHtml}</tbody>
+        <tfoot>${footerHtml}</tfoot>
+      </table>
+    </div>
+  `;
+}
+
+function buildVocationalSummaryHTML(title, roomRows, codeList) {
+  if (codeList.length === 0) {
+    return `
+      <div class="summary-table-container">
+        <div class="summary-title">📊 Room-Wise Course Code Summary Statement (${title})</div>
+        <p style="text-align:center;padding:10px;color:#64748b;">No students allotted for this stream.</p>
+      </div>
+    `;
+  }
+
+  const colCount = codeList.length;
+  let thRow = '<tr><th>Room Name</th>';
+  codeList.forEach((c) => {
+    thRow += `<th>Paper Code (${c})</th>`;
+  });
+  thRow += '<th>Total</th></tr>';
+
+  let bodyRowsHtml = '';
+  let grandTotal = 0;
+  const colTotals = {};
+
+  function blankCols() {
+    let s = '';
+    for (let i = 0; i < colCount; i++) s += '<td></td>';
+    s += '<td></td>';
+    return s;
+  }
+
+  roomRows.forEach((rm) => {
+    let roomTotal = 0;
+    let trHtml = `<tr><td><strong>${rm.roomName}</strong></td>`;
+
+    codeList.forEach((c) => {
+      const count = rm.counts[c] || 0;
+      roomTotal += count;
+      colTotals[c] = (colTotals[c] || 0) + count;
+      trHtml += `<td>${count > 0 ? count : '-'}</td>`;
+    });
+
+    grandTotal += roomTotal;
+    trHtml += `<td><strong>${roomTotal}</strong></td></tr>`;
+    bodyRowsHtml += trHtml;
+  });
+
+  let totalStudentsRow = '<tr style="background-color:var(--bench-bg);"><td><strong>TOTAL STUDENTS</strong></td>';
+  codeList.forEach((c) => {
+    const total = colTotals[c] || 0;
+    totalStudentsRow += `<td><strong>${total}</strong></td>`;
+  });
+  totalStudentsRow += `<td><strong>${grandTotal}</strong></td></tr>`;
+
+  const sessionTime = document.getElementById('examSession').value.includes('FN') ? '8.45 AM' : '1.45 PM';
+
+  const footerHtml = `
+    ${totalStudentsRow}
+    <tr><td><strong>${sessionTime}</strong></td>${blankCols()}</tr>
+    <tr><td><strong>ABSENT</strong></td>${blankCols()}</tr>
+    <tr><td><strong>PRESENT</strong></td>${blankCols()}</tr>
+    <tr><td><strong>TOTAL PAPERS</strong></td>${blankCols()}</tr>
+  `;
+
+  return `
+    <div class="summary-table-container">
+      <div class="summary-title">📊 Vocational Medium Code Summary (${title})</div>
+      <table class="summary-table">
+        <thead>${thRow}</thead>
+        <tbody>${bodyRowsHtml}</tbody>
+        <tfoot>${footerHtml}</tfoot>
+      </table>
+    </div>
+  `;
+}
+
+window.onload = function () {
+  loadSavedTheme();
+  const today = new Date().toISOString().split('T')[0];
+  const dateInput = document.getElementById('examDate');
+  if (dateInput) dateInput.value = today;
+
+  const loaded = loadFromLocalStorage();
+  if (!loaded) {
+    loadDefaultData();
+  }
+};
+</script>
+</body></html>

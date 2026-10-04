@@ -1,0 +1,6 @@
+{
+  "name": "IE Utility Hub - NewGen eEducation",
+  "description": "Comprehensive digital college administration, examination registers, intermediate admissions, results analytics, and utilities platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
